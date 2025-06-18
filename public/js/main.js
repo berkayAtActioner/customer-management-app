@@ -171,6 +171,21 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Handle tab links in overview section
+    const tabLinks = document.querySelectorAll('.tab-link[data-tab]');
+    tabLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetTab = this.getAttribute('data-tab');
+            
+            // Find and click the corresponding tab button
+            const tabButton = document.querySelector(`.account-tab[data-tab="${targetTab}"]`);
+            if (tabButton) {
+                tabButton.click();
+            }
+        });
+    });
 });
 
 // Column resize functionality

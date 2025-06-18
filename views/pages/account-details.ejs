@@ -145,7 +145,14 @@ const accountData = {
         employees: "1000-5000",
         revenue: "$82,969",
         location: "Ankara, Turkey",
-        summary: "Leading private university in Turkey focused on academic excellence and research. Primary contact is through their IT department for educational technology solutions. Recent discussions have focused on LMS integration requirements, student portal customization, and mobile app development for campus services. <br><br>Their main objectives include modernizing student information systems, improving online learning capabilities, and enhancing campus-wide communication tools.",
+        description: "Bilkent University is Turkey's first private, nonprofit university, established in 1984. Located in Ankara, the university is consistently ranked as one of the top institutions in Turkey and has gained international recognition for its academic excellence and research contributions. With over 13,000 students and 1,000 faculty members, Bilkent offers undergraduate and graduate programs across various disciplines including engineering, business, humanities, and sciences. The university is known for its English-medium instruction, modern campus facilities, and strong emphasis on research and innovation.",
+        objectives: [
+            "Modernize student information systems to improve administrative efficiency and student experience",
+            "Enhance online learning capabilities to support hybrid and remote education models",
+            "Implement comprehensive LMS integration for seamless course management",
+            "Expand digital infrastructure to support growing student and faculty populations"
+        ],
+        summary: "Leading private university in Turkey focused on academic excellence and research. Primary contact is through their IT department for educational technology solutions. Recent discussions have focused on LMS integration requirements, student portal customization, and mobile app development for campus services. Their main objectives include modernizing student information systems, improving online learning capabilities, and enhancing campus-wide communication tools.",
         highlights: [
             {
                 type: "feature-request",
@@ -257,6 +264,14 @@ const accountData = {
         employees: "50-200",
         revenue: "$1,000,000",
         location: "San Francisco, CA",
+        description: "A technology company focused on delivering innovative solutions to help businesses modernize their operations and improve efficiency. Founded with a mission to bridge the gap between traditional business processes and cutting-edge technology, the company serves mid-market organizations looking to digital transformation initiatives.",
+        objectives: [
+            "Improve operational efficiency through process automation",
+            "Expand market reach and customer acquisition",
+            "Enhance product features based on customer feedback",
+            "Scale technical infrastructure to support growth",
+            "Develop strategic partnerships with industry leaders"
+        ],
         summary: "Technology company focused on innovative solutions. Recent discussions have covered product updates, support issues, and contract negotiations. The company is looking to improve operational efficiency, expand market reach, and enhance product features to better serve their customers.",
         highlights: [],
         timeline: []
@@ -273,6 +288,15 @@ const accountMap = {
         employees: "10-50",
         revenue: "$26",
         location: "San Francisco, CA",
+        description: "Flowla is an innovative B2B SaaS company that specializes in sales enablement and buyer experience platforms. Founded in 2021, the company is headquartered in San Francisco and serves growing businesses looking to modernize their sales processes. Flowla's platform helps sales teams create personalized, interactive buyer journeys that engage prospects and accelerate deal closure. With a team of 25 employees, the company has quickly gained traction in the competitive sales tech market, serving over 150 customers globally.",
+        objectives: [
+            "Scale customer onboarding process to support rapid growth and reduce time-to-value",
+            "Improve sales team efficiency through advanced automation and workflow optimization",
+            "Enhance buyer engagement metrics with personalized content and interactive experiences",
+            "Expand integrations with popular CRM and marketing automation platforms",
+            "Develop advanced analytics capabilities for better sales forecasting and performance tracking",
+            "Build out enterprise features to target larger customers and increase average deal size"
+        ],
         summary: "B2B SaaS company focused on sales enablement and buyer experience platforms. They help sales teams create personalized buyer journeys. Recent conversations have centered around API integration capabilities, custom branding options, and analytics dashboard improvements. Their primary goals are to scale their customer onboarding process, improve sales team efficiency, and enhance buyer engagement metrics.",
         highlights: [
             {
@@ -348,12 +372,16 @@ const accountMap = {
         employees: "5000+",
         revenue: "$1,424,939",
         location: "Sunnyvale, CA",
-        summary: "Global media and technology company providing web services including search, email, news, and entertainment content.",
+        description: "Yahoo is a global media and technology company that has been a pioneer in the internet industry since 1994. Headquartered in Sunnyvale, California, Yahoo operates one of the largest digital media networks worldwide, reaching over 900 million users monthly. The company provides a comprehensive suite of web services including search, email, news, sports, finance, and entertainment content. With a focus on mobile-first experiences and personalized content delivery, Yahoo continues to innovate in digital advertising, data analytics, and enterprise solutions while maintaining its position as a trusted source of information and services for millions of users globally.",
         objectives: [
-            "Improve ad targeting capabilities",
-            "Enhance user engagement metrics",
-            "Expand enterprise solutions"
+            "Improve ad targeting capabilities through advanced machine learning and data analytics",
+            "Enhance user engagement metrics across all digital properties and mobile applications",
+            "Expand enterprise solutions and B2B service offerings",
+            "Modernize infrastructure to support real-time data processing and analytics",
+            "Strengthen mobile-first user experience and cross-platform integration",
+            "Develop next-generation advertising technologies and programmatic solutions"
         ],
+        summary: "Global media and technology company providing web services including search, email, news, and entertainment content.",
         recentTopics: [
             "Enterprise email solutions",
             "API rate limits",
@@ -400,12 +428,16 @@ const accountMap = {
         employees: "100,000+",
         revenue: "$12,814,907",
         location: "Redmond, WA",
-        summary: "Global technology leader providing software, cloud services, devices, and solutions for businesses and consumers worldwide.",
+        description: "Microsoft Corporation is one of the world's largest and most influential technology companies, founded in 1975 by Bill Gates and Paul Allen. Headquartered in Redmond, Washington, Microsoft employs over 200,000 people globally and serves billions of customers and businesses worldwide. The company is a leader in personal computing software, cloud computing, enterprise solutions, gaming, and productivity applications. With products and services spanning Windows operating systems, Microsoft 365, Azure cloud platform, Teams collaboration tools, and Xbox gaming, Microsoft continues to drive digital transformation across industries while maintaining its commitment to empowering every person and organization on the planet to achieve more.",
         objectives: [
-            "Streamline enterprise deployment",
-            "Enhance security compliance features",
-            "Improve integration with Azure services"
+            "Streamline enterprise deployment processes to reduce implementation complexity and time-to-value",
+            "Enhance security compliance features to meet evolving regulatory requirements and enterprise standards",
+            "Improve integration with Azure services for seamless cloud-first enterprise solutions",
+            "Expand AI and machine learning capabilities across all product lines and services",
+            "Strengthen hybrid work solutions and collaboration tools for distributed teams",
+            "Accelerate sustainability initiatives and carbon-neutral cloud infrastructure"
         ],
+        summary: "Global technology leader providing software, cloud services, devices, and solutions for businesses and consumers worldwide.",
         recentTopics: [
             "Azure AD integration",
             "Compliance certifications",
@@ -839,6 +871,70 @@ const accountUsage = usageMetrics[account.name] || {
     apiLimit: 0
 };
 
+// Generate ticket summary
+function generateTicketSummary(tickets) {
+    if (!tickets || tickets.length === 0) {
+        return "No active support tickets at this time.";
+    }
+    
+    const openTickets = tickets.filter(t => t.status !== 'Resolved');
+    const highPriorityTickets = tickets.filter(t => t.priority === 'High' && t.status !== 'Resolved');
+    const oldTickets = tickets.filter(t => {
+        const created = new Date(t.created);
+        const daysDiff = Math.floor((new Date() - created) / (1000 * 60 * 60 * 24));
+        return daysDiff > 2 && t.status !== 'Resolved';
+    });
+    
+    let summary = `There are ${openTickets.length} open ticket${openTickets.length !== 1 ? 's' : ''}`;
+    
+    if (highPriorityTickets.length > 0) {
+        summary += `, including ${highPriorityTickets.length} high priority ticket${highPriorityTickets.length !== 1 ? 's' : ''}`;
+        
+        if (oldTickets.length > 0) {
+            const oldHighPriority = oldTickets.filter(t => t.priority === 'High');
+            if (oldHighPriority.length > 0) {
+                summary += ` that ${oldHighPriority.length === 1 ? 'has' : 'have'} been open for more than 2 days`;
+            }
+        }
+    } else if (oldTickets.length > 0) {
+        summary += `, with ${oldTickets.length} open for more than 2 days`;
+    }
+    
+    summary += '.';
+    return summary;
+}
+
+// Generate usage summary
+function generateUsageSummary(currentUsage, accountName) {
+    if (!currentUsage || !currentUsage.monthlyTrend || currentUsage.monthlyTrend.length < 2) {
+        return "Usage analytics are being processed and will be available soon.";
+    }
+    
+    const currentMonth = currentUsage.monthlyTrend[currentUsage.monthlyTrend.length - 1];
+    const previousMonth = currentUsage.monthlyTrend[currentUsage.monthlyTrend.length - 2];
+    
+    const mauGrowth = ((currentMonth.users - previousMonth.users) / previousMonth.users * 100).toFixed(0);
+    const loginGrowth = ((currentMonth.logins - previousMonth.logins) / previousMonth.logins * 100).toFixed(0);
+    
+    let summary = `Monthly Active Users (MAU) ${mauGrowth >= 0 ? 'increased' : 'decreased'} ${Math.abs(mauGrowth)}% last month`;
+    
+    if (Math.abs(loginGrowth) > 5) {
+        summary += ` and total logins ${loginGrowth >= 0 ? 'grew' : 'declined'} by ${Math.abs(loginGrowth)}%`;
+    }
+    
+    // Add storage or API usage if significant
+    const storageUsed = parseInt(currentUsage.storageUsed);
+    const storageLimit = parseInt(currentUsage.storageLimit);
+    const storagePercent = Math.round((storageUsed / storageLimit) * 100);
+    
+    if (storagePercent > 80) {
+        summary += `. Storage usage is at ${storagePercent}% of capacity`;
+    }
+    
+    summary += '.';
+    return summary;
+}
+
 // Helper function to get participant display with visual indicators
 function getParticipantDisplay(participant) {
     if (typeof participant === 'string') {
@@ -952,7 +1048,40 @@ function getParticipantClass(type) {
                                 <!-- Overview Text Section -->
                                 <div class="overview-text-section">
                                     <div class="overview-card">
-                                        <p><%= account.summary %></p>
+                                        <!-- Company Description -->
+                                        <div class="overview-paragraph">
+                                            <p><%= account.description || account.summary %></p>
+                                        </div>
+                                        
+                                        <!-- Company Objectives -->
+                                        <% if (account.objectives && account.objectives.length > 0) { %>
+                                        <div class="overview-paragraph">
+                                            <p>The company's primary strategic objectives include:</p>
+                                            <ul class="objectives-list">
+                                                <% account.objectives.forEach(objective => { %>
+                                                    <li><%= objective %></li>
+                                                <% }) %>
+                                            </ul>
+                                        </div>
+                                        <% } %>
+                                        
+                                        <!-- Ticket Summary -->
+                                        <div class="overview-paragraph">
+                                            <p><%= generateTicketSummary(accountTickets) %> 
+                                                <% if (accountTickets.length > 0) { %>
+                                                    <a href="#" class="tab-link" data-tab="tickets">View all tickets →</a>
+                                                <% } %>
+                                            </p>
+                                        </div>
+                                        
+                                        <!-- Usage Analytics Summary -->
+                                        <div class="overview-paragraph">
+                                            <p><%= generateUsageSummary(accountUsage, account.name) %> 
+                                                <% if (accountUsage.monthlyTrend.length > 0) { %>
+                                                    <a href="#" class="tab-link" data-tab="usage">View detailed analytics →</a>
+                                                <% } %>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                                 
