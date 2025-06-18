@@ -1,0 +1,57 @@
+<% layout = false %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Customer Management</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <%- include('../partials/sidebar') %>
+        <div class="main-content">
+            <div class="page-header">
+                <h1>Settings</h1>
+            </div>
+            
+            <div class="settings-container">
+                <div class="settings-sidebar">
+                    <ul class="settings-nav">
+                        <li class="settings-nav-item">
+                            <a href="/settings/team" class="settings-nav-link <%= settingsSection === 'team' ? 'active' : '' %>">Team</a>
+                        </li>
+                        <li class="settings-nav-item">
+                            <a href="/settings/agents" class="settings-nav-link <%= settingsSection === 'agents' ? 'active' : '' %>">Agents</a>
+                        </li>
+                        <li class="settings-nav-item">
+                            <a href="/settings/product" class="settings-nav-link <%= settingsSection === 'product' ? 'active' : '' %>">Product</a>
+                        </li>
+                        <li class="settings-nav-item">
+                            <a href="/settings/signals" class="settings-nav-link <%= settingsSection === 'signals' ? 'active' : '' %>">Signals</a>
+                        </li>
+                        <li class="settings-nav-item">
+                            <a href="/settings/prompts" class="settings-nav-link <%= settingsSection === 'prompts' ? 'active' : '' %>">Prompts</a>
+                        </li>
+                        <li class="settings-nav-item">
+                            <a href="/settings/knowledgebase" class="settings-nav-link <%= settingsSection === 'knowledgebase' ? 'active' : '' %>">KnowledgeBase</a>
+                        </li>
+                        <li class="settings-nav-item">
+                            <a href="/settings/segments" class="settings-nav-link <%= settingsSection === 'segments' ? 'active' : '' %>">Segments</a>
+                        </li>
+                        <li class="settings-nav-item">
+                            <a href="/settings/billing" class="settings-nav-link <%= settingsSection === 'billing' ? 'active' : '' %>">Billing</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="settings-content">
+                    <h2><%= settingsSection.charAt(0).toUpperCase() + settingsSection.slice(1) %> Settings</h2>
+                    <p>Configure your <%= settingsSection %> settings here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/main.js"></script>
+</body>
+</html>

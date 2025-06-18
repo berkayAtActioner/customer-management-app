@@ -1,0 +1,295 @@
+<%
+// Contact data mapping
+const contactsData = {
+    "mehmet-ozkan": {
+        name: "Dr. Mehmet Özkan",
+        title: "IT Director",
+        company: "Bilkent Universitesi",
+        companyId: "bilkent-universitesi",
+        email: "mozkan@bilkent.edu.tr",
+        phone: "+90 312 290 1234",
+        mobile: "+90 532 555 1234",
+        linkedin: "mehmetozkan",
+        location: "Ankara, Turkey",
+        timezone: "GMT+3",
+        avatar: "MÖ",
+        bio: "IT Director at Bilkent University with over 15 years of experience in educational technology. Leading digital transformation initiatives and overseeing all IT operations for the university.",
+        tags: ["Decision Maker", "Technical", "Education Sector"],
+        preferredChannel: "Email",
+        lastInteraction: "2 days ago",
+        status: "Active",
+        notes: [
+            {
+                date: "2024-01-15",
+                author: "Sarah Johnson",
+                content: "Very interested in the LMS integration. Wants to schedule a technical deep dive next week."
+            },
+            {
+                date: "2024-01-10",
+                author: "Mike Chen",
+                content: "Mentioned they're evaluating Canvas and Blackboard as alternatives. Need to emphasize our advantages."
+            }
+        ],
+        interactions: [
+            {
+                type: "email",
+                title: "Follow-up on integration timeline",
+                date: "2024-01-15",
+                description: "Discussed API requirements and timeline for Q1 implementation"
+            },
+            {
+                type: "meeting",
+                title: "Technical Requirements Review",
+                date: "2024-01-12",
+                description: "2-hour deep dive into system architecture and integration points"
+            },
+            {
+                type: "call",
+                title: "Initial discovery call",
+                date: "2024-01-05",
+                description: "Understanding their current challenges and requirements"
+            }
+        ]
+    },
+    "sarah-johnson": {
+        name: "Sarah Johnson",
+        title: "Account Manager",
+        company: "Internal",
+        email: "sarah.johnson@company.com",
+        phone: "+1 555 0123",
+        mobile: "+1 555 9876",
+        linkedin: "sarahjohnson",
+        location: "San Francisco, CA",
+        timezone: "PST",
+        avatar: "SJ",
+        bio: "Senior Account Manager managing strategic enterprise accounts in the education and technology sectors. Focused on building long-term partnerships and driving customer success.",
+        tags: ["Internal", "Account Management", "Enterprise"],
+        preferredChannel: "Slack",
+        lastInteraction: "Today",
+        status: "Active",
+        notes: [],
+        interactions: []
+    },
+    "alex-thompson": {
+        name: "Alex Thompson",
+        title: "CEO",
+        company: "Flowla",
+        companyId: "flowla",
+        email: "alex@flowla.com",
+        phone: "+1 415 555 0100",
+        mobile: "+1 415 555 9100",
+        linkedin: "alexthompson",
+        location: "San Francisco, CA",
+        timezone: "PST",
+        avatar: "AT",
+        bio: "Founder and CEO of Flowla. Serial entrepreneur with background in sales and marketing technology. Passionate about improving the B2B buying experience.",
+        tags: ["Decision Maker", "Executive", "SaaS"],
+        preferredChannel: "Phone",
+        lastInteraction: "3 days ago",
+        status: "Active",
+        notes: [
+            {
+                date: "2024-01-14",
+                author: "Sarah Johnson",
+                content: "Very hands-on CEO. Likes to be involved in product decisions. Best to reach by phone for urgent matters."
+            }
+        ],
+        interactions: [
+            {
+                type: "email",
+                title: "Feature request follow-up",
+                date: "2024-01-14",
+                description: "Discussed Salesforce integration requirements"
+            },
+            {
+                type: "meeting",
+                title: "Product Demo",
+                date: "2024-01-10",
+                description: "Demonstrated new features and discussed customization needs"
+            }
+        ]
+    }
+};
+
+// Get contact data or use default - contactId is passed from the route
+const contact = contactsData[contactId] || contactsData["mehmet-ozkan"];
+
+// Helper function to get contact ID from name
+function getContactIdFromName(name) {
+    const cleanName = name.replace(/\s*\(.*?\)\s*/g, ''); // Remove titles in parentheses
+    return cleanName.toLowerCase().replace(/\s+/g, '-').replace(/\./g, '');
+}
+%>
+
+<% layout = false %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= contact.name %> - Contact Details</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <%- include('../partials/sidebar') %>
+        <div class="main-content">
+            <div class="contact-header">
+                <div class="contact-header-top">
+                    <a href="/contacts" class="back-link">
+                        <svg viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"/>
+                        </svg>
+                        Back to Contacts
+                    </a>
+                </div>
+                <div class="contact-profile">
+                    <div class="contact-avatar-large">
+                        <%= contact.avatar %>
+                    </div>
+                    <div class="contact-details">
+                        <h1><%= contact.name %></h1>
+                        <div class="contact-meta">
+                            <span class="meta-item"><%= contact.title %></span>
+                            <% if (contact.company !== 'Internal') { %>
+                                <span class="meta-separator">•</span>
+                                <a href="/accounts/<%= contact.companyId %>" class="company-link-inline">
+                                    <%= contact.company %>
+                                </a>
+                            <% } else { %>
+                                <span class="meta-separator">•</span>
+                                <span class="company-badge internal"><%= contact.company %></span>
+                            <% } %>
+                        </div>
+                        <div class="contact-tags">
+                            <% contact.tags.forEach(tag => { %>
+                                <span class="contact-tag"><%= tag %></span>
+                            <% }) %>
+                        </div>
+                    </div>
+                    <div class="contact-actions">
+                        <button class="btn-secondary">
+                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                            </svg>
+                            Send Email
+                        </button>
+                        <button class="btn-secondary">
+                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                            </svg>
+                            Call
+                        </button>
+                        <button class="btn-secondary">Edit</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-content">
+                <div class="contact-grid">
+                    <!-- Contact Information Section -->
+                    <div class="contact-info-section">
+                        <h2>Contact Information</h2>
+                        <div class="info-card">
+                            <div class="info-row">
+                                <span class="info-label">Email</span>
+                                <a href="mailto:<%= contact.email %>" class="info-value link"><%= contact.email %></a>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Phone</span>
+                                <span class="info-value"><%= contact.phone %></span>
+                            </div>
+                            <% if (contact.mobile) { %>
+                            <div class="info-row">
+                                <span class="info-label">Mobile</span>
+                                <span class="info-value"><%= contact.mobile %></span>
+                            </div>
+                            <% } %>
+                            <div class="info-row">
+                                <span class="info-label">LinkedIn</span>
+                                <a href="https://linkedin.com/in/<%= contact.linkedin %>" target="_blank" class="info-value link">
+                                    linkedin.com/in/<%= contact.linkedin %>
+                                </a>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Location</span>
+                                <span class="info-value"><%= contact.location %></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Timezone</span>
+                                <span class="info-value"><%= contact.timezone %></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Preferred Channel</span>
+                                <span class="info-value"><%= contact.preferredChannel %></span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Status</span>
+                                <span class="status-badge status-<%= contact.status.toLowerCase() %>"><%= contact.status %></span>
+                            </div>
+                        </div>
+
+                        <h3>About</h3>
+                        <div class="info-card">
+                            <p><%= contact.bio %></p>
+                        </div>
+                    </div>
+
+                    <!-- Activity Section -->
+                    <div class="contact-activity-section">
+                        <h2>Recent Activity</h2>
+                        <div class="activity-timeline">
+                            <% contact.interactions.forEach(interaction => { %>
+                                <div class="activity-item">
+                                    <div class="activity-icon <%= interaction.type %>">
+                                        <% if (interaction.type === 'email') { %>
+                                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                                            </svg>
+                                        <% } else if (interaction.type === 'meeting') { %>
+                                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/>
+                                            </svg>
+                                        <% } else if (interaction.type === 'call') { %>
+                                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                                            </svg>
+                                        <% } %>
+                                    </div>
+                                    <div class="activity-content">
+                                        <h4><%= interaction.title %></h4>
+                                        <p><%= interaction.description %></p>
+                                        <span class="activity-date"><%= interaction.date %></span>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+
+                        <h3>Notes</h3>
+                        <div class="notes-section">
+                            <div class="add-note">
+                                <textarea placeholder="Add a note..." class="note-input"></textarea>
+                                <button class="btn-primary btn-small">Add Note</button>
+                            </div>
+                            <div class="notes-list">
+                                <% contact.notes.forEach(note => { %>
+                                    <div class="note-item">
+                                        <div class="note-header">
+                                            <span class="note-author"><%= note.author %></span>
+                                            <span class="note-date"><%= note.date %></span>
+                                        </div>
+                                        <p class="note-content"><%= note.content %></p>
+                                    </div>
+                                <% }) %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/main.js"></script>
+</body>
+</html>

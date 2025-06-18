@@ -1,0 +1,246 @@
+<%
+const accounts = [
+    {
+        company: "Bilkent Universitesi",
+        logo: "B",
+        categories: ["Education"],
+        linkedin: "bilkentunam",
+        lastInteraction: "over 1 year ago",
+        status: "Very weak",
+        arr: 82969,
+        twitter: "BilkentUniv",
+        domain: "bilkent.edu.tr"
+    },
+    {
+        company: "Flowla",
+        logo: "F",
+        categories: ["B2B", "B2C", "E-commerce", "Information Technology", "SAAS"],
+        linkedin: "flowlacom",
+        lastInteraction: "5 months ago",
+        status: "Very weak",
+        arr: 26,
+        twitter: "Flowlacom",
+        domain: "flowla.com"
+    },
+    {
+        company: "SuccessNavigator",
+        logo: "S",
+        categories: ["Business Support & Supplies", "Consulting & Professional Services"],
+        linkedin: "successnavigator",
+        lastInteraction: "5 days ago",
+        status: "Very weak",
+        arr: null,
+        twitter: "successnavigator",
+        domain: null
+    },
+    {
+        company: "R2S",
+        logo: "R",
+        categories: ["Automation", "B2C", "Consulting & Professional Services"],
+        linkedin: null,
+        lastInteraction: "6 months ago",
+        status: "Very weak",
+        arr: null,
+        twitter: "reach2salescom",
+        domain: null
+    },
+    {
+        company: "Merge",
+        logo: "M",
+        categories: ["B2B", "B2C", "E-commerce", "Information Technology", "SAAS"],
+        linkedin: "merge-api",
+        lastInteraction: "5 days ago",
+        status: "Weak",
+        arr: 1386,
+        twitter: "merge_api",
+        domain: "merge.dev"
+    },
+    {
+        company: "Yahoo",
+        logo: "Y",
+        categories: ["B2C", "Broadcasting", "Information Technology", "Internet", "Publishing"],
+        linkedin: "yahoo",
+        lastInteraction: "7 days ago",
+        status: "Very weak",
+        arr: 1424939,
+        twitter: "Yahoo",
+        domain: "yahoo.com"
+    },
+    {
+        company: "Wingify",
+        logo: "W",
+        categories: ["B2B", "B2C", "E-commerce", "Enterprise", "Information Technology"],
+        linkedin: "vwo",
+        lastInteraction: "No contact",
+        status: "No communication",
+        arr: 3342,
+        twitter: "VWO",
+        domain: "vwo.com"
+    },
+    {
+        company: "Olympia Venture Advisory",
+        logo: "O",
+        categories: ["B2B", "Consulting & Professional Services"],
+        linkedin: "olympia-venture-advisory",
+        lastInteraction: "about 1 year ago",
+        status: "Weak",
+        arr: null,
+        twitter: null,
+        domain: "olympiaventure.com"
+    },
+    {
+        company: "Bilkent Universitesi",
+        logo: "B",
+        categories: ["Education"],
+        linkedin: "bilkentunam",
+        lastInteraction: "12 months ago",
+        status: "Weak",
+        arr: 82969,
+        twitter: "BilkentUniv",
+        domain: "ug.bilkent.edu.tr"
+    },
+    {
+        company: "Microsoft",
+        logo: "M",
+        categories: ["B2B", "Enterprise", "Information Technology", "Publishing", "Software"],
+        linkedin: "microsoft",
+        lastInteraction: "No contact",
+        status: "No communication",
+        arr: 12814907,
+        twitter: "Microsoft",
+        domain: "microsoft.com"
+    }
+];
+%>
+
+<% layout = false %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Customer Management</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <%- include('../partials/sidebar') %>
+        <div class="main-content">
+            <div class="page-header">
+                <div class="header-left">
+                    <h1>Companies</h1>
+                    <div class="header-tabs">
+                        <button class="tab-button active">All Companies</button>
+                        <button class="tab-button">View settings</button>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn-import">Import / Export</button>
+                    <button class="btn-primary">New Company</button>
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <div class="search-bar">
+                    <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
+                    </svg>
+                    <input type="text" placeholder="Quick actions" class="search-input">
+                </div>
+                <div class="toolbar-right">
+                    <button class="btn-filter">
+                        <svg viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"/>
+                        </svg>
+                        Filter
+                    </button>
+                    <button class="btn-sort">
+                        <svg viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
+                        </svg>
+                        Sort
+                    </button>
+                </div>
+            </div>
+
+            <div class="accounts-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 200px;">Company<span class="resize-handle"></span></th>
+                            <th style="width: 250px;">Categories<span class="resize-handle"></span></th>
+                            <th style="width: 120px;">LinkedIn<span class="resize-handle"></span></th>
+                            <th style="width: 140px;">Last interaction<span class="resize-handle"></span></th>
+                            <th style="width: 150px;">Connection strength<span class="resize-handle"></span></th>
+                            <th style="width: 120px;">Twitter followers<span class="resize-handle"></span></th>
+                            <th style="width: 120px;">Twitter<span class="resize-handle"></span></th>
+                            <th style="width: 150px;">Domain<span class="resize-handle"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% accounts.forEach(account => { %>
+                        <tr>
+                            <td>
+                                <div class="company-cell">
+                                    <div class="company-logo" style="background-color: <%= account.logo === 'B' ? '#3498db' : account.logo === 'F' ? '#e74c3c' : account.logo === 'R' ? '#e67e22' : account.logo === 'Y' ? '#9b59b6' : account.logo === 'M' ? '#2ecc71' : '#95a5a6' %>">
+                                        <%= account.logo %>
+                                    </div>
+                                    <span class="company-name"><%= account.company %></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="categories">
+                                    <% account.categories.forEach((cat, index) => { %>
+                                        <span class="category-tag <%= cat === 'Education' ? 'tag-education' : cat === 'B2B' || cat === 'B2C' ? 'tag-business' : cat === 'E-commerce' ? 'tag-commerce' : cat === 'SAAS' ? 'tag-saas' : cat === 'Internet' ? 'tag-internet' : cat === 'Enterprise' ? 'tag-enterprise' : cat === 'Publishing' ? 'tag-publishing' : 'tag-default' %>">
+                                            <%= cat %>
+                                        </span>
+                                        <% if (index < account.categories.length - 1) { %>
+                                        <% } %>
+                                    <% }) %>
+                                </div>
+                            </td>
+                            <td>
+                                <% if (account.linkedin) { %>
+                                    <a href="#" class="linkedin-link"><%= account.linkedin %></a>
+                                <% } %>
+                            </td>
+                            <td><%= account.lastInteraction %></td>
+                            <td>
+                                <span class="status-badge <%= account.status === 'Very weak' ? 'status-very-weak' : account.status === 'Weak' ? 'status-weak' : 'status-none' %>">
+                                    <%= account.status %>
+                                </span>
+                            </td>
+                            <td class="text-right">
+                                <% if (account.arr) { %>
+                                    <%= account.arr.toLocaleString() %>
+                                <% } %>
+                            </td>
+                            <td>
+                                <% if (account.twitter) { %>
+                                    <a href="#" class="twitter-link"><%= account.twitter %></a>
+                                <% } %>
+                            </td>
+                            <td>
+                                <% if (account.domain) { %>
+                                    <a href="#" class="domain-link"><%= account.domain %></a>
+                                <% } %>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-footer">
+                <div class="pagination-info">
+                    <span><%= accounts.length %> count</span>
+                </div>
+                <div class="pagination">
+                    <span>57 filled</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/main.js"></script>
+</body>
+</html>

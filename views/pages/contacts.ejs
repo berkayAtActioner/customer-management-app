@@ -1,0 +1,205 @@
+<%
+// Only show customer contacts (people with customer domain emails)
+// Internal users and third parties are not shown in the contacts list
+const contacts = [
+    {
+        id: "mehmet-ozkan",
+        name: "Dr. Mehmet Özkan",
+        title: "IT Director",
+        company: "Bilkent Universitesi",
+        email: "mozkan@bilkent.edu.tr",
+        phone: "+90 312 290 1234",
+        linkedin: "mehmetozkan",
+        lastInteraction: "2 days ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "ayse-yilmaz",
+        name: "Prof. Ayşe Yılmaz",
+        title: "CTO",
+        company: "Bilkent Universitesi",
+        email: "ayilmaz@bilkent.edu.tr",
+        phone: "+90 312 290 1235",
+        linkedin: "ayseyilmaz",
+        lastInteraction: "1 week ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "alex-thompson",
+        name: "Alex Thompson",
+        title: "CEO",
+        company: "Flowla",
+        email: "alex@flowla.com",
+        phone: "+1 415 555 0100",
+        linkedin: "alexthompson",
+        lastInteraction: "3 days ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "emma-davis",
+        name: "Emma Davis",
+        title: "Head of Sales",
+        company: "Flowla",
+        email: "emma@flowla.com",
+        phone: "+1 415 555 0101",
+        linkedin: "emmadavis",
+        lastInteraction: "5 days ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "ryan-park",
+        name: "Ryan Park",
+        title: "CTO",
+        company: "Flowla",
+        email: "ryan@flowla.com",
+        phone: "+1 415 555 0102",
+        linkedin: "ryanpark",
+        lastInteraction: "1 week ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "emre-demir",
+        name: "Emre Demir",
+        title: "Lead Developer",
+        company: "Bilkent Universitesi",
+        email: "edemir@bilkent.edu.tr",
+        phone: "+90 312 290 1236",
+        linkedin: "emredemir",
+        lastInteraction: "2 weeks ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "zeynep-kaya",
+        name: "Zeynep Kaya",
+        title: "System Admin",
+        company: "Bilkent Universitesi",
+        email: "zkaya@bilkent.edu.tr",
+        phone: "+90 312 290 1237",
+        linkedin: "zeynepkaya",
+        lastInteraction: "3 days ago",
+        status: "Active",
+        type: "contact"
+    }
+    // Internal users (Sarah Johnson, Mike Chen, Tom Wilson, Lisa Park, James Miller) 
+    // are not shown in contacts - they are "users" of our software, not customer contacts
+];
+%>
+
+<% layout = false %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Customer Management</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <%- include('../partials/sidebar') %>
+        <div class="main-content">
+            <div class="page-header">
+                <div class="header-left">
+                    <h1>Contacts</h1>
+                    <div class="header-tabs">
+                        <button class="tab-button active">All Contacts</button>
+                        <button class="tab-button">My Contacts</button>
+                        <button class="tab-button">Company Contacts</button>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn-import">Import / Export</button>
+                    <button class="btn-primary">New Contact</button>
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <div class="search-bar">
+                    <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
+                    </svg>
+                    <input type="text" placeholder="Search contacts..." class="search-input">
+                </div>
+                <div class="toolbar-right">
+                    <button class="btn-filter">
+                        <svg viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"/>
+                        </svg>
+                        Filter
+                    </button>
+                    <button class="btn-sort">
+                        <svg viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
+                        </svg>
+                        Sort
+                    </button>
+                </div>
+            </div>
+
+            <div class="contacts-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 250px;">Name<span class="resize-handle"></span></th>
+                            <th style="width: 200px;">Title<span class="resize-handle"></span></th>
+                            <th style="width: 200px;">Company<span class="resize-handle"></span></th>
+                            <th style="width: 200px;">Email<span class="resize-handle"></span></th>
+                            <th style="width: 150px;">Phone<span class="resize-handle"></span></th>
+                            <th style="width: 150px;">Last Interaction<span class="resize-handle"></span></th>
+                            <th style="width: 100px;">Status<span class="resize-handle"></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% contacts.forEach(contact => { %>
+                        <tr data-contact-id="<%= contact.id %>">
+                            <td>
+                                <div class="contact-cell">
+                                    <div class="contact-avatar">
+                                        <%= contact.name.split(' ').map(n => n[0]).join('').substring(0, 2) %>
+                                    </div>
+                                    <div class="contact-info">
+                                        <span class="contact-name"><%= contact.name %></span>
+                                        <% if (contact.linkedin) { %>
+                                            <a href="#" class="contact-linkedin">LinkedIn</a>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><%= contact.title %></td>
+                            <td>
+                                <a href="/accounts/<%= contact.company.toLowerCase().replace(/\s+/g, '-') %>" class="company-link">
+                                    <%= contact.company %>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="mailto:<%= contact.email %>" class="email-link"><%= contact.email %></a>
+                            </td>
+                            <td><%= contact.phone %></td>
+                            <td><%= contact.lastInteraction %></td>
+                            <td>
+                                <span class="status-badge status-<%= contact.status.toLowerCase() %>">
+                                    <%= contact.status %>
+                                </span>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-footer">
+                <div class="pagination-info">
+                    <span><%= contacts.length %> contacts</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,1783 @@
+<%
+// All contacts data for filtering
+const allContacts = [
+    {
+        id: "mehmet-ozkan",
+        name: "Dr. Mehmet Özkan",
+        title: "IT Director",
+        company: "Bilkent Universitesi",
+        email: "mozkan@bilkent.edu.tr",
+        phone: "+90 312 290 1234",
+        linkedin: "mehmetozkan",
+        lastInteraction: "2 days ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "ayse-yilmaz",
+        name: "Prof. Ayşe Yılmaz",
+        title: "CTO",
+        company: "Bilkent Universitesi",
+        email: "ayilmaz@bilkent.edu.tr",
+        phone: "+90 312 290 1235",
+        linkedin: "ayseyilmaz",
+        lastInteraction: "1 week ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "alex-thompson",
+        name: "Alex Thompson",
+        title: "CEO",
+        company: "Flowla",
+        email: "alex@flowla.com",
+        phone: "+1 415 555 0100",
+        linkedin: "alexthompson",
+        lastInteraction: "3 days ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "emma-davis",
+        name: "Emma Davis",
+        title: "Head of Sales",
+        company: "Flowla",
+        email: "emma@flowla.com",
+        phone: "+1 415 555 0101",
+        linkedin: "emmadavis",
+        lastInteraction: "5 days ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "ryan-park",
+        name: "Ryan Park",
+        title: "CTO",
+        company: "Flowla",
+        email: "ryan@flowla.com",
+        phone: "+1 415 555 0102",
+        linkedin: "ryanpark",
+        lastInteraction: "1 week ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "emre-demir",
+        name: "Emre Demir",
+        title: "Lead Developer",
+        company: "Bilkent Universitesi",
+        email: "edemir@bilkent.edu.tr",
+        phone: "+90 312 290 1236",
+        linkedin: "emredemir",
+        lastInteraction: "2 weeks ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "zeynep-kaya",
+        name: "Zeynep Kaya",
+        title: "System Admin",
+        company: "Bilkent Universitesi",
+        email: "zkaya@bilkent.edu.tr",
+        phone: "+90 312 290 1237",
+        linkedin: "zeynepkaya",
+        lastInteraction: "3 days ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "david-chen",
+        name: "David Chen",
+        title: "Engineering Manager",
+        company: "Yahoo",
+        email: "dchen@yahoo.com",
+        phone: "+1 408 555 0200",
+        linkedin: "davidchen",
+        lastInteraction: "4 days ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "jennifer-wong",
+        name: "Jennifer Wong",
+        title: "Product Director",
+        company: "Yahoo",
+        email: "jwong@yahoo.com",
+        phone: "+1 408 555 0201",
+        linkedin: "jenniferwong",
+        lastInteraction: "1 week ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "michael-johnson",
+        name: "Michael Johnson",
+        title: "VP of Engineering",
+        company: "Microsoft",
+        email: "mjohnson@microsoft.com",
+        phone: "+1 425 555 0300",
+        linkedin: "michaeljohnson",
+        lastInteraction: "3 days ago",
+        status: "Active",
+        type: "contact"
+    },
+    {
+        id: "sarah-martinez",
+        name: "Sarah Martinez",
+        title: "Solutions Architect",
+        company: "Microsoft",
+        email: "smartinez@microsoft.com",
+        phone: "+1 425 555 0301",
+        linkedin: "sarahmartinez",
+        lastInteraction: "5 days ago",
+        status: "Active",
+        type: "contact"
+    }
+];
+
+// Sample data for the account
+const accountData = {
+    bilkent: {
+        name: "Bilkent Universitesi",
+        logo: "B",
+        industry: "Education",
+        website: "bilkent.edu.tr",
+        employees: "1000-5000",
+        revenue: "$82,969",
+        location: "Ankara, Turkey",
+        summary: "Leading private university in Turkey focused on academic excellence and research. Primary contact is through their IT department for educational technology solutions. Recent discussions have focused on LMS integration requirements, student portal customization, and mobile app development for campus services. <br><br>Their main objectives include modernizing student information systems, improving online learning capabilities, and enhancing campus-wide communication tools.",
+        highlights: [
+            {
+                type: "feature-request",
+                title: "Feature Request",
+                content: "Need bulk import functionality for student records with CSV support",
+                date: "2024-01-15",
+                source: "Email"
+            },
+            {
+                type: "pain-point",
+                title: "Pain Point",
+                content: "Current system timeout issues when processing large batches of grade submissions",
+                date: "2024-01-10",
+                source: "Support Ticket"
+            },
+            {
+                type: "competitor",
+                title: "Competitor Mention",
+                content: "Evaluating Blackboard and Canvas as alternative solutions",
+                date: "2024-01-08",
+                source: "Meeting Notes"
+            }
+        ],
+        timeline: [
+            {
+                type: "email",
+                title: "Follow-up on integration timeline",
+                date: "2024-01-15",
+                time: "14:30",
+                description: "Discussed API requirements and timeline for Q1 implementation",
+                participants: {
+                    from: {name: "Dr. Mehmet Özkan", title: "IT Director", type: "contact", email: "mozkan@bilkent.edu.tr"},
+                    to: [
+                        {name: "Sarah Johnson", title: "Account Manager", type: "user", email: "sarah.johnson@company.com"},
+                        {name: "Mike Chen", title: "Solutions Engineer", type: "user", email: "mike.chen@company.com"}
+                    ],
+                    cc: [{name: "Prof. Ayşe Yılmaz", title: "CTO", type: "contact", email: "ayilmaz@bilkent.edu.tr"}]
+                }
+            },
+            {
+                type: "meeting",
+                title: "Technical Requirements Review",
+                date: "2024-01-12",
+                time: "10:00",
+                description: "2-hour deep dive into system architecture and integration points",
+                participants: {
+                    organizer: {name: "Sarah Johnson", title: "Account Manager", type: "user", email: "sarah.johnson@company.com"},
+                    attendees: [
+                        {name: "Dr. Mehmet Özkan", title: "IT Director", type: "contact", email: "mozkan@bilkent.edu.tr"},
+                        {name: "Emre Demir", title: "Lead Developer", type: "contact", email: "edemir@bilkent.edu.tr"},
+                        {name: "Sarah Johnson", title: "Account Manager", type: "user", email: "sarah.johnson@company.com"},
+                        {name: "Mike Chen", title: "Solutions Engineer", type: "user", email: "mike.chen@company.com"},
+                        {name: "Lisa Park", title: "Product Manager", type: "user", email: "lisa.park@company.com"}
+                    ]
+                }
+            },
+            {
+                type: "ticket",
+                title: "Support Ticket #1234 - Login Issues",
+                date: "2024-01-10",
+                time: "09:15",
+                description: "Resolved authentication problems affecting 200+ users",
+                participants: {
+                    reporter: {name: "Zeynep Kaya", title: "System Admin", type: "contact", email: "zkaya@bilkent.edu.tr"},
+                    assignee: {name: "Tom Wilson", title: "Support Engineer", type: "user", email: "tom.wilson@company.com"},
+                    watchers: [{name: "Dr. Mehmet Özkan", title: "IT Director", type: "contact", email: "mozkan@bilkent.edu.tr"}]
+                }
+            },
+            {
+                type: "email",
+                title: "Contract renewal discussion",
+                date: "2024-01-08",
+                time: "11:00",
+                description: "Initial discussion about contract renewal and expansion options",
+                participants: {
+                    from: {name: "Sarah Johnson", title: "Account Manager", type: "user", email: "sarah.johnson@company.com"},
+                    to: [
+                        {name: "Dr. Mehmet Özkan", title: "IT Director", type: "contact", email: "mozkan@bilkent.edu.tr"},
+                        {name: "Prof. Ayşe Yılmaz", title: "CTO", type: "contact", email: "ayilmaz@bilkent.edu.tr"}
+                    ],
+                    cc: [
+                        {name: "James Miller", title: "Sales Director", type: "user", email: "james.miller@company.com"},
+                        {name: "John Smith", title: "Consultant", type: "third-party", email: "john@consultingfirm.com"}
+                    ]
+                }
+            },
+            {
+                type: "call",
+                title: "Quarterly Business Review",
+                date: "2024-01-05",
+                time: "15:00",
+                description: "Reviewed Q4 performance and discussed Q1 roadmap",
+                participants: {
+                    attendees: [
+                        {name: "Dr. Mehmet Özkan", title: "IT Director", type: "contact", email: "mozkan@bilkent.edu.tr"},
+                        {name: "Prof. Ayşe Yılmaz", title: "CTO", type: "contact", email: "ayilmaz@bilkent.edu.tr"},
+                        {name: "Sarah Johnson", title: "Account Manager", type: "user", email: "sarah.johnson@company.com"},
+                        {name: "James Miller", title: "Sales Director", type: "user", email: "james.miller@company.com"}
+                    ]
+                }
+            }
+        ]
+    },
+    default: {
+        name: "Account",
+        logo: "A",
+        industry: "Technology",
+        website: "example.com",
+        employees: "50-200",
+        revenue: "$1,000,000",
+        location: "San Francisco, CA",
+        summary: "Technology company focused on innovative solutions. Recent discussions have covered product updates, support issues, and contract negotiations. The company is looking to improve operational efficiency, expand market reach, and enhance product features to better serve their customers.",
+        highlights: [],
+        timeline: []
+    }
+};
+
+// For demo purposes, let's create a simple mapping
+const accountMap = {
+    'flowla': {
+        name: "Flowla",
+        logo: "F",
+        industry: "Technology",
+        website: "flowla.com",
+        employees: "10-50",
+        revenue: "$26",
+        location: "San Francisco, CA",
+        summary: "B2B SaaS company focused on sales enablement and buyer experience platforms. They help sales teams create personalized buyer journeys. Recent conversations have centered around API integration capabilities, custom branding options, and analytics dashboard improvements. Their primary goals are to scale their customer onboarding process, improve sales team efficiency, and enhance buyer engagement metrics.",
+        highlights: [
+            {
+                type: "feature-request",
+                title: "Feature Request",
+                content: "Requesting Salesforce CRM integration for automatic deal updates",
+                date: "2024-01-14",
+                source: "Email"
+            },
+            {
+                type: "pain-point",
+                title: "Pain Point",
+                content: "Limited customization options for buyer portal templates",
+                date: "2024-01-11",
+                source: "Support Ticket"
+            }
+        ],
+        timeline: [
+            {
+                type: "email",
+                title: "Feature request follow-up",
+                date: "2024-01-14",
+                time: "11:30",
+                description: "Discussed Salesforce integration requirements and timeline",
+                participants: {
+                    from: {name: "Alex Thompson", title: "CEO", type: "contact", email: "alex@flowla.com"},
+                    to: [
+                        {name: "Sarah Johnson", title: "Account Manager", type: "user", email: "sarah.johnson@company.com"},
+                        {name: "Mike Chen", title: "Solutions Engineer", type: "user", email: "mike.chen@company.com"}
+                    ],
+                    cc: [{name: "Emma Davis", title: "Head of Sales", type: "contact", email: "emma@flowla.com"}]
+                }
+            },
+            {
+                type: "meeting",
+                title: "Product Demo",
+                date: "2024-01-10",
+                time: "14:00",
+                description: "Demonstrated new features and discussed customization needs",
+                participants: {
+                    organizer: {name: "Sarah Johnson", title: "Account Manager", type: "user", email: "sarah.johnson@company.com"},
+                    attendees: [
+                        {name: "Alex Thompson", title: "CEO", type: "contact", email: "alex@flowla.com"},
+                        {name: "Emma Davis", title: "Head of Sales", type: "contact", email: "emma@flowla.com"},
+                        {name: "Ryan Park", title: "CTO", type: "contact", email: "ryan@flowla.com"},
+                        {name: "Sarah Johnson", title: "Account Manager", type: "user", email: "sarah.johnson@company.com"},
+                        {name: "Mike Chen", title: "Solutions Engineer", type: "user", email: "mike.chen@company.com"}
+                    ]
+                }
+            },
+            {
+                type: "call",
+                title: "Initial Discovery Call",
+                date: "2024-01-03",
+                time: "10:00",
+                description: "Understanding their sales process and buyer journey challenges",
+                participants: {
+                    attendees: [
+                        {name: "Alex Thompson", title: "CEO", type: "contact", email: "alex@flowla.com"},
+                        {name: "Emma Davis", title: "Head of Sales", type: "contact", email: "emma@flowla.com"},
+                        {name: "Sarah Johnson", title: "Account Manager", type: "user", email: "sarah.johnson@company.com"}
+                    ]
+                }
+            }
+        ]
+    },
+    'bilkent-universitesi': accountData.bilkent,
+    'yahoo': {
+        name: "Yahoo",
+        logo: "Y",
+        industry: "Internet & Media",
+        website: "yahoo.com",
+        employees: "5000+",
+        revenue: "$1,424,939",
+        location: "Sunnyvale, CA",
+        summary: "Global media and technology company providing web services including search, email, news, and entertainment content.",
+        objectives: [
+            "Improve ad targeting capabilities",
+            "Enhance user engagement metrics",
+            "Expand enterprise solutions"
+        ],
+        recentTopics: [
+            "Enterprise email solutions",
+            "API rate limits",
+            "Data analytics requirements"
+        ],
+        highlights: [
+            {
+                type: "feature-request",
+                title: "Feature Request",
+                content: "Need advanced analytics API for real-time user behavior tracking",
+                date: "2024-01-16",
+                source: "Email"
+            },
+            {
+                type: "competitor",
+                title: "Competitor Mention",
+                content: "Comparing our solution with Google Workspace features",
+                date: "2024-01-09",
+                source: "Call Notes"
+            }
+        ],
+        timeline: [
+            {
+                type: "email",
+                title: "Enterprise plan discussion",
+                date: "2024-01-16",
+                time: "09:00",
+                description: "Explored enterprise features and pricing options"
+            },
+            {
+                type: "call",
+                title: "Technical Architecture Review",
+                date: "2024-01-09",
+                time: "13:00",
+                description: "Deep dive into API capabilities and integration options"
+            }
+        ]
+    },
+    'microsoft': {
+        name: "Microsoft",
+        logo: "M",
+        industry: "Technology",
+        website: "microsoft.com",
+        employees: "100,000+",
+        revenue: "$12,814,907",
+        location: "Redmond, WA",
+        summary: "Global technology leader providing software, cloud services, devices, and solutions for businesses and consumers worldwide.",
+        objectives: [
+            "Streamline enterprise deployment",
+            "Enhance security compliance features",
+            "Improve integration with Azure services"
+        ],
+        recentTopics: [
+            "Azure AD integration",
+            "Compliance certifications",
+            "Enterprise licensing models"
+        ],
+        highlights: [
+            {
+                type: "feature-request",
+                title: "Feature Request",
+                content: "Requesting native Azure Active Directory SSO integration",
+                date: "2024-01-17",
+                source: "Meeting Notes"
+            },
+            {
+                type: "pain-point",
+                title: "Pain Point",
+                content: "Current deployment process requires too many manual steps for enterprise scale",
+                date: "2024-01-15",
+                source: "Email"
+            }
+        ],
+        timeline: [
+            {
+                type: "meeting",
+                title: "Enterprise Architecture Discussion",
+                date: "2024-01-17",
+                time: "10:00",
+                description: "Reviewed integration requirements with Microsoft's enterprise team"
+            },
+            {
+                type: "email",
+                title: "Security compliance checklist",
+                date: "2024-01-15",
+                time: "14:30",
+                description: "Received detailed security requirements for vendor approval"
+            }
+        ]
+    }
+};
+
+// Use the mapped data if available, otherwise use default
+const account = accountMap[accountId.toLowerCase().replace(/\s+/g, '-')] || accountData.default;
+
+// Filter contacts by account domain
+const accountDomain = account.website;
+const accountContacts = allContacts.filter(contact => {
+    // Extract domain from email
+    const emailDomain = contact.email.split('@')[1];
+    // Match based on website domain
+    return emailDomain && accountDomain && emailDomain.includes(accountDomain.replace('www.', ''));
+});
+
+// Sample tickets data
+const allTickets = [
+    {
+        id: "TKT-001",
+        subject: "Login Issues with SSO Integration",
+        status: "Open",
+        priority: "High",
+        reporter: "Dr. Mehmet Özkan",
+        reporterEmail: "mozkan@bilkent.edu.tr",
+        assignee: "Tom Wilson",
+        assigneeEmail: "tom.wilson@company.com",
+        created: "2024-01-15",
+        updated: "2024-01-16",
+        description: "Users unable to authenticate through SSO portal",
+        account: "Bilkent Universitesi",
+        category: "Authentication"
+    },
+    {
+        id: "TKT-002",
+        subject: "API Rate Limit Exceeded",
+        status: "In Progress",
+        priority: "Medium",
+        reporter: "Zeynep Kaya",
+        reporterEmail: "zkaya@bilkent.edu.tr",
+        assignee: "Mike Chen",
+        assigneeEmail: "mike.chen@company.com",
+        created: "2024-01-12",
+        updated: "2024-01-14",
+        description: "Hitting API limits during peak usage hours",
+        account: "Bilkent Universitesi",
+        category: "Performance"
+    },
+    {
+        id: "TKT-003",
+        subject: "Feature Request: Bulk Export",
+        status: "Open",
+        priority: "Low",
+        reporter: "Alex Thompson",
+        reporterEmail: "alex@flowla.com",
+        assignee: "Lisa Park",
+        assigneeEmail: "lisa.park@company.com",
+        created: "2024-01-14",
+        updated: "2024-01-14",
+        description: "Need ability to export multiple records at once",
+        account: "Flowla",
+        category: "Feature Request"
+    },
+    {
+        id: "TKT-004",
+        subject: "Data Sync Issues",
+        status: "Resolved",
+        priority: "High",
+        reporter: "Emma Davis",
+        reporterEmail: "emma@flowla.com",
+        assignee: "Tom Wilson",
+        assigneeEmail: "tom.wilson@company.com",
+        created: "2024-01-08",
+        updated: "2024-01-10",
+        description: "Customer data not syncing properly with CRM",
+        account: "Flowla",
+        category: "Integration"
+    },
+    {
+        id: "TKT-005",
+        subject: "Performance Degradation",
+        status: "In Progress",
+        priority: "High",
+        reporter: "David Chen",
+        reporterEmail: "dchen@yahoo.com",
+        assignee: "Mike Chen",
+        assigneeEmail: "mike.chen@company.com",
+        created: "2024-01-16",
+        updated: "2024-01-17",
+        description: "Dashboard loading times have increased significantly",
+        account: "Yahoo",
+        category: "Performance"
+    },
+    {
+        id: "TKT-006",
+        subject: "Security Compliance Review",
+        status: "Open",
+        priority: "Medium",
+        reporter: "Michael Johnson",
+        reporterEmail: "mjohnson@microsoft.com",
+        assignee: "Sarah Johnson",
+        assigneeEmail: "sarah.johnson@company.com",
+        created: "2024-01-17",
+        updated: "2024-01-17",
+        description: "Need security audit for enterprise deployment",
+        account: "Microsoft",
+        category: "Security"
+    }
+];
+
+// Filter tickets by account
+const accountTickets = allTickets.filter(ticket => {
+    return ticket.account === account.name;
+});
+
+// Sample tasks data
+const allTasks = [
+    {
+        id: "TSK-001",
+        title: "Implement SSO Integration",
+        description: "Set up single sign-on integration for university portal",
+        assignee: "Mike Chen",
+        assigneeEmail: "mike.chen@company.com",
+        dueDate: "2024-01-25",
+        status: "In Progress",
+        priority: "High",
+        account: "Bilkent Universitesi",
+        category: "Development",
+        created: "2024-01-15"
+    },
+    {
+        id: "TSK-002",
+        title: "Quarterly Business Review Prep",
+        description: "Prepare materials and metrics for Q1 business review meeting",
+        assignee: "Sarah Johnson",
+        assigneeEmail: "sarah.johnson@company.com",
+        dueDate: "2024-01-22",
+        status: "Pending",
+        priority: "Medium",
+        account: "Bilkent Universitesi",
+        category: "Account Management",
+        created: "2024-01-10"
+    },
+    {
+        id: "TSK-003",
+        title: "CRM Integration Setup",
+        description: "Configure Salesforce integration for automatic deal updates",
+        assignee: "Tom Wilson",
+        assigneeEmail: "tom.wilson@company.com",
+        dueDate: "2024-01-30",
+        status: "Not Started",
+        priority: "High",
+        account: "Flowla",
+        category: "Integration",
+        created: "2024-01-14"
+    },
+    {
+        id: "TSK-004",
+        title: "Product Demo Follow-up",
+        description: "Send demo recording and follow-up materials to stakeholders",
+        assignee: "Sarah Johnson",
+        assigneeEmail: "sarah.johnson@company.com",
+        dueDate: "2024-01-18",
+        status: "Completed",
+        priority: "Medium",
+        account: "Flowla",
+        category: "Sales",
+        created: "2024-01-10"
+    },
+    {
+        id: "TSK-005",
+        title: "Performance Optimization",
+        description: "Investigate and resolve dashboard performance issues",
+        assignee: "Mike Chen",
+        assigneeEmail: "mike.chen@company.com",
+        dueDate: "2024-01-20",
+        status: "In Progress",
+        priority: "High",
+        account: "Yahoo",
+        category: "Development",
+        created: "2024-01-16"
+    },
+    {
+        id: "TSK-006",
+        title: "Security Audit Documentation",
+        description: "Prepare security compliance documentation for enterprise review",
+        assignee: "Lisa Park",
+        assigneeEmail: "lisa.park@company.com",
+        dueDate: "2024-01-28",
+        status: "In Progress",
+        priority: "Medium",
+        account: "Microsoft",
+        category: "Compliance",
+        created: "2024-01-17"
+    }
+];
+
+// Filter tasks by account
+const accountTasks = allTasks.filter(task => {
+    return task.account === account.name;
+});
+
+// Sample notes data
+const allNotes = [
+    {
+        id: "NOTE-001",
+        title: "Contract Renewal Discussion",
+        content: "Initial conversation about contract renewal went well. They're interested in expanding to additional departments. Key decision makers: Dr. Özkan (IT) and Prof. Yılmaz (CTO). Timeline: Q2 2024.",
+        author: "Sarah Johnson",
+        authorEmail: "sarah.johnson@company.com",
+        created: "2024-01-15",
+        updated: "2024-01-15",
+        account: "Bilkent Universitesi",
+        category: "Sales",
+        tags: ["contract", "renewal", "expansion"]
+    },
+    {
+        id: "NOTE-002",
+        title: "Technical Requirements",
+        content: "Detailed technical requirements discussed in architecture meeting. Need to support 5000+ concurrent users, integrate with existing LDAP, and provide mobile app support. Follow-up meeting scheduled for next week.",
+        author: "Mike Chen",
+        authorEmail: "mike.chen@company.com",
+        created: "2024-01-12",
+        updated: "2024-01-14",
+        account: "Bilkent Universitesi",
+        category: "Technical",
+        tags: ["requirements", "architecture", "ldap", "mobile"]
+    },
+    {
+        id: "NOTE-003",
+        title: "Competitive Landscape",
+        content: "Customer mentioned evaluating Blackboard and Canvas. Our advantages: better API, more flexible customization, superior support. Need to emphasize TCO benefits and integration capabilities.",
+        author: "Sarah Johnson",
+        authorEmail: "sarah.johnson@company.com",
+        created: "2024-01-08",
+        updated: "2024-01-08",
+        account: "Bilkent Universitesi",
+        category: "Competitive",
+        tags: ["competitors", "blackboard", "canvas", "positioning"]
+    },
+    {
+        id: "NOTE-004",
+        title: "Onboarding Success",
+        content: "Flowla team very happy with onboarding process. Alex mentioned our implementation was smoother than previous vendor. Good opportunity for case study and reference.",
+        author: "Tom Wilson",
+        authorEmail: "tom.wilson@company.com",
+        created: "2024-01-10",
+        updated: "2024-01-10",
+        account: "Flowla",
+        category: "Success",
+        tags: ["onboarding", "reference", "case-study"]
+    },
+    {
+        id: "NOTE-005",
+        title: "Performance Concerns",
+        content: "Dashboard performance has been declining. Need to investigate database queries and consider caching improvements. Customer is understanding but this needs priority attention.",
+        author: "Mike Chen",
+        authorEmail: "mike.chen@company.com",
+        created: "2024-01-16",
+        updated: "2024-01-16",
+        account: "Yahoo",
+        category: "Technical",
+        tags: ["performance", "database", "caching"]
+    },
+    {
+        id: "NOTE-006",
+        title: "Enterprise Security Requirements",
+        content: "Microsoft has strict security requirements for enterprise deployment. Need SOC2 compliance, pen testing reports, and detailed security architecture documentation. Timeline is tight.",
+        author: "Lisa Park",
+        authorEmail: "lisa.park@company.com",
+        created: "2024-01-17",
+        updated: "2024-01-17",
+        account: "Microsoft",
+        category: "Security",
+        tags: ["security", "compliance", "soc2", "enterprise"]
+    }
+];
+
+// Filter notes by account
+const accountNotes = allNotes.filter(note => {
+    return note.account === account.name;
+});
+
+// Sample usage metrics data
+const usageMetrics = {
+    'Bilkent Universitesi': {
+        activeUsers: 1247,
+        totalUsers: 1850,
+        monthlyLogins: 18420,
+        avgSessionDuration: '24m 35s',
+        topFeatures: [
+            { name: 'Student Portal', usage: 87, users: 1084 },
+            { name: 'Grade Management', usage: 72, users: 896 },
+            { name: 'Course Materials', usage: 65, users: 812 },
+            { name: 'Assignment Submission', usage: 58, users: 723 },
+            { name: 'Discussion Forums', usage: 34, users: 425 }
+        ],
+        monthlyTrend: [
+            { month: 'Sep', logins: 15200, users: 1180 },
+            { month: 'Oct', logins: 16800, users: 1220 },
+            { month: 'Nov', logins: 17500, users: 1195 },
+            { month: 'Dec', logins: 14200, users: 1050 },
+            { month: 'Jan', logins: 18420, users: 1247 }
+        ],
+        storageUsed: '2.3 TB',
+        storageLimit: '5 TB',
+        apiCalls: 145680,
+        apiLimit: 500000
+    },
+    'Flowla': {
+        activeUsers: 23,
+        totalUsers: 45,
+        monthlyLogins: 890,
+        avgSessionDuration: '18m 12s',
+        topFeatures: [
+            { name: 'Sales Pipeline', usage: 95, users: 22 },
+            { name: 'Client Portals', usage: 78, users: 18 },
+            { name: 'Document Sharing', usage: 67, users: 15 },
+            { name: 'Analytics Dashboard', usage: 45, users: 10 },
+            { name: 'Team Collaboration', usage: 23, users: 5 }
+        ],
+        monthlyTrend: [
+            { month: 'Sep', logins: 720, users: 18 },
+            { month: 'Oct', logins: 810, users: 20 },
+            { month: 'Nov', logins: 765, users: 19 },
+            { month: 'Dec', logins: 680, users: 17 },
+            { month: 'Jan', logins: 890, users: 23 }
+        ],
+        storageUsed: '45 GB',
+        storageLimit: '100 GB',
+        apiCalls: 12450,
+        apiLimit: 50000
+    },
+    'Yahoo': {
+        activeUsers: 8945,
+        totalUsers: 12000,
+        monthlyLogins: 125670,
+        avgSessionDuration: '32m 18s',
+        topFeatures: [
+            { name: 'Email Analytics', usage: 92, users: 8230 },
+            { name: 'User Segmentation', usage: 85, users: 7603 },
+            { name: 'Campaign Management', usage: 78, users: 6977 },
+            { name: 'A/B Testing', usage: 67, users: 5993 },
+            { name: 'Performance Metrics', usage: 54, users: 4830 }
+        ],
+        monthlyTrend: [
+            { month: 'Sep', logins: 118500, users: 8200 },
+            { month: 'Oct', logins: 122300, users: 8650 },
+            { month: 'Nov', logins: 119800, users: 8400 },
+            { month: 'Dec', logins: 115200, users: 8100 },
+            { month: 'Jan', logins: 125670, users: 8945 }
+        ],
+        storageUsed: '12.8 TB',
+        storageLimit: '25 TB',
+        apiCalls: 2856700,
+        apiLimit: 5000000
+    },
+    'Microsoft': {
+        activeUsers: 24750,
+        totalUsers: 45000,
+        monthlyLogins: 487920,
+        avgSessionDuration: '45m 22s',
+        topFeatures: [
+            { name: 'Enterprise SSO', usage: 98, users: 24255 },
+            { name: 'Admin Dashboard', usage: 89, users: 22028 },
+            { name: 'Security Monitoring', usage: 82, users: 20295 },
+            { name: 'User Management', usage: 75, users: 18563 },
+            { name: 'Compliance Reports', usage: 68, users: 16830 }
+        ],
+        monthlyTrend: [
+            { month: 'Sep', logins: 445200, users: 23100 },
+            { month: 'Oct', logins: 467800, users: 24200 },
+            { month: 'Nov', logins: 452300, users: 23800 },
+            { month: 'Dec', logins: 421600, users: 22500 },
+            { month: 'Jan', logins: 487920, users: 24750 }
+        ],
+        storageUsed: '48.2 TB',
+        storageLimit: '100 TB',
+        apiCalls: 8945620,
+        apiLimit: 15000000
+    }
+};
+
+// Get usage data for current account
+const accountUsage = usageMetrics[account.name] || {
+    activeUsers: 0,
+    totalUsers: 0,
+    monthlyLogins: 0,
+    avgSessionDuration: '0m 0s',
+    topFeatures: [],
+    monthlyTrend: [],
+    storageUsed: '0 GB',
+    storageLimit: '0 GB',
+    apiCalls: 0,
+    apiLimit: 0
+};
+
+// Helper function to get participant display with visual indicators
+function getParticipantDisplay(participant) {
+    if (typeof participant === 'string') {
+        // Legacy format - assume contact
+        const cleanName = participant.replace(/\s*\(.*?\)\s*/g, '').trim();
+        const id = cleanName.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
+        return { name: cleanName, id: id, type: 'contact' };
+    } else {
+        // New format with type information
+        const id = participant.name.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
+        return { name: participant.name, id: id, type: participant.type || 'contact', email: participant.email };
+    }
+}
+
+// Helper function to get icon for participant type
+function getParticipantIcon(type) {
+    switch(type) {
+        case 'contact': return '👤'; // Customer contact
+        case 'user': return '🏢'; // Internal user
+        case 'third-party': return '🤝'; // Third party
+        default: return '👤';
+    }
+}
+
+// Helper function to get CSS class for participant type
+function getParticipantClass(type) {
+    return 'participant-' + (type || 'contact');
+}
+%>
+
+<% layout = false %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= account.name %> - Customer Management</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <%- include('../partials/sidebar') %>
+        <div class="main-content">
+            <div class="account-header">
+                <div class="account-header-top">
+                    <a href="/accounts" class="back-link">
+                        <svg viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"/>
+                        </svg>
+                        Back to Accounts
+                    </a>
+                </div>
+                <div class="account-info">
+                    <div class="account-logo-large" style="background-color: #3498db;">
+                        <%= account.logo %>
+                    </div>
+                    <div class="account-details">
+                        <h1><%= account.name %></h1>
+                        <div class="account-meta">
+                            <span class="meta-item">
+                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-5L9 2H4z"/>
+                                </svg>
+                                <%= account.industry %>
+                            </span>
+                            <span class="meta-item">
+                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"/>
+                                </svg>
+                                <%= account.website %>
+                            </span>
+                            <span class="meta-item">
+                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                                </svg>
+                                <%= account.employees %>
+                            </span>
+                            <span class="meta-item">
+                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z"/>
+                                </svg>
+                                ARR: <%= account.revenue %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="account-content">
+                <!-- Account Tabs -->
+                <div class="account-tabs">
+                    <div class="tab-list">
+                        <button class="account-tab active" data-tab="overview">Overview</button>
+                        <button class="account-tab" data-tab="contacts">Contacts</button>
+                        <button class="account-tab" data-tab="tickets">Tickets</button>
+                        <button class="account-tab" data-tab="usage">Usage</button>
+                        <button class="account-tab" data-tab="notes">Notes</button>
+                        <button class="account-tab" data-tab="tasks">Tasks</button>
+                    </div>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Overview Tab -->
+                    <div class="tab-pane active" id="overview-tab">
+                        <!-- Two Column Layout for Overview and Timeline -->
+                        <div class="content-grid">
+                            <!-- Left Column: Overview Text + Highlights -->
+                            <div class="overview-left-column">
+                                <!-- Overview Text Section -->
+                                <div class="overview-text-section">
+                                    <div class="overview-card">
+                                        <p><%= account.summary %></p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Highlights Section -->
+                                <div class="highlights-section">
+                                    <h2>Key Highlights</h2>
+                                    <% account.highlights.forEach(highlight => { %>
+                                        <div class="highlight-card <%= highlight.type %>">
+                                            <div class="highlight-header">
+                                                <span class="highlight-label"><%= highlight.title %></span>
+                                                <span class="highlight-source"><%= highlight.source %></span>
+                                            </div>
+                                            <p class="highlight-content"><%= highlight.content %></p>
+                                            <span class="highlight-date"><%= highlight.date %></span>
+                                        </div>
+                                    <% }) %>
+                                </div>
+                            </div>
+
+                            <!-- Right Column: Timeline -->
+                            <div class="timeline-section">
+                                <h2>Interaction Timeline</h2>
+                                <div class="timeline">
+                                    <% account.timeline.forEach((item, index) => { %>
+                            <div class="timeline-item">
+                                <div class="timeline-marker <%= item.type %>">
+                                    <% if (item.type === 'email') { %>
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                            <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                                        </svg>
+                                    <% } else if (item.type === 'meeting') { %>
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/>
+                                        </svg>
+                                    <% } else if (item.type === 'ticket') { %>
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 100 4v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2a2 2 0 100-4V6z"/>
+                                        </svg>
+                                    <% } else if (item.type === 'call') { %>
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                                        </svg>
+                                    <% } %>
+                                </div>
+                                <div class="timeline-content">
+                                    <h4><%= item.title %></h4>
+                                    <p><%= item.description %></p>
+                                    
+                                    <% if (item.participants) { %>
+                                        <div class="participants">
+                                            <% if (item.type === 'email') { %>
+                                                <div class="participant-row">
+                                                    <span class="participant-label">From:</span>
+                                                    <span class="participant-name">
+                                                        <% const fromData = getParticipantDisplay(item.participants.from); %>
+                                                        <span class="participant-type-indicator <%= getParticipantClass(fromData.type) %>">
+                                                            <%= getParticipantIcon(fromData.type) %>
+                                                        </span>
+                                                        <% if (fromData.type === 'contact') { %>
+                                                            <a href="/contacts/<%= fromData.id %>" class="participant-link <%= getParticipantClass(fromData.type) %>">
+                                                                <%= fromData.name %>
+                                                            </a>
+                                                        <% } else { %>
+                                                            <span class="participant-link <%= getParticipantClass(fromData.type) %>">
+                                                                <%= fromData.name %>
+                                                            </span>
+                                                        <% } %>
+                                                    </span>
+                                                </div>
+                                                <div class="participant-row">
+                                                    <span class="participant-label">To:</span>
+                                                    <span class="participant-name">
+                                                        <% item.participants.to.forEach((participant, index) => { %>
+                                                            <% const toData = getParticipantDisplay(participant); %>
+                                                            <span class="participant-type-indicator <%= getParticipantClass(toData.type) %>">
+                                                                <%= getParticipantIcon(toData.type) %>
+                                                            </span>
+                                                            <% if (toData.type === 'contact') { %>
+                                                                <a href="/contacts/<%= toData.id %>" class="participant-link <%= getParticipantClass(toData.type) %>">
+                                                                    <%= toData.name %>
+                                                                </a>
+                                                            <% } else { %>
+                                                                <span class="participant-link <%= getParticipantClass(toData.type) %>">
+                                                                    <%= toData.name %>
+                                                                </span>
+                                                            <% } %><%= index < item.participants.to.length - 1 ? ', ' : '' %>
+                                                        <% }) %>
+                                                    </span>
+                                                </div>
+                                                <% if (item.participants.cc && item.participants.cc.length > 0) { %>
+                                                <div class="participant-row">
+                                                    <span class="participant-label">CC:</span>
+                                                    <span class="participant-name">
+                                                        <% item.participants.cc.forEach((participant, index) => { %>
+                                                            <% const ccData = getParticipantDisplay(participant); %>
+                                                            <span class="participant-type-indicator <%= getParticipantClass(ccData.type) %>">
+                                                                <%= getParticipantIcon(ccData.type) %>
+                                                            </span>
+                                                            <% if (ccData.type === 'contact') { %>
+                                                                <a href="/contacts/<%= ccData.id %>" class="participant-link <%= getParticipantClass(ccData.type) %>">
+                                                                    <%= ccData.name %>
+                                                                </a>
+                                                            <% } else { %>
+                                                                <span class="participant-link <%= getParticipantClass(ccData.type) %>">
+                                                                    <%= ccData.name %>
+                                                                </span>
+                                                            <% } %><%= index < item.participants.cc.length - 1 ? ', ' : '' %>
+                                                        <% }) %>
+                                                    </span>
+                                                </div>
+                                                <% } %>
+                                            <% } else if (item.type === 'meeting' || item.type === 'call') { %>
+                                                <% if (item.participants.organizer) { %>
+                                                <div class="participant-row">
+                                                    <span class="participant-label">Organizer:</span>
+                                                    <span class="participant-name">
+                                                        <% const organizerData = getParticipantDisplay(item.participants.organizer); %>
+                                                        <span class="participant-type-indicator <%= getParticipantClass(organizerData.type) %>">
+                                                            <%= getParticipantIcon(organizerData.type) %>
+                                                        </span>
+                                                        <% if (organizerData.type === 'contact') { %>
+                                                            <a href="/contacts/<%= organizerData.id %>" class="participant-link <%= getParticipantClass(organizerData.type) %>">
+                                                                <%= organizerData.name %>
+                                                            </a>
+                                                        <% } else { %>
+                                                            <span class="participant-link <%= getParticipantClass(organizerData.type) %>">
+                                                                <%= organizerData.name %>
+                                                            </span>
+                                                        <% } %>
+                                                    </span>
+                                                </div>
+                                                <% } %>
+                                                <div class="participant-row">
+                                                    <span class="participant-label">Attendees:</span>
+                                                    <span class="participant-name">
+                                                        <% item.participants.attendees.forEach((participant, index) => { %>
+                                                            <% const attendeeData = getParticipantDisplay(participant); %>
+                                                            <span class="participant-type-indicator <%= getParticipantClass(attendeeData.type) %>">
+                                                                <%= getParticipantIcon(attendeeData.type) %>
+                                                            </span>
+                                                            <% if (attendeeData.type === 'contact') { %>
+                                                                <a href="/contacts/<%= attendeeData.id %>" class="participant-link <%= getParticipantClass(attendeeData.type) %>">
+                                                                    <%= attendeeData.name %>
+                                                                </a>
+                                                            <% } else { %>
+                                                                <span class="participant-link <%= getParticipantClass(attendeeData.type) %>">
+                                                                    <%= attendeeData.name %>
+                                                                </span>
+                                                            <% } %><%= index < item.participants.attendees.length - 1 ? ', ' : '' %>
+                                                        <% }) %>
+                                                    </span>
+                                                </div>
+                                            <% } else if (item.type === 'ticket') { %>
+                                                <div class="participant-row">
+                                                    <span class="participant-label">Reporter:</span>
+                                                    <span class="participant-name">
+                                                        <% const reporterData = getParticipantDisplay(item.participants.reporter); %>
+                                                        <span class="participant-type-indicator <%= getParticipantClass(reporterData.type) %>">
+                                                            <%= getParticipantIcon(reporterData.type) %>
+                                                        </span>
+                                                        <% if (reporterData.type === 'contact') { %>
+                                                            <a href="/contacts/<%= reporterData.id %>" class="participant-link <%= getParticipantClass(reporterData.type) %>">
+                                                                <%= reporterData.name %>
+                                                            </a>
+                                                        <% } else { %>
+                                                            <span class="participant-link <%= getParticipantClass(reporterData.type) %>">
+                                                                <%= reporterData.name %>
+                                                            </span>
+                                                        <% } %>
+                                                    </span>
+                                                </div>
+                                                <div class="participant-row">
+                                                    <span class="participant-label">Assignee:</span>
+                                                    <span class="participant-name">
+                                                        <% const assigneeData = getParticipantDisplay(item.participants.assignee); %>
+                                                        <span class="participant-type-indicator <%= getParticipantClass(assigneeData.type) %>">
+                                                            <%= getParticipantIcon(assigneeData.type) %>
+                                                        </span>
+                                                        <% if (assigneeData.type === 'contact') { %>
+                                                            <a href="/contacts/<%= assigneeData.id %>" class="participant-link <%= getParticipantClass(assigneeData.type) %>">
+                                                                <%= assigneeData.name %>
+                                                            </a>
+                                                        <% } else { %>
+                                                            <span class="participant-link <%= getParticipantClass(assigneeData.type) %>">
+                                                                <%= assigneeData.name %>
+                                                            </span>
+                                                        <% } %>
+                                                    </span>
+                                                </div>
+                                                <% if (item.participants.watchers && item.participants.watchers.length > 0) { %>
+                                                <div class="participant-row">
+                                                    <span class="participant-label">Watchers:</span>
+                                                    <span class="participant-name">
+                                                        <% item.participants.watchers.forEach((participant, index) => { %>
+                                                            <% const watcherData = getParticipantDisplay(participant); %>
+                                                            <span class="participant-type-indicator <%= getParticipantClass(watcherData.type) %>">
+                                                                <%= getParticipantIcon(watcherData.type) %>
+                                                            </span>
+                                                            <% if (watcherData.type === 'contact') { %>
+                                                                <a href="/contacts/<%= watcherData.id %>" class="participant-link <%= getParticipantClass(watcherData.type) %>">
+                                                                    <%= watcherData.name %>
+                                                                </a>
+                                                            <% } else { %>
+                                                                <span class="participant-link <%= getParticipantClass(watcherData.type) %>">
+                                                                    <%= watcherData.name %>
+                                                                </span>
+                                                            <% } %><%= index < item.participants.watchers.length - 1 ? ', ' : '' %>
+                                                        <% }) %>
+                                                    </span>
+                                                </div>
+                                                <% } %>
+                                            <% } %>
+                                        </div>
+                                    <% } %>
+                                    
+                                    <div class="timeline-meta">
+                                        <span class="timeline-date"><%= item.date %></span>
+                                        <span class="timeline-time"><%= item.time %></span>
+                                    </div>
+                                </div>
+                            </div>
+                                    <% }) %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contacts Tab -->
+                    <div class="tab-pane" id="contacts-tab">
+                        <div class="contacts-section">
+                            <div class="section-header">
+                                <h3>Contacts at <%= account.name %></h3>
+                                <div class="header-actions">
+                                    <button class="btn-secondary">Import / Export</button>
+                                    <button class="btn-primary">New Contact</button>
+                                </div>
+                            </div>
+                            
+                            <div class="toolbar">
+                                <div class="search-bar">
+                                    <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
+                                    </svg>
+                                    <input type="text" placeholder="Search contacts..." class="search-input">
+                                </div>
+                                <div class="toolbar-right">
+                                    <button class="btn-filter">
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"/>
+                                        </svg>
+                                        Filter
+                                    </button>
+                                    <button class="btn-sort">
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
+                                        </svg>
+                                        Sort
+                                    </button>
+                                </div>
+                            </div>
+
+                            <% if (accountContacts.length > 0) { %>
+                                <div class="contacts-table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 250px;">Name<span class="resize-handle"></span></th>
+                                                <th style="width: 200px;">Title<span class="resize-handle"></span></th>
+                                                <th style="width: 200px;">Email<span class="resize-handle"></span></th>
+                                                <th style="width: 150px;">Phone<span class="resize-handle"></span></th>
+                                                <th style="width: 150px;">Last Interaction<span class="resize-handle"></span></th>
+                                                <th style="width: 100px;">Status<span class="resize-handle"></span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% accountContacts.forEach(contact => { %>
+                                            <tr data-contact-id="<%= contact.id %>" data-href="/contacts/<%= contact.id %>">
+                                                <td>
+                                                    <div class="contact-cell">
+                                                        <div class="contact-avatar">
+                                                            <%= contact.name.split(' ').map(n => n[0]).join('').substring(0, 2) %>
+                                                        </div>
+                                                        <div class="contact-info">
+                                                            <span class="contact-name"><%= contact.name %></span>
+                                                            <% if (contact.linkedin) { %>
+                                                                <a href="https://linkedin.com/in/<%= contact.linkedin %>" target="_blank" class="contact-linkedin">LinkedIn</a>
+                                                            <% } %>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><%= contact.title %></td>
+                                                <td>
+                                                    <a href="mailto:<%= contact.email %>" class="email-link"><%= contact.email %></a>
+                                                </td>
+                                                <td><%= contact.phone %></td>
+                                                <td><%= contact.lastInteraction %></td>
+                                                <td>
+                                                    <span class="status-badge status-<%= contact.status.toLowerCase() %>">
+                                                        <%= contact.status %>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="table-footer">
+                                    <div class="pagination-info">
+                                        <span><%= accountContacts.length %> contact<%= accountContacts.length !== 1 ? 's' : '' %></span>
+                                    </div>
+                                </div>
+                            <% } else { %>
+                                <div class="empty-state">
+                                    <svg viewBox="0 0 20 20" fill="currentColor" class="empty-icon">
+                                        <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                                    </svg>
+                                    <h4>No contacts found</h4>
+                                    <p>No contacts are associated with this account yet.</p>
+                                    <button class="btn-primary">Add Contact</button>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <!-- Tickets Tab -->
+                    <div class="tab-pane" id="tickets-tab">
+                        <div class="tickets-section">
+                            <div class="section-header">
+                                <h3>Support Tickets</h3>
+                                <div class="header-actions">
+                                    <button class="btn-secondary">Export</button>
+                                    <button class="btn-primary">New Ticket</button>
+                                </div>
+                            </div>
+                            
+                            <div class="toolbar">
+                                <div class="search-bar">
+                                    <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
+                                    </svg>
+                                    <input type="text" placeholder="Search tickets..." class="search-input">
+                                </div>
+                                <div class="toolbar-right">
+                                    <button class="btn-filter">
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"/>
+                                        </svg>
+                                        Filter
+                                    </button>
+                                    <button class="btn-sort">
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
+                                        </svg>
+                                        Sort
+                                    </button>
+                                </div>
+                            </div>
+
+                            <% if (accountTickets.length > 0) { %>
+                                <div class="tickets-table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 120px;">Ticket ID<span class="resize-handle"></span></th>
+                                                <th style="width: 300px;">Subject<span class="resize-handle"></span></th>
+                                                <th style="width: 100px;">Status<span class="resize-handle"></span></th>
+                                                <th style="width: 100px;">Priority<span class="resize-handle"></span></th>
+                                                <th style="width: 150px;">Reporter<span class="resize-handle"></span></th>
+                                                <th style="width: 150px;">Assignee<span class="resize-handle"></span></th>
+                                                <th style="width: 120px;">Created<span class="resize-handle"></span></th>
+                                                <th style="width: 150px;">Category<span class="resize-handle"></span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% accountTickets.forEach(ticket => { %>
+                                            <tr data-ticket-id="<%= ticket.id %>" data-href="/tickets/<%= ticket.id %>">
+                                                <td><span class="ticket-id"><%= ticket.id %></span></td>
+                                                <td>
+                                                    <div class="ticket-subject">
+                                                        <span class="subject-title"><%= ticket.subject %></span>
+                                                        <span class="subject-description"><%= ticket.description %></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="status-badge status-<%= ticket.status.toLowerCase().replace(/\s+/g, '-') %>">
+                                                        <%= ticket.status %>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="priority-badge priority-<%= ticket.priority.toLowerCase() %>">
+                                                        <%= ticket.priority %>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <div class="assignee-cell">
+                                                        <div class="assignee-avatar">
+                                                            <%= ticket.reporter.split(' ').map(n => n[0]).join('').substring(0, 2) %>
+                                                        </div>
+                                                        <span class="assignee-name"><%= ticket.reporter %></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="assignee-cell">
+                                                        <div class="assignee-avatar internal">
+                                                            <%= ticket.assignee.split(' ').map(n => n[0]).join('').substring(0, 2) %>
+                                                        </div>
+                                                        <span class="assignee-name"><%= ticket.assignee %></span>
+                                                    </div>
+                                                </td>
+                                                <td><%= ticket.created %></td>
+                                                <td>
+                                                    <span class="category-tag"><%= ticket.category %></span>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="table-footer">
+                                    <div class="pagination-info">
+                                        <span><%= accountTickets.length %> ticket<%= accountTickets.length !== 1 ? 's' : '' %></span>
+                                    </div>
+                                </div>
+                            <% } else { %>
+                                <div class="empty-state">
+                                    <svg viewBox="0 0 20 20" fill="currentColor" class="empty-icon">
+                                        <path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 100 4v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2a2 2 0 100-4V6z"/>
+                                    </svg>
+                                    <h4>No tickets found</h4>
+                                    <p>No support tickets have been created for this account yet.</p>
+                                    <button class="btn-primary">Create Ticket</button>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <!-- Usage Tab -->
+                    <div class="tab-pane" id="usage-tab">
+                        <div class="usage-section">
+                            <div class="section-header">
+                                <h3>Usage Analytics</h3>
+                                <div class="header-actions">
+                                    <button class="btn-secondary">Export Report</button>
+                                    <button class="btn-secondary">Date Range</button>
+                                </div>
+                            </div>
+
+                            <!-- Key Metrics Cards -->
+                            <div class="metrics-grid">
+                                <div class="metric-card">
+                                    <div class="metric-icon">
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="metric-content">
+                                        <div class="metric-value"><%= accountUsage.activeUsers.toLocaleString() %></div>
+                                        <div class="metric-label">Active Users</div>
+                                        <div class="metric-sublabel">of <%= accountUsage.totalUsers.toLocaleString() %> total users</div>
+                                    </div>
+                                </div>
+
+                                <div class="metric-card">
+                                    <div class="metric-icon">
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 001.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="metric-content">
+                                        <div class="metric-value"><%= accountUsage.monthlyLogins.toLocaleString() %></div>
+                                        <div class="metric-label">Monthly Logins</div>
+                                        <div class="metric-sublabel">This month</div>
+                                    </div>
+                                </div>
+
+                                <div class="metric-card">
+                                    <div class="metric-icon">
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="metric-content">
+                                        <div class="metric-value"><%= accountUsage.avgSessionDuration %></div>
+                                        <div class="metric-label">Avg Session Duration</div>
+                                        <div class="metric-sublabel">Per user session</div>
+                                    </div>
+                                </div>
+
+                                <div class="metric-card">
+                                    <div class="metric-icon">
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="metric-content">
+                                        <div class="metric-value"><%= accountUsage.storageUsed %></div>
+                                        <div class="metric-label">Storage Used</div>
+                                        <div class="metric-sublabel">of <%= accountUsage.storageLimit %> limit</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Charts and Tables Section -->
+                            <div class="usage-content-grid">
+                                <!-- Top Features Usage -->
+                                <div class="usage-card">
+                                    <h4>Top Features by Usage</h4>
+                                    <div class="features-list">
+                                        <% accountUsage.topFeatures.forEach(feature => { %>
+                                        <div class="feature-item">
+                                            <div class="feature-info">
+                                                <span class="feature-name"><%= feature.name %></span>
+                                                <span class="feature-users"><%= feature.users %> users</span>
+                                            </div>
+                                            <div class="feature-usage">
+                                                <div class="usage-bar">
+                                                    <div class="usage-fill" style="width: <%= feature.usage %>%"></div>
+                                                </div>
+                                                <span class="usage-percent"><%= feature.usage %>%</span>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                    </div>
+                                </div>
+
+                                <!-- Monthly Trend -->
+                                <div class="usage-card">
+                                    <h4>Usage Trend (Last 5 Months)</h4>
+                                    <div class="trend-chart">
+                                        <div class="chart-container">
+                                            <% accountUsage.monthlyTrend.forEach((trend, index) => { %>
+                                            <div class="trend-item">
+                                                <div class="trend-bar">
+                                                    <div class="trend-fill" style="height: <%= (trend.logins / Math.max(...accountUsage.monthlyTrend.map(t => t.logins))) * 100 %>%">
+                                                        <div class="trend-tooltip">
+                                                            <strong><%= trend.logins.toLocaleString() %></strong> logins<br>
+                                                            <strong><%= trend.users.toLocaleString() %></strong> active users
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <span class="trend-label"><%= trend.month %></span>
+                                            </div>
+                                            <% }) %>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- API Usage -->
+                                <div class="usage-card">
+                                    <h4>API Usage</h4>
+                                    <div class="api-usage">
+                                        <div class="api-metric">
+                                            <span class="api-label">API Calls This Month</span>
+                                            <span class="api-value"><%= accountUsage.apiCalls.toLocaleString() %></span>
+                                        </div>
+                                        <div class="api-progress">
+                                            <div class="api-progress-bar">
+                                                <div class="api-progress-fill" style="width: <%= (accountUsage.apiCalls / accountUsage.apiLimit) * 100 %>%"></div>
+                                            </div>
+                                            <span class="api-limit">Limit: <%= accountUsage.apiLimit.toLocaleString() %></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Storage Usage -->
+                                <div class="usage-card">
+                                    <h4>Storage Usage</h4>
+                                    <div class="storage-usage">
+                                        <div class="storage-visual">
+                                            <div class="storage-circle">
+                                                <svg viewBox="0 0 42 42">
+                                                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#e5e7eb" stroke-width="3"/>
+                                                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#3b82f6" stroke-width="3" 
+                                                            stroke-dasharray="<%= (parseInt(accountUsage.storageUsed) / parseInt(accountUsage.storageLimit)) * 100 %> 100" 
+                                                            stroke-dashoffset="25"/>
+                                                </svg>
+                                                <div class="storage-percentage">
+                                                    <%= Math.round((parseInt(accountUsage.storageUsed) / parseInt(accountUsage.storageLimit)) * 100) %>%
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="storage-details">
+                                            <div class="storage-used">
+                                                <strong><%= accountUsage.storageUsed %></strong> used
+                                            </div>
+                                            <div class="storage-total">
+                                                of <%= accountUsage.storageLimit %> total
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes Tab -->
+                    <div class="tab-pane" id="notes-tab">
+                        <div class="notes-section">
+                            <div class="section-header">
+                                <h3>Account Notes</h3>
+                                <div class="header-actions">
+                                    <button class="btn-secondary">Export Notes</button>
+                                    <button class="btn-primary">New Note</button>
+                                </div>
+                            </div>
+                            
+                            <div class="toolbar">
+                                <div class="search-bar">
+                                    <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
+                                    </svg>
+                                    <input type="text" placeholder="Search notes..." class="search-input">
+                                </div>
+                                <div class="toolbar-right">
+                                    <select class="category-filter">
+                                        <option value="">All Categories</option>
+                                        <option value="sales">Sales</option>
+                                        <option value="technical">Technical</option>
+                                        <option value="competitive">Competitive</option>
+                                        <option value="success">Success</option>
+                                        <option value="security">Security</option>
+                                    </select>
+                                    <button class="btn-sort">
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
+                                        </svg>
+                                        Sort
+                                    </button>
+                                </div>
+                            </div>
+
+                            <% if (accountNotes.length > 0) { %>
+                                <div class="notes-list">
+                                    <% accountNotes.forEach(note => { %>
+                                    <div class="note-card" data-note-id="<%= note.id %>">
+                                        <div class="note-header">
+                                            <div class="note-title-section">
+                                                <h4 class="note-title"><%= note.title %></h4>
+                                                <div class="note-meta">
+                                                    <span class="note-author">
+                                                        <div class="author-avatar">
+                                                            <%= note.author.split(' ').map(n => n[0]).join('').substring(0, 2) %>
+                                                        </div>
+                                                        <%= note.author %>
+                                                    </span>
+                                                    <span class="note-date"><%= note.created %></span>
+                                                    <% if (note.updated !== note.created) { %>
+                                                        <span class="note-updated">(edited <%= note.updated %>)</span>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                            <div class="note-actions">
+                                                <span class="category-badge category-<%= note.category.toLowerCase() %>">
+                                                    <%= note.category %>
+                                                </span>
+                                                <button class="note-menu-btn">
+                                                    <svg viewBox="0 0 20 20" fill="currentColor">
+                                                        <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="note-content">
+                                            <p><%= note.content %></p>
+                                        </div>
+                                        <% if (note.tags && note.tags.length > 0) { %>
+                                        <div class="note-tags">
+                                            <% note.tags.forEach(tag => { %>
+                                                <span class="note-tag">#<%= tag %></span>
+                                            <% }) %>
+                                        </div>
+                                        <% } %>
+                                    </div>
+                                    <% }) %>
+                                </div>
+                                
+                                <div class="table-footer">
+                                    <div class="pagination-info">
+                                        <span><%= accountNotes.length %> note<%= accountNotes.length !== 1 ? 's' : '' %></span>
+                                    </div>
+                                </div>
+                            <% } else { %>
+                                <div class="empty-state">
+                                    <svg viewBox="0 0 20 20" fill="currentColor" class="empty-icon">
+                                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v1a1 1 0 001 1h6a1 1 0 001-1V3a2 2 0 012 2v6.5a1.5 1.5 0 01-1.5 1.5H7.5A1.5 1.5 0 016 11.5V5a2 2 0 012-2z"/>
+                                    </svg>
+                                    <h4>No notes found</h4>
+                                    <p>No internal notes have been created for this account yet.</p>
+                                    <button class="btn-primary">Create Note</button>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <!-- Tasks Tab -->
+                    <div class="tab-pane" id="tasks-tab">
+                        <div class="tasks-section">
+                            <div class="section-header">
+                                <h3>Account Tasks</h3>
+                                <div class="header-actions">
+                                    <button class="btn-secondary">Export Tasks</button>
+                                    <button class="btn-primary">New Task</button>
+                                </div>
+                            </div>
+                            
+                            <div class="toolbar">
+                                <div class="search-bar">
+                                    <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
+                                    </svg>
+                                    <input type="text" placeholder="Search tasks..." class="search-input">
+                                </div>
+                                <div class="toolbar-right">
+                                    <select class="status-filter">
+                                        <option value="">All Status</option>
+                                        <option value="not-started">Not Started</option>
+                                        <option value="in-progress">In Progress</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="completed">Completed</option>
+                                    </select>
+                                    <button class="btn-filter">
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"/>
+                                        </svg>
+                                        Filter
+                                    </button>
+                                    <button class="btn-sort">
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
+                                        </svg>
+                                        Sort
+                                    </button>
+                                </div>
+                            </div>
+
+                            <% if (accountTasks.length > 0) { %>
+                                <div class="tasks-table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 30px;"><span class="resize-handle"></span></th>
+                                                <th style="width: 120px;">Task ID<span class="resize-handle"></span></th>
+                                                <th style="width: 300px;">Title<span class="resize-handle"></span></th>
+                                                <th style="width: 150px;">Assignee<span class="resize-handle"></span></th>
+                                                <th style="width: 120px;">Due Date<span class="resize-handle"></span></th>
+                                                <th style="width: 120px;">Status<span class="resize-handle"></span></th>
+                                                <th style="width: 100px;">Priority<span class="resize-handle"></span></th>
+                                                <th style="width: 150px;">Category<span class="resize-handle"></span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% accountTasks.forEach(task => { %>
+                                            <tr data-task-id="<%= task.id %>" data-href="/tasks/<%= task.id %>">
+                                                <td>
+                                                    <input type="checkbox" class="task-checkbox" <%= task.status === 'Completed' ? 'checked' : '' %>>
+                                                </td>
+                                                <td><span class="task-id"><%= task.id %></span></td>
+                                                <td>
+                                                    <div class="task-title-cell">
+                                                        <span class="task-title"><%= task.title %></span>
+                                                        <span class="task-description"><%= task.description %></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="assignee-cell">
+                                                        <div class="assignee-avatar internal">
+                                                            <%= task.assignee.split(' ').map(n => n[0]).join('').substring(0, 2) %>
+                                                        </div>
+                                                        <span class="assignee-name"><%= task.assignee %></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="due-date <%= new Date(task.dueDate) < new Date() && task.status !== 'Completed' ? 'overdue' : '' %>">
+                                                        <%= task.dueDate %>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="status-badge status-<%= task.status.toLowerCase().replace(/\s+/g, '-') %>">
+                                                        <%= task.status %>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="priority-badge priority-<%= task.priority.toLowerCase() %>">
+                                                        <%= task.priority %>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="category-tag"><%= task.category %></span>
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="table-footer">
+                                    <div class="pagination-info">
+                                        <span><%= accountTasks.length %> task<%= accountTasks.length !== 1 ? 's' : '' %></span>
+                                        <span class="task-summary">
+                                            • <%= accountTasks.filter(t => t.status === 'Completed').length %> completed
+                                            • <%= accountTasks.filter(t => t.status === 'In Progress').length %> in progress
+                                            • <%= accountTasks.filter(t => new Date(t.dueDate) < new Date() && t.status !== 'Completed').length %> overdue
+                                        </span>
+                                    </div>
+                                </div>
+                            <% } else { %>
+                                <div class="empty-state">
+                                    <svg viewBox="0 0 20 20" fill="currentColor" class="empty-icon">
+                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"/>
+                                    </svg>
+                                    <h4>No tasks found</h4>
+                                    <p>No tasks have been created for this account yet.</p>
+                                    <button class="btn-primary">Create Task</button>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/main.js"></script>
+</body>
+</html>
