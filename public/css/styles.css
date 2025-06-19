@@ -2439,32 +2439,34 @@ tbody tr:hover {
     opacity: 0;
 }
 
-.overview-expand-btn {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin: 16px auto 0;
-    padding: 8px 16px;
-    background: #f3f4f6;
-    border: 1px solid #e5e7eb;
-    border-radius: 6px;
+.overview-expand-link {
+    position: absolute;
+    bottom: 0;
+    right: 24px;
+    background: white;
+    padding: 0 4px;
     font-size: 14px;
+    color: #6b7280;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    z-index: 2;
+}
+
+.overview-expand-link:hover {
     color: #374151;
-    cursor: pointer;
-    transition: all 0.2s ease;
 }
 
-.overview-expand-btn:hover {
-    background: #e5e7eb;
-    color: #111827;
+.overview-content.expanded .overview-expand-link {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    display: inline-block;
+    margin-left: 4px;
+    background: transparent;
 }
 
-.overview-expand-btn .expand-icon {
-    transition: transform 0.3s ease;
-}
-
-.overview-content.expanded + .overview-expand-btn .expand-icon {
-    transform: rotate(180deg);
+.overview-content.expanded .overview-fade {
+    display: none;
 }
 
 .summary-section {

@@ -316,7 +316,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const overviewContent = document.getElementById('overviewContent');
     
     if (overviewExpandBtn && overviewContent) {
-        // Check if content needs expansion button
+        // Check if content needs expansion link
         const checkOverviewHeight = () => {
             const contentInner = overviewContent.querySelector('.overview-content-inner');
             if (contentInner && contentInner.scrollHeight <= 300) {
@@ -328,10 +328,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initial check
         checkOverviewHeight();
         
-        overviewExpandBtn.addEventListener('click', function() {
+        overviewExpandBtn.addEventListener('click', function(e) {
+            e.preventDefault();
             const isExpanded = overviewContent.classList.toggle('expanded');
             const expandText = this.querySelector('.expand-text');
-            expandText.textContent = isExpanded ? 'Show less' : 'Show more';
+            expandText.textContent = isExpanded ? 'less' : 'more...';
         });
     }
 });
