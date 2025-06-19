@@ -148,6 +148,10 @@ const accountData = {
         revenue: "$82,969",
         renewalDate: "2025-07-15",
         location: "Ankara, Turkey",
+        productSubscriptions: [
+            { name: "Asyncro - Cryptonix Synergy", id: "asyncro-crypto" },
+            { name: "DataFlow Analytics Pro", id: "dataflow-pro" }
+        ],
         description: "Bilkent University is Turkey's first private, nonprofit university, established in 1984. Located in Ankara, the university is consistently ranked as one of the top institutions in Turkey and has gained international recognition for its academic excellence and research contributions. With over 13,000 students and 1,000 faculty members, Bilkent offers undergraduate and graduate programs across various disciplines including engineering, business, humanities, and sciences. The university is known for its English-medium instruction, modern campus facilities, and strong emphasis on research and innovation.",
         objectives: [
             "Modernize student information systems to improve administrative efficiency and student experience",
@@ -297,6 +301,9 @@ const accountMap = {
         revenue: "$26",
         renewalDate: "2024-07-05",
         location: "San Francisco, CA",
+        productSubscriptions: [
+            { name: "Starter Package", id: "starter-pkg" }
+        ],
         description: "Flowla is an innovative B2B SaaS company that specializes in sales enablement and buyer experience platforms. Founded in 2021, the company is headquartered in San Francisco and serves growing businesses looking to modernize their sales processes. Flowla's platform helps sales teams create personalized, interactive buyer journeys that engage prospects and accelerate deal closure. With a team of 25 employees, the company has quickly gained traction in the competitive sales tech market, serving over 150 customers globally.",
         objectives: [
             "Scale customer onboarding process to support rapid growth and reduce time-to-value",
@@ -488,11 +495,125 @@ const accountMap = {
                 description: "Received detailed security requirements for vendor approval"
             }
         ]
+    },
+    'bilkent': {
+        name: "Bilkent Universitesi",
+        logo: "B",
+        industry: "Education",
+        website: "bilkent.edu.tr",
+        employees: "1000-5000",
+        plan: "Enterprise",
+        billing: "Annual",
+        revenue: "$82,969",
+        renewalDate: "2025-07-15",
+        location: "Ankara, Turkey",
+        productSubscriptions: [
+            { name: "Education Package", id: "edu-pkg" },
+            { name: "Research Tools", id: "research-tools" }
+        ],
+        description: "Bilkent University is a prestigious private university in Ankara, Turkey, established in 1984. Known for its excellence in engineering, business, and liberal arts programs, the university serves over 13,000 students and employs more than 1,000 faculty members. The university is committed to providing world-class education and conducting cutting-edge research.",
+        objectives: [
+            "Enhance digital learning platforms for remote education",
+            "Improve student information systems and administrative efficiency",
+            "Develop research collaboration tools for faculty and students"
+        ],
+        summary: "Leading Turkish university focused on academic excellence and research innovation. Recent discussions have covered digital transformation initiatives, online learning platforms, and research collaboration tools.",
+        highlights: [
+            {
+                type: "feature-request",
+                title: "LMS Integration",
+                content: "Requesting better integration with existing learning management systems",
+                date: "2024-01-10",
+                source: "Support Call"
+            }
+        ],
+        timeline: [
+            {
+                type: "email",
+                title: "Digital transformation discussion",
+                date: "2024-01-10",
+                time: "14:30",
+                description: "Discussed plans for digital learning platform upgrades and student system improvements",
+                participants: {
+                    from: { name: "Dr. Sarah Chen", email: "schen@bilkent.edu.tr", type: "contact" },
+                    to: [{ name: "Support Team", email: "support@company.com", type: "team" }]
+                }
+            },
+            {
+                type: "meeting",
+                title: "Quarterly review meeting",
+                date: "2024-01-05",
+                time: "10:00",
+                description: "Reviewed usage metrics and discussed upcoming feature requests for the education platform",
+                participants: {
+                    organizer: { name: "Account Manager", email: "am@company.com", type: "team" },
+                    attendees: [
+                        { name: "Dr. Sarah Chen", email: "schen@bilkent.edu.tr", type: "contact" },
+                        { name: "IT Director", email: "it@bilkent.edu.tr", type: "contact" }
+                    ]
+                }
+            },
+            {
+                type: "ticket",
+                title: "Support ticket: LMS integration issues",
+                date: "2023-12-28",
+                time: "16:45",
+                description: "Student login issues with the new learning management system integration",
+                participants: {
+                    reporter: { name: "IT Support", email: "itsupport@bilkent.edu.tr", type: "contact" },
+                    assignee: { name: "Technical Support", email: "tech@company.com", type: "team" },
+                    watchers: [
+                        { name: "Dr. Sarah Chen", email: "schen@bilkent.edu.tr", type: "contact" }
+                    ]
+                }
+            },
+            {
+                type: "call",
+                title: "Technical consultation call",
+                date: "2023-12-20",
+                time: "09:00",
+                description: "Discussed implementation timeline and technical requirements for the platform upgrade",
+                participants: {
+                    organizer: { name: "Solutions Engineer", email: "se@company.com", type: "team" },
+                    attendees: [
+                        { name: "Dr. Sarah Chen", email: "schen@bilkent.edu.tr", type: "contact" },
+                        { name: "System Administrator", email: "admin@bilkent.edu.tr", type: "contact" }
+                    ]
+                }
+            },
+            {
+                type: "email",
+                title: "Contract renewal discussion",
+                date: "2023-12-15",
+                time: "11:20",
+                description: "Initial discussion about contract terms and renewal options for the upcoming year",
+                participants: {
+                    from: { name: "Account Manager", email: "am@company.com", type: "team" },
+                    to: [{ name: "Dr. Sarah Chen", email: "schen@bilkent.edu.tr", type: "contact" }],
+                    cc: [{ name: "Procurement", email: "procurement@bilkent.edu.tr", type: "contact" }]
+                }
+            }
+        ]
     }
 };
 
+// Map numeric IDs from accounts page to account keys
+const accountIdMap = {
+    '1': 'bilkent',
+    '2': 'flowla', 
+    '3': 'successnavigator',
+    '4': 'r2s',
+    '5': 'merge',
+    '6': 'yahoo',
+    '7': 'wingify',
+    '8': 'olympia',
+    '9': 'bilkent-ug',
+    '10': 'microsoft'
+};
+
 // Use the mapped data if available, otherwise use default
-const account = accountMap[accountId.toLowerCase().replace(/\s+/g, '-')] || accountData.default;
+const accountKey = accountIdMap[accountId] || accountId.toLowerCase().replace(/\s+/g, '-');
+const account = accountMap[accountKey] || accountData.default;
 
 // Filter contacts by account domain
 const accountDomain = account.website;
@@ -1073,9 +1194,20 @@ function getParticipantClass(type) {
                             <div class="overview-left-column">
                                 <!-- Overview Text Section -->
                                 <div class="overview-text-section">
-                                    <div class="overview-card">
-                                        <div class="overview-content" id="overviewContent">
-                                            <div class="overview-content-inner">
+                                    <div class="expandable-section preview" id="overviewSection">
+                                        <div class="expandable-header">
+                                            <h3 class="expandable-title">Company Overview</h3>
+                                        </div>
+                                        <div class="expandable-controls">
+                                            <button class="expandable-toggle" id="overviewToggle">
+                                                <span class="toggle-text">Show All</span>
+                                                <svg class="toggle-icon" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="expandable-content">
+                                            <div class="expandable-content-inner" id="overviewContentInner">
                                                 <!-- Company Description -->
                                                 <div class="overview-paragraph">
                                                     <p><%= account.description || account.summary %></p>
@@ -1093,10 +1225,6 @@ function getParticipantClass(type) {
                                                 </div>
                                                 <% } %>
                                             </div>
-                                            <div class="overview-fade"></div>
-                                            <a href="#" class="overview-expand-link" id="overviewExpandBtn">
-                                                <span class="expand-text">more...</span>
-                                            </a>
                                         </div>
                                     </div>
                                     
@@ -1140,9 +1268,22 @@ function getParticipantClass(type) {
 
                             <!-- Right Column: Timeline -->
                             <div class="timeline-section">
-                                <h2>Interaction Timeline</h2>
-                                <div class="timeline">
-                                    <% account.timeline.forEach((item, index) => { %>
+                                <div class="expandable-section timeline-expandable preview" id="timelineSection">
+                                    <div class="expandable-header">
+                                        <h2 class="expandable-title">Interaction Timeline</h2>
+                                    </div>
+                                    <div class="expandable-controls">
+                                        <button class="expandable-toggle" id="timelineToggle">
+                                            <span class="toggle-text">More</span>
+                                            <svg class="toggle-icon" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <div class="expandable-content">
+                                        <div class="expandable-content-inner">
+                                            <div class="timeline">
+                                                <% account.timeline.forEach((item, index) => { %>
                             <div class="timeline-item">
                                 <div class="timeline-marker <%= item.type %>">
                                     <% if (item.type === 'email') { %>
@@ -1342,6 +1483,9 @@ function getParticipantClass(type) {
                                 </div>
                             </div>
                                     <% }) %>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1561,156 +1705,182 @@ function getParticipantClass(type) {
                     <!-- Usage Tab -->
                     <div class="tab-pane" id="usage-tab">
                         <div class="usage-section">
-                            <div class="section-header">
-                                <h3>Usage Analytics</h3>
-                                <div class="header-actions">
-                                    <button class="btn-secondary">Export Report</button>
-                                    <button class="btn-secondary">Date Range</button>
+                            <!-- Header with optional product dropdown -->
+                            <div class="usage-header">
+                                <div class="usage-title">
+                                    <svg viewBox="0 0 20 20" fill="currentColor" class="title-icon">
+                                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                                        <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v1a1 1 0 001 1h6a1 1 0 001-1V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z"/>
+                                    </svg>
+                                    <h2>Key Metrics</h2>
                                 </div>
-                            </div>
-
-                            <!-- Key Metrics Cards -->
-                            <div class="metrics-grid">
-                                <div class="metric-card">
-                                    <div class="metric-icon">
-                                        <svg viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
-                                        </svg>
-                                    </div>
-                                    <div class="metric-content">
-                                        <div class="metric-value"><%= accountUsage.activeUsers.toLocaleString() %></div>
-                                        <div class="metric-label">Active Users</div>
-                                        <div class="metric-sublabel">of <%= accountUsage.totalUsers.toLocaleString() %> total users</div>
-                                    </div>
-                                </div>
-
-                                <div class="metric-card">
-                                    <div class="metric-icon">
-                                        <svg viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 001.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z"/>
-                                        </svg>
-                                    </div>
-                                    <div class="metric-content">
-                                        <div class="metric-value"><%= accountUsage.monthlyLogins.toLocaleString() %></div>
-                                        <div class="metric-label">Monthly Logins</div>
-                                        <div class="metric-sublabel">This month</div>
-                                    </div>
-                                </div>
-
-                                <div class="metric-card">
-                                    <div class="metric-icon">
-                                        <svg viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"/>
-                                        </svg>
-                                    </div>
-                                    <div class="metric-content">
-                                        <div class="metric-value"><%= accountUsage.avgSessionDuration %></div>
-                                        <div class="metric-label">Avg Session Duration</div>
-                                        <div class="metric-sublabel">Per user session</div>
-                                    </div>
-                                </div>
-
-                                <div class="metric-card">
-                                    <div class="metric-icon">
-                                        <svg viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"/>
-                                        </svg>
-                                    </div>
-                                    <div class="metric-content">
-                                        <div class="metric-value"><%= accountUsage.storageUsed %></div>
-                                        <div class="metric-label">Storage Used</div>
-                                        <div class="metric-sublabel">of <%= accountUsage.storageLimit %> limit</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Charts and Tables Section -->
-                            <div class="usage-content-grid">
-                                <!-- Top Features Usage -->
-                                <div class="usage-card">
-                                    <h4>Top Features by Usage</h4>
-                                    <div class="features-list">
-                                        <% accountUsage.topFeatures.forEach(feature => { %>
-                                        <div class="feature-item">
-                                            <div class="feature-info">
-                                                <span class="feature-name"><%= feature.name %></span>
-                                                <span class="feature-users"><%= feature.users %> users</span>
-                                            </div>
-                                            <div class="feature-usage">
-                                                <div class="usage-bar">
-                                                    <div class="usage-fill" style="width: <%= feature.usage %>%"></div>
-                                                </div>
-                                                <span class="usage-percent"><%= feature.usage %>%</span>
-                                            </div>
-                                        </div>
+                                <% if (account.productSubscriptions && account.productSubscriptions.length > 1) { %>
+                                <div class="product-selector">
+                                    <select class="product-dropdown">
+                                        <% account.productSubscriptions.forEach(product => { %>
+                                            <option value="<%= product.id %>"><%= product.name %></option>
                                         <% }) %>
-                                    </div>
+                                    </select>
+                                    <svg class="dropdown-arrow" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                                    </svg>
+                                </div>
+                                <% } %>
+                            </div>
+
+                            <!-- Key Metrics Grid -->
+                            <div class="key-metrics-grid">
+                                <!-- Feature Adoption Rate -->
+                                <div class="key-metric-card">
+                                    <h3>Feature Adoption Rate</h3>
+                                    <div class="metric-value">33.83%</div>
+                                    <p class="metric-description">The % of monthly active users who have engaged at least once.</p>
                                 </div>
 
-                                <!-- Monthly Trend -->
-                                <div class="usage-card">
-                                    <h4>Usage Trend (Last 5 Months)</h4>
-                                    <div class="trend-chart">
-                                        <div class="chart-container">
-                                            <% accountUsage.monthlyTrend.forEach((trend, index) => { %>
-                                            <div class="trend-item">
-                                                <div class="trend-bar">
-                                                    <div class="trend-fill" style="height: <%= (trend.logins / Math.max(...accountUsage.monthlyTrend.map(t => t.logins))) * 100 %>%">
-                                                        <div class="trend-tooltip">
-                                                            <strong><%= trend.logins.toLocaleString() %></strong> logins<br>
-                                                            <strong><%= trend.users.toLocaleString() %></strong> active users
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <span class="trend-label"><%= trend.month %></span>
-                                            </div>
-                                            <% }) %>
-                                        </div>
-                                    </div>
+                                <!-- Stickiness -->
+                                <div class="key-metric-card">
+                                    <h3>Stickiness (DAU/MAU)</h3>
+                                    <div class="metric-value">2.7%</div>
+                                    <p class="metric-description">The % of monthly users who engage with the feature daily.</p>
                                 </div>
 
-                                <!-- API Usage -->
-                                <div class="usage-card">
-                                    <h4>API Usage</h4>
-                                    <div class="api-usage">
-                                        <div class="api-metric">
-                                            <span class="api-label">API Calls This Month</span>
-                                            <span class="api-value"><%= accountUsage.apiCalls.toLocaleString() %></span>
-                                        </div>
-                                        <div class="api-progress">
-                                            <div class="api-progress-bar">
-                                                <div class="api-progress-fill" style="width: <%= (accountUsage.apiCalls / accountUsage.apiLimit) * 100 %>%"></div>
-                                            </div>
-                                            <span class="api-limit">Limit: <%= accountUsage.apiLimit.toLocaleString() %></span>
-                                        </div>
-                                    </div>
+                                <!-- Feature Retention Rate -->
+                                <div class="key-metric-card">
+                                    <h3>Feature Retention Rate</h3>
+                                    <div class="metric-value">51.09%</div>
+                                    <p class="metric-description">The % of users who continued using the feature from the previous period.</p>
                                 </div>
 
-                                <!-- Storage Usage -->
-                                <div class="usage-card">
-                                    <h4>Storage Usage</h4>
-                                    <div class="storage-usage">
-                                        <div class="storage-visual">
-                                            <div class="storage-circle">
-                                                <svg viewBox="0 0 42 42">
-                                                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#e5e7eb" stroke-width="3"/>
-                                                    <circle cx="21" cy="21" r="15.915" fill="transparent" stroke="#3b82f6" stroke-width="3" 
-                                                            stroke-dasharray="<%= (parseInt(accountUsage.storageUsed) / parseInt(accountUsage.storageLimit)) * 100 %> 100" 
-                                                            stroke-dashoffset="25"/>
+                                <!-- Feature Churn Rate -->
+                                <div class="key-metric-card">
+                                    <h3>Feature Churn Rate</h3>
+                                    <div class="metric-value">48.91%</div>
+                                    <p class="metric-description">The % of users who stopped using the feature from the previous period.</p>
+                                </div>
+                            </div>
+
+                            <!-- Usage Analytics Charts -->
+                            <div class="usage-analytics-grid">
+                                <!-- Monthly Active Users -->
+                                <div class="analytics-card large-chart">
+                                    <div class="chart-header-section">
+                                        <h3>Monthly Active Users</h3>
+                                        <div class="chart-header">
+                                            <div class="chart-value">90</div>
+                                            <div class="chart-change negative">
+                                                <svg viewBox="0 0 20 20" fill="currentColor" class="change-icon">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
                                                 </svg>
-                                                <div class="storage-percentage">
-                                                    <%= Math.round((parseInt(accountUsage.storageUsed) / parseInt(accountUsage.storageLimit)) * 100) %>%
-                                                </div>
+                                                2.17%
                                             </div>
                                         </div>
-                                        <div class="storage-details">
-                                            <div class="storage-used">
-                                                <strong><%= accountUsage.storageUsed %></strong> used
-                                            </div>
-                                            <div class="storage-total">
-                                                of <%= accountUsage.storageLimit %> total
+                                    </div>
+                                    <div class="chart-area">
+                                        <svg viewBox="0 0 400 120" class="area-chart" data-chart="mau">
+                                            <defs>
+                                                <linearGradient id="mauGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                    <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.3"/>
+                                                    <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0.05"/>
+                                                </linearGradient>
+                                            </defs>
+                                            <path d="M0,60 L40,55 L80,58 L120,52 L160,56 L200,54 L240,58 L280,55 L320,60 L360,58 L400,62 L400,120 L0,120 Z" fill="url(#mauGradient)"/>
+                                            <path d="M0,60 L40,55 L80,58 L120,52 L160,56 L200,54 L240,58 L280,55 L320,60 L360,58 L400,62" stroke="#3b82f6" stroke-width="2" fill="none"/>
+                                            <!-- Invisible hover areas -->
+                                            <circle cx="0" cy="60" r="8" fill="transparent" class="chart-point" data-value="92"/>
+                                            <circle cx="40" cy="55" r="8" fill="transparent" class="chart-point" data-value="95"/>
+                                            <circle cx="80" cy="58" r="8" fill="transparent" class="chart-point" data-value="93"/>
+                                            <circle cx="120" cy="52" r="8" fill="transparent" class="chart-point" data-value="97"/>
+                                            <circle cx="160" cy="56" r="8" fill="transparent" class="chart-point" data-value="94"/>
+                                            <circle cx="200" cy="54" r="8" fill="transparent" class="chart-point" data-value="96"/>
+                                            <circle cx="240" cy="58" r="8" fill="transparent" class="chart-point" data-value="93"/>
+                                            <circle cx="280" cy="55" r="8" fill="transparent" class="chart-point" data-value="95"/>
+                                            <circle cx="320" cy="60" r="8" fill="transparent" class="chart-point" data-value="92"/>
+                                            <circle cx="360" cy="58" r="8" fill="transparent" class="chart-point" data-value="93"/>
+                                            <circle cx="400" cy="62" r="8" fill="transparent" class="chart-point" data-value="90"/>
+                                        </svg>
+                                        <div class="chart-tooltip" id="mauTooltip"></div>
+                                    </div>
+                                    <div class="chart-footer-section">
+                                        <p class="chart-description">The number of unique active users in the last 30 days.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Weekly Active Users -->
+                                <div class="analytics-card large-chart">
+                                    <div class="chart-header-section">
+                                        <h3>Weekly Active Users</h3>
+                                        <div class="chart-header">
+                                            <div class="chart-value">28</div>
+                                            <div class="chart-change positive">
+                                                <svg viewBox="0 0 20 20" fill="currentColor" class="change-icon">
+                                                    <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"/>
+                                                </svg>
+                                                47.37%
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="chart-area">
+                                        <svg viewBox="0 0 400 120" class="area-chart" data-chart="wau">
+                                            <defs>
+                                                <linearGradient id="wauGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                    <stop offset="0%" style="stop-color:#10b981;stop-opacity:0.3"/>
+                                                    <stop offset="100%" style="stop-color:#10b981;stop-opacity:0.05"/>
+                                                </linearGradient>
+                                            </defs>
+                                            <path d="M0,80 L40,65 L80,70 L120,60 L160,58 L200,62 L240,65 L280,68 L320,70 L360,75 L400,78 L400,120 L0,120 Z" fill="url(#wauGradient)"/>
+                                            <path d="M0,80 L40,65 L80,70 L120,60 L160,58 L200,62 L240,65 L280,68 L320,70 L360,75 L400,78" stroke="#10b981" stroke-width="2" fill="none"/>
+                                            <!-- Invisible hover areas -->
+                                            <circle cx="0" cy="80" r="8" fill="transparent" class="chart-point" data-value="19"/>
+                                            <circle cx="40" cy="65" r="8" fill="transparent" class="chart-point" data-value="22"/>
+                                            <circle cx="80" cy="70" r="8" fill="transparent" class="chart-point" data-value="21"/>
+                                            <circle cx="120" cy="60" r="8" fill="transparent" class="chart-point" data-value="24"/>
+                                            <circle cx="160" cy="58" r="8" fill="transparent" class="chart-point" data-value="25"/>
+                                            <circle cx="200" cy="62" r="8" fill="transparent" class="chart-point" data-value="23"/>
+                                            <circle cx="240" cy="65" r="8" fill="transparent" class="chart-point" data-value="22"/>
+                                            <circle cx="280" cy="68" r="8" fill="transparent" class="chart-point" data-value="21"/>
+                                            <circle cx="320" cy="70" r="8" fill="transparent" class="chart-point" data-value="20"/>
+                                            <circle cx="360" cy="75" r="8" fill="transparent" class="chart-point" data-value="19"/>
+                                            <circle cx="400" cy="78" r="8" fill="transparent" class="chart-point" data-value="28"/>
+                                        </svg>
+                                        <div class="chart-tooltip" id="wauTooltip"></div>
+                                    </div>
+                                    <div class="chart-footer-section">
+                                        <p class="chart-description">The number of unique active users in the last 7 days.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Daily Active Users -->
+                                <div class="analytics-card full-width">
+                                    <div class="chart-header-section">
+                                        <h3>Daily Active Users (7-day avg)</h3>
+                                        <div class="chart-header">
+                                            <div class="chart-value">2</div>
+                                            <div class="chart-change negative">
+                                                <svg viewBox="0 0 20 20" fill="currentColor" class="change-icon">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                                                </svg>
+                                                32%
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="chart-area">
+                                        <svg viewBox="0 0 800 120" class="line-chart" data-chart="dau">
+                                            <path d="M0,90 L25,85 L50,88 L75,82 L100,86 L125,84 L150,88 L175,85 L200,90 L225,88 L250,92 L275,89 L300,87 L325,90 L350,85 L375,88 L400,86 L425,84 L450,87 L475,89 L500,85 L525,88 L550,90 L575,87 L600,85 L625,88 L650,86 L675,89 L700,87 L725,90 L750,88 L775,85 L800,87" stroke="#6366f1" stroke-width="2" fill="none"/>
+                                            <!-- Sample hover points for line chart -->
+                                            <circle cx="0" cy="90" r="6" fill="transparent" class="chart-point" data-value="1"/>
+                                            <circle cx="100" cy="86" r="6" fill="transparent" class="chart-point" data-value="2"/>
+                                            <circle cx="200" cy="90" r="6" fill="transparent" class="chart-point" data-value="1"/>
+                                            <circle cx="300" cy="87" r="6" fill="transparent" class="chart-point" data-value="2"/>
+                                            <circle cx="400" cy="86" r="6" fill="transparent" class="chart-point" data-value="2"/>
+                                            <circle cx="500" cy="85" r="6" fill="transparent" class="chart-point" data-value="2"/>
+                                            <circle cx="600" cy="85" r="6" fill="transparent" class="chart-point" data-value="2"/>
+                                            <circle cx="700" cy="87" r="6" fill="transparent" class="chart-point" data-value="2"/>
+                                            <circle cx="800" cy="87" r="6" fill="transparent" class="chart-point" data-value="2"/>
+                                        </svg>
+                                        <div class="chart-tooltip" id="dauTooltip"></div>
+                                    </div>
+                                    <div class="chart-footer-section">
+                                        <p class="chart-description">The average number of unique active users over the past 7 days.</p>
                                     </div>
                                 </div>
                             </div>

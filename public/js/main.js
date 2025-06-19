@@ -3,6 +3,37 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Column resize functionality
     initColumnResize();
+    
+    // Initialize expandable sections
+    initExpandableSections();
+    
+    // Handle clickable table rows using event delegation
+    const accountsTable = document.querySelector('.accounts-table');
+    if (accountsTable) {
+        accountsTable.addEventListener('click', function(e) {
+            // Find the closest tr element
+            const row = e.target.closest('tr.clickable-row');
+            
+            if (!row) return;
+            
+            // Don't navigate if clicking on a link or button
+            if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON' || e.target.closest('a')) {
+                return;
+            }
+            
+            const href = row.getAttribute('data-href');
+            if (href) {
+                window.location.href = href;
+            }
+        });
+    }
+    
+    // Add hover effect for better UX
+    const clickableRows = document.querySelectorAll('.clickable-row');
+    clickableRows.forEach(row => {
+        row.style.cursor = 'pointer';
+    });
+    
     // Handle active navigation state
     const currentPath = window.location.pathname;
     const navLinks = document.querySelectorAll('.nav-link');
@@ -51,290 +82,417 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Import/Export button
-    const importBtn = document.querySelector('.btn-import');
-    if (importBtn) {
-        importBtn.addEventListener('click', function() {
-            console.log('Import/Export clicked');
-            // Implement import/export functionality
-        });
-    }
-
-    // Tab switching
-    const tabButtons = document.querySelectorAll('.tab-button');
-    tabButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
+    // Table navigation with data-href
+    const navigationElements = document.querySelectorAll('[data-href]');
+    navigationElements.forEach(element => {
+        element.style.cursor = 'pointer';
+        element.addEventListener('click', function() {
+            window.location.href = this.dataset.href;
         });
     });
 
-    // Make account rows clickable
-    const accountRows = document.querySelectorAll('.accounts-table tbody tr');
-    accountRows.forEach(row => {
-        row.addEventListener('click', function() {
-            // Get company name from the first cell
-            const companyName = this.querySelector('.company-name').textContent;
-            // Convert to URL-friendly ID (in real app, would use actual ID)
-            const accountId = companyName.toLowerCase().replace(/\s+/g, '-');
-            window.location.href = `/accounts/${accountId}`;
-        });
-    });
-
-    // Make contact rows clickable
-    const contactRows = document.querySelectorAll('.contacts-table tbody tr');
-    contactRows.forEach(row => {
-        row.addEventListener('click', function(e) {
-            // Don't navigate if clicking on a link or checkbox
-            if (e.target.tagName === 'A' || e.target.closest('a') || e.target.type === 'checkbox') {
-                return;
-            }
-            // Check for data-href first (used in account details contacts tab)
-            const href = this.getAttribute('data-href');
-            if (href) {
-                window.location.href = href;
-                return;
-            }
-            // Otherwise use contact ID from data attribute
-            const contactId = this.getAttribute('data-contact-id');
-            if (contactId) {
-                window.location.href = `/contacts/${contactId}`;
-            }
-        });
-    });
-
-    // Make ticket rows clickable
-    const ticketRows = document.querySelectorAll('.tickets-table tbody tr');
-    ticketRows.forEach(row => {
-        row.addEventListener('click', function(e) {
-            // Don't navigate if clicking on a link or button
-            if (e.target.tagName === 'A' || e.target.closest('a') || e.target.tagName === 'BUTTON') {
-                return;
-            }
-            const href = this.getAttribute('data-href');
-            if (href) {
-                window.location.href = href;
-            }
-        });
-    });
-
-    // Make task rows clickable
-    const taskRows = document.querySelectorAll('.tasks-table tbody tr');
-    taskRows.forEach(row => {
-        row.addEventListener('click', function(e) {
-            // Don't navigate if clicking on a link, button, or checkbox
-            if (e.target.tagName === 'A' || e.target.closest('a') || e.target.tagName === 'BUTTON' || e.target.type === 'checkbox') {
-                return;
-            }
-            const href = this.getAttribute('data-href');
-            if (href) {
-                window.location.href = href;
-            }
-        });
-    });
-
-    // Make note cards clickable
-    const noteCards = document.querySelectorAll('.note-card');
-    noteCards.forEach(card => {
-        card.addEventListener('click', function(e) {
-            // Don't navigate if clicking on buttons
-            if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
-                return;
-            }
-            const noteId = this.getAttribute('data-note-id');
-            if (noteId) {
-                console.log('Note clicked:', noteId);
-                // In a real app, this would navigate to note details
-            }
-        });
-    });
-
-    // Account tab functionality
-    const accountTabs = document.querySelectorAll('.account-tab');
+    // Tab functionality for account details
+    const tabs = document.querySelectorAll('.account-tab');
     const tabPanes = document.querySelectorAll('.tab-pane');
 
-    accountTabs.forEach(tab => {
+    tabs.forEach(tab => {
         tab.addEventListener('click', function() {
-            const targetTab = this.getAttribute('data-tab');
-            
-            // Remove active class from all tabs and panes
-            accountTabs.forEach(t => t.classList.remove('active'));
+            // Remove active class from all tabs
+            tabs.forEach(t => t.classList.remove('active'));
             tabPanes.forEach(pane => pane.classList.remove('active'));
             
             // Add active class to clicked tab
             this.classList.add('active');
             
-            // Show corresponding tab pane
-            const targetPane = document.getElementById(targetTab + '-tab');
+            // Show corresponding pane
+            const tabName = this.getAttribute('data-tab');
+            const targetPane = document.getElementById(tabName + '-tab');
             if (targetPane) {
                 targetPane.classList.add('active');
             }
         });
     });
 
-    // Handle tab links in overview section
-    const tabLinks = document.querySelectorAll('.tab-link[data-tab]');
-    tabLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetTab = this.getAttribute('data-tab');
-            
-            // Find and click the corresponding tab button
-            const tabButton = document.querySelector(`.account-tab[data-tab="${targetTab}"]`);
-            if (tabButton) {
-                tabButton.click();
-            }
-        });
-    });
-
-    // Accounts filter dropdown functionality
-    const accountsFilter = document.getElementById('accountsFilter');
-    if (accountsFilter) {
-        accountsFilter.addEventListener('change', function() {
-            const filterValue = this.value;
-            console.log('Filter changed to:', filterValue);
-            
-            // Get all account rows
-            const accountRows = document.querySelectorAll('.accounts-table tbody tr');
-            
-            accountRows.forEach(row => {
-                const companyCell = row.querySelector('.company-name');
-                const categoriesCell = row.querySelector('.categories');
-                const lastInteractionCell = row.cells[3]; // Last interaction column
-                
-                if (!companyCell || !categoriesCell) return;
-                
-                const companyName = companyCell.textContent.toLowerCase();
-                const categories = categoriesCell.textContent.toLowerCase();
-                const lastInteraction = lastInteractionCell ? lastInteractionCell.textContent.toLowerCase() : '';
-                
-                let shouldShow = true;
-                
-                switch (filterValue) {
-                    case 'all':
-                        shouldShow = true;
-                        break;
-                    case 'my':
-                        // Show companies with recent interactions (less than 6 months)
-                        shouldShow = !lastInteraction.includes('year') && !lastInteraction.includes('no contact');
-                        break;
-                    case 'enterprise':
-                        shouldShow = categories.includes('enterprise') || categories.includes('b2b');
-                        break;
-                    case 'education':
-                        shouldShow = categories.includes('education');
-                        break;
-                    case 'saas':
-                        shouldShow = categories.includes('saas');
-                        break;
-                    case 'recent':
-                        // Show companies with interactions in the last month
-                        shouldShow = lastInteraction.includes('days ago') || lastInteraction.includes('day ago');
-                        break;
-                    default:
-                        shouldShow = true;
-                }
-                
-                row.style.display = shouldShow ? '' : 'none';
-            });
-            
-            // Update count in footer
-            updateAccountCount();
-        });
-    }
-    
-    // Function to update account count
-    function updateAccountCount() {
-        const visibleRows = document.querySelectorAll('.accounts-table tbody tr:not([style*="display: none"])');
-        const countElement = document.querySelector('.pagination-info span');
-        if (countElement) {
-            countElement.textContent = `${visibleRows.length} count`;
-        }
-    }
-
-    // Contacts filter dropdown functionality
-    const contactsFilter = document.getElementById('contactsFilter');
-    if (contactsFilter) {
-        contactsFilter.addEventListener('change', function() {
-            const filterValue = this.value;
-            console.log('Contacts filter changed to:', filterValue);
-            
-            // Get all contact rows
-            const contactRows = document.querySelectorAll('.contacts-table tbody tr');
-            
-            contactRows.forEach(row => {
-                const nameCell = row.querySelector('.contact-name');
-                const companyCell = row.cells[2]; // Company column
-                const tagsCell = row.cells[4]; // Tags column
-                const lastInteractionCell = row.cells[5]; // Last interaction column
-                
-                if (!nameCell || !companyCell) return;
-                
-                const contactName = nameCell.textContent.toLowerCase();
-                const companyName = companyCell.textContent.toLowerCase();
-                const tags = tagsCell ? tagsCell.textContent.toLowerCase() : '';
-                const lastInteraction = lastInteractionCell ? lastInteractionCell.textContent.toLowerCase() : '';
-                
-                let shouldShow = true;
-                
-                switch (filterValue) {
-                    case 'all':
-                        shouldShow = true;
-                        break;
-                    case 'my':
-                        // Show contacts with recent interactions (less than 1 week)
-                        shouldShow = lastInteraction.includes('days ago') || lastInteraction.includes('day ago');
-                        break;
-                    case 'company':
-                        // In a real app, this would filter by the user's company
-                        // For demo, show contacts from specific companies
-                        shouldShow = companyName.includes('bilkent') || companyName.includes('flowla');
-                        break;
-                    default:
-                        shouldShow = true;
-                }
-                
-                row.style.display = shouldShow ? '' : 'none';
-            });
-            
-            // Update count in footer
-            updateContactCount();
-        });
-    }
-    
-    // Function to update contact count
-    function updateContactCount() {
-        const visibleRows = document.querySelectorAll('.contacts-table tbody tr:not([style*="display: none"])');
-        const countElement = document.querySelector('.contacts-table + .table-footer .pagination-info span');
-        if (countElement) {
-            countElement.textContent = `${visibleRows.length} contacts`;
-        }
-    }
-
     // Overview expand/collapse functionality
     const overviewExpandBtn = document.getElementById('overviewExpandBtn');
     const overviewContent = document.getElementById('overviewContent');
     
     if (overviewExpandBtn && overviewContent) {
-        // Check if content needs expansion link
-        const checkOverviewHeight = () => {
-            const contentInner = overviewContent.querySelector('.overview-content-inner');
-            if (contentInner && contentInner.scrollHeight <= 300) {
-                overviewExpandBtn.style.display = 'none';
-                overviewContent.classList.add('expanded');
-            }
-        };
-        
-        // Initial check
-        checkOverviewHeight();
-        
         overviewExpandBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            const isExpanded = overviewContent.classList.toggle('expanded');
+            overviewContent.classList.toggle('expanded');
+            
             const expandText = this.querySelector('.expand-text');
-            expandText.textContent = isExpanded ? 'less' : 'more...';
+            if (overviewContent.classList.contains('expanded')) {
+                expandText.textContent = 'Show less';
+            } else {
+                expandText.textContent = 'more...';
+            }
         });
     }
+
+    // Tab links within content
+    const tabLinks = document.querySelectorAll('.tab-link');
+    tabLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetTab = this.getAttribute('data-tab');
+            const targetTabBtn = document.querySelector(`.account-tab[data-tab="${targetTab}"]`);
+            if (targetTabBtn) {
+                targetTabBtn.click();
+            }
+        });
+    });
+
+    // Initialize tooltips for sparkline charts
+    const sparklineContainers = document.querySelectorAll('.mau-sparkline, .health-sparkline');
+    sparklineContainers.forEach(container => {
+        const svg = container.querySelector('svg');
+        if (!svg) return;
+
+        // Create tooltip element
+        const tooltip = document.createElement('div');
+        tooltip.className = 'sparkline-tooltip';
+        container.appendChild(tooltip);
+
+        svg.addEventListener('mousemove', function(e) {
+            const rect = svg.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const width = rect.width;
+            
+            // Calculate which data point we're hovering over
+            const dataPoints = container.classList.contains('mau-sparkline') ? 12 : 12; // Both have 12 months
+            const pointIndex = Math.floor((x / width) * dataPoints);
+            
+            // Position tooltip
+            tooltip.style.left = e.clientX - rect.left + 'px';
+            tooltip.style.top = '-30px';
+            
+            // Set tooltip content based on the type
+            if (container.classList.contains('mau-sparkline')) {
+                tooltip.textContent = `Month ${pointIndex + 1}`;
+            } else {
+                tooltip.textContent = `Month ${pointIndex + 1}`;
+            }
+            
+            tooltip.classList.add('visible');
+        });
+
+        svg.addEventListener('mouseleave', function() {
+            tooltip.classList.remove('visible');
+        });
+    });
+
+    // Handle resizing for columns in tables
+    let isResizing = false;
+    let currentColumn = null;
+    let startX = 0;
+    let startWidth = 0;
+
+    const resizeHandles = document.querySelectorAll('.resize-handle');
+    
+    resizeHandles.forEach(handle => {
+        handle.addEventListener('mousedown', function(e) {
+            isResizing = true;
+            currentColumn = this.parentElement;
+            startX = e.pageX;
+            startWidth = currentColumn.offsetWidth;
+            document.body.classList.add('resizing');
+        });
+    });
+
+    document.addEventListener('mousemove', function(e) {
+        if (!isResizing) return;
+        
+        const width = startWidth + (e.pageX - startX);
+        if (width > 50) { // Minimum column width
+            currentColumn.style.width = width + 'px';
+        }
+    });
+
+    document.addEventListener('mouseup', function() {
+        if (isResizing) {
+            isResizing = false;
+            currentColumn = null;
+            document.body.classList.remove('resizing');
+        }
+    });
+
+    // Add hover effect to data cells with gradients
+    const dataCells = document.querySelectorAll('td .gradient-bg');
+    dataCells.forEach(cell => {
+        cell.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.02)';
+        });
+        
+        cell.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+
+    // Initialize chart tooltips in the usage tab
+    const chartDots = document.querySelectorAll('.chart-dot');
+    chartDots.forEach(dot => {
+        dot.addEventListener('mouseenter', function(e) {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'chart-tooltip visible';
+            tooltip.textContent = this.dataset.value || '';
+            tooltip.style.left = e.pageX + 'px';
+            tooltip.style.top = (e.pageY - 40) + 'px';
+            document.body.appendChild(tooltip);
+            
+            this._tooltip = tooltip;
+        });
+        
+        dot.addEventListener('mouseleave', function() {
+            if (this._tooltip) {
+                this._tooltip.remove();
+                delete this._tooltip;
+            }
+        });
+    });
+
+    // Handle usage trend interactions
+    const trendBars = document.querySelectorAll('.trend-bar');
+    trendBars.forEach(bar => {
+        bar.addEventListener('mouseenter', function() {
+            const tooltip = this.querySelector('.trend-tooltip');
+            if (tooltip) {
+                tooltip.style.opacity = '1';
+            }
+        });
+        
+        bar.addEventListener('mouseleave', function() {
+            const tooltip = this.querySelector('.trend-tooltip');
+            if (tooltip) {
+                tooltip.style.opacity = '0';
+            }
+        });
+    });
+
+    // Initialize key metrics animations
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px'
+    };
+
+    const metricsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, observerOptions);
+
+    const metricCards = document.querySelectorAll('.metric-card');
+    metricCards.forEach(card => {
+        metricsObserver.observe(card);
+    });
+
+    // Feature breakdown interactions
+    const featureRows = document.querySelectorAll('.feature-row');
+    featureRows.forEach(row => {
+        row.addEventListener('mouseenter', function() {
+            this.style.backgroundColor = '#f9fafb';
+        });
+        
+        row.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = 'transparent';
+        });
+    });
+
+    // Handle chart interactions
+    const chartContainers = document.querySelectorAll('.usage-chart, .trend-chart, .activity-chart');
+    chartContainers.forEach(chart => {
+        const tooltip = chart.querySelector('.chart-tooltip');
+        const points = chart.querySelectorAll('.chart-point, .trend-bar');
+        
+        points.forEach(point => {
+            point.addEventListener('mouseenter', function(e) {
+                if (tooltip) {
+                    const value = this.getAttribute('data-value');
+                    const label = this.getAttribute('data-label') || '';
+                    tooltip.textContent = `${label}: ${value}`;
+                    tooltip.classList.add('visible');
+                    
+                    const rect = chart.getBoundingClientRect();
+                    const pointRect = this.getBoundingClientRect();
+                    tooltip.style.left = (pointRect.left - rect.left + pointRect.width / 2) + 'px';
+                    tooltip.style.top = (pointRect.top - rect.top - 30) + 'px';
+                }
+            });
+            
+            point.addEventListener('mouseleave', function() {
+                if (tooltip) {
+                    tooltip.classList.remove('visible');
+                }
+            });
+        });
+    });
+
+    // Handle trend fills
+    const trendFills = document.querySelectorAll('.trend-fill');
+    trendFills.forEach(fill => {
+        fill.addEventListener('mousemove', function(e) {
+            const tooltip = this.querySelector('.trend-tooltip');
+            if (tooltip) {
+                const rect = this.getBoundingClientRect();
+                tooltip.style.left = (e.clientX - rect.left) + 'px';
+                tooltip.style.opacity = '1';
+            }
+        });
+        
+        fill.addEventListener('mouseleave', function() {
+            const tooltip = this.querySelector('.trend-tooltip');
+            if (tooltip) {
+                tooltip.style.opacity = '0';
+            }
+        });
+    });
+
+    // Initialize activity heatmap interactions
+    const heatmapCells = document.querySelectorAll('.heatmap-cell');
+    heatmapCells.forEach(cell => {
+        cell.addEventListener('mouseenter', function() {
+            const tooltip = document.createElement('div');
+            tooltip.className = 'chart-tooltip visible';
+            tooltip.textContent = this.getAttribute('title') || '';
+            
+            const rect = this.getBoundingClientRect();
+            tooltip.style.left = rect.left + rect.width / 2 + 'px';
+            tooltip.style.top = (rect.top - 30) + 'px';
+            tooltip.style.position = 'fixed';
+            
+            document.body.appendChild(tooltip);
+            this._tooltip = tooltip;
+        });
+        
+        cell.addEventListener('mouseleave', function() {
+            if (this._tooltip) {
+                this._tooltip.remove();
+                delete this._tooltip;
+            }
+        });
+    });
+
+    // Add smooth scrolling for metric cards
+    const metricContainer = document.querySelector('.key-metrics-grid');
+    if (metricContainer) {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        metricContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - metricContainer.offsetLeft;
+            scrollLeft = metricContainer.scrollLeft;
+        });
+
+        metricContainer.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+
+        metricContainer.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+
+        metricContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - metricContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            metricContainer.scrollLeft = scrollLeft - walk;
+        });
+    }
+
+    // Initialize chart animations on scroll
+    const chartObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const bars = entry.target.querySelectorAll('.bar-fill, .trend-bar-fill');
+                bars.forEach((bar, index) => {
+                    setTimeout(() => {
+                        bar.style.transform = 'scaleX(1)';
+                    }, index * 50);
+                });
+            }
+        });
+    }, { threshold: 0.3 });
+
+    const animatedCharts = document.querySelectorAll('.usage-chart, .trend-chart');
+    animatedCharts.forEach(chart => {
+        chartObserver.observe(chart);
+    });
+
+    // Add interactive hover states for feature items
+    const featureItems = document.querySelectorAll('.feature-item');
+    featureItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // Toggle expanded state
+            this.classList.toggle('expanded');
+            
+            // You could add more details here when expanded
+        });
+    });
+
+    // Handle responsive table scrolling
+    const tableContainers = document.querySelectorAll('.table-container');
+    tableContainers.forEach(container => {
+        const table = container.querySelector('table');
+        if (table && table.offsetWidth > container.offsetWidth) {
+            container.classList.add('scrollable');
+        }
+    });
+
+    // Initialize number counters animation
+    const animateNumbers = (element, start, end, duration) => {
+        const range = end - start;
+        const increment = range / (duration / 16);
+        let current = start;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                element.textContent = end.toLocaleString();
+                clearInterval(timer);
+            } else {
+                element.textContent = Math.round(current).toLocaleString();
+            }
+        }, 16);
+    };
+
+    // Trigger number animations when visible
+    const numberElements = document.querySelectorAll('[data-animate-number]');
+    const numberObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.animated) {
+                entry.target.animated = true;
+                const end = parseInt(entry.target.getAttribute('data-animate-number'));
+                animateNumbers(entry.target, 0, end, 1000);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    numberElements.forEach(el => numberObserver.observe(el));
+
+    // Handle loading states
+    const loadingElements = document.querySelectorAll('[data-loading]');
+    loadingElements.forEach(element => {
+        // Simulate loading completion
+        setTimeout(() => {
+            element.removeAttribute('data-loading');
+        }, 1000);
+    });
+
+    // Initialize any remaining interactive elements
+    const interactiveElements = document.querySelectorAll('[data-interactive]');
+    interactiveElements.forEach(element => {
+        element.addEventListener('click', function() {
+            const action = this.getAttribute('data-interactive');
+            console.log('Interactive action:', action);
+            // Handle various interactive actions here
+        });
+    });
 });
 
 // Column resize functionality
@@ -376,5 +534,120 @@ function initColumnResize() {
                 document.body.classList.remove('resizing');
             }
         });
+    });
+}
+
+// 3-State Expandable Component Functionality
+function initExpandableSections() {
+    const expandableSections = document.querySelectorAll('.expandable-section');
+    console.log('Initializing expandable sections:', expandableSections.length);
+    
+    expandableSections.forEach(section => {
+        const header = section.querySelector('.expandable-header');
+        const controls = section.querySelector('.expandable-controls');
+        const toggle = section.querySelector('.expandable-toggle');
+        const toggleText = toggle ? toggle.querySelector('.toggle-text') : null;
+        const toggleIcon = toggle ? toggle.querySelector('.toggle-icon') : null;
+        const content = section.querySelector('.expandable-content-inner');
+        const charCount = section.querySelector('.expandable-character-count');
+        
+        console.log('Section elements:', { header, controls, toggle, content });
+        
+        if (!content) {
+            console.error('No content found for expandable section');
+            return;
+        }
+        
+        // Identify section type
+        const isTimeline = section.classList.contains('timeline-expandable');
+        
+        // State management
+        let currentState = 'preview'; // States: minimized, preview, expanded
+        if (section.classList.contains('minimized')) currentState = 'minimized';
+        if (section.classList.contains('expanded')) currentState = 'expanded';
+        
+        function updateState(newState) {
+            console.log('Updating state from', currentState, 'to', newState);
+            
+            // Remove all state classes
+            section.classList.remove('minimized', 'preview', 'expanded');
+            
+            // Add new state class
+            section.classList.add(newState);
+            currentState = newState;
+            
+            // Move controls to appropriate position
+            if (controls) {
+                if (newState === 'preview') {
+                    // Controls stay outside header in preview
+                    if (header.contains(controls)) {
+                        header.removeChild(controls);
+                        section.insertBefore(controls, section.querySelector('.expandable-content'));
+                    }
+                } else {
+                    // Move controls into header for minimized/expanded
+                    if (!header.contains(controls)) {
+                        header.appendChild(controls);
+                    }
+                }
+            }
+            
+            // Update toggle button text and icon
+            if (toggleText && toggleIcon) {
+                switch(newState) {
+                    case 'minimized':
+                        toggleText.textContent = 'Show';
+                        toggleIcon.innerHTML = '<path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/>';
+                        break;
+                    case 'preview':
+                        toggleText.textContent = 'Show All';
+                        toggleIcon.innerHTML = '<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>';
+                        break;
+                    case 'expanded':
+                        toggleText.textContent = 'Minimize';
+                        toggleIcon.innerHTML = '<path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>';
+                        break;
+                }
+            }
+        }
+        
+        // Handle click events
+        function handleToggle(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Toggle clicked, current state:', currentState);
+            
+            // Cycle through states
+            switch(currentState) {
+                case 'minimized':
+                    updateState('preview');
+                    break;
+                case 'preview':
+                    updateState('expanded');
+                    break;
+                case 'expanded':
+                    updateState('minimized');
+                    break;
+            }
+        }
+        
+        // Add event listeners
+        if (toggle) {
+            toggle.addEventListener('click', handleToggle);
+            console.log('Added click listener to toggle button');
+        }
+        
+        // For minimized state, clicking the header should also expand
+        if (header) {
+            header.addEventListener('click', function(e) {
+                if (currentState === 'minimized' && !e.target.closest('.expandable-toggle')) {
+                    updateState('preview');
+                }
+            });
+        }
+        
+        // Initialize with current state
+        updateState(currentState);
     });
 }

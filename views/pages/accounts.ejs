@@ -18,7 +18,7 @@ const accounts = [
     {
         company: "Flowla",
         logo: "F",
-        categories: ["B2B", "B2C", "E-commerce", "Information Technology", "SAAS"],
+        categories: ["B2B", "IT", "SAAS"],
         linkedin: "flowlacom",
         lastInteraction: "5 months ago",
         status: "Very weak",
@@ -33,7 +33,7 @@ const accounts = [
     {
         company: "SuccessNavigator",
         logo: "S",
-        categories: ["Business Support & Supplies", "Consulting & Professional Services"],
+        categories: ["Supplies", "PS"],
         linkedin: "successnavigator",
         lastInteraction: "5 days ago",
         status: "Very weak",
@@ -48,7 +48,7 @@ const accounts = [
     {
         company: "R2S",
         logo: "R",
-        categories: ["Automation", "B2C", "Consulting & Professional Services"],
+        categories: ["Automation", "B2C", "PS"],
         linkedin: null,
         lastInteraction: "6 months ago",
         status: "Very weak",
@@ -63,7 +63,7 @@ const accounts = [
     {
         company: "Merge",
         logo: "M",
-        categories: ["B2B", "B2C", "E-commerce", "Information Technology", "SAAS"],
+        categories: ["B2B", "IT", "SAAS"],
         linkedin: "merge-api",
         lastInteraction: "5 days ago",
         status: "Weak",
@@ -78,7 +78,7 @@ const accounts = [
     {
         company: "Yahoo",
         logo: "Y",
-        categories: ["B2C", "Broadcasting", "Information Technology", "Internet", "Publishing"],
+        categories: ["B2C", "Publishing"],
         linkedin: "yahoo",
         lastInteraction: "7 days ago",
         status: "Very weak",
@@ -93,7 +93,7 @@ const accounts = [
     {
         company: "Wingify",
         logo: "W",
-        categories: ["B2B", "B2C", "E-commerce", "Enterprise", "Information Technology"],
+        categories: ["B2B", "B2C", "IT"],
         linkedin: "vwo",
         lastInteraction: "No contact",
         status: "No communication",
@@ -108,7 +108,7 @@ const accounts = [
     {
         company: "Olympia Venture Advisory",
         logo: "O",
-        categories: ["B2B", "Consulting & Professional Services"],
+        categories: ["B2B", "PS"],
         linkedin: "olympia-venture-advisory",
         lastInteraction: "about 1 year ago",
         status: "Weak",
@@ -138,7 +138,7 @@ const accounts = [
     {
         company: "Microsoft",
         logo: "M",
-        categories: ["B2B", "Enterprise", "Information Technology", "Publishing", "Software"],
+        categories: ["B2B", "Enterprise", "Software"],
         linkedin: "microsoft",
         lastInteraction: "No contact",
         status: "No communication",
@@ -208,15 +208,17 @@ const accounts = [
                         </tr>
                     </thead>
                     <tbody>
-                        <% accounts.forEach(account => { %>
-                        <tr>
+                        <% accounts.forEach((account, index) => { %>
+                        <tr class="clickable-row" data-href="/accounts/<%= index + 1 %>">
                             <td>
                                 <div class="company-cell">
                                     <div class="company-logo" style="background-color: <%= account.logo === 'B' ? '#3498db' : account.logo === 'F' ? '#e74c3c' : account.logo === 'R' ? '#e67e22' : account.logo === 'Y' ? '#9b59b6' : account.logo === 'M' ? '#2ecc71' : '#95a5a6' %>">
                                         <%= account.logo %>
                                     </div>
                                     <div class="company-info">
-                                        <span class="company-name"><%= account.company %></span>
+                                        <a href="/accounts/<%= index + 1 %>" class="company-name-link">
+                                            <span class="company-name"><%= account.company %></span>
+                                        </a>
                                         <% if (account.linkedin) { %>
                                             <a href="#" class="company-linkedin">LinkedIn</a>
                                         <% } %>

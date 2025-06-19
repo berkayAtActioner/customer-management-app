@@ -92,6 +92,8 @@ body {
     flex: 1;
     overflow-y: auto;
     background-color: #fff;
+    display: flex;
+    flex-direction: column;
 }
 
 .page-header {
@@ -269,6 +271,8 @@ body {
 /* Table Styles */
 .accounts-table {
     overflow-x: auto;
+    flex: 1;
+    overflow-y: auto;
 }
 
 /* Remove top spacing when used with single-row header */
@@ -309,6 +313,9 @@ table {
 
 thead {
     background-color: #f9fafb;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 th {
@@ -317,6 +324,9 @@ th {
     font-size: 12px;
     font-weight: 600;
     color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     border-bottom: 1px solid #e5e5e5;
@@ -378,6 +388,14 @@ tbody tr:hover {
     background-color: #f9fafb;
 }
 
+tbody tr.clickable-row {
+    cursor: pointer;
+}
+
+tbody tr.clickable-row:hover {
+    background-color: #f3f4f6;
+}
+
 .company-cell {
     display: flex;
     align-items: center;
@@ -397,6 +415,15 @@ tbody tr:hover {
 
 .company-name {
     font-weight: 500;
+}
+
+.company-name-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.company-name-link:hover .company-name {
+    color: #3b82f6;
 }
 
 .categories {
@@ -599,6 +626,8 @@ tbody tr:hover {
     align-items: center;
     padding: 16px 30px;
     border-top: 1px solid #e5e5e5;
+    background-color: #fff;
+    flex-shrink: 0;
 }
 
 .pagination-info {
@@ -1109,6 +1138,8 @@ tbody tr:hover {
 /* Contacts Table Styles */
 .contacts-table {
     overflow-x: auto;
+    max-height: calc(100vh - 280px);
+    overflow-y: auto;
 }
 
 .contacts-table table {
@@ -2489,4 +2520,379 @@ tbody tr:hover {
     font-size: 15px;
     line-height: 1.6;
     color: #374151;
+}
+
+/* Usage Analytics Styles */
+.usage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.usage-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.title-icon {
+    width: 24px;
+    height: 24px;
+    color: #374151;
+}
+
+.usage-title h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.product-selector {
+    position: relative;
+}
+
+.product-dropdown {
+    appearance: none;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 8px 40px 8px 16px;
+    font-size: 14px;
+    color: #374151;
+    min-width: 200px;
+}
+
+.dropdown-arrow {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: #6b7280;
+    pointer-events: none;
+}
+
+.key-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.key-metric-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 24px;
+}
+
+.key-metric-card h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.key-metric-card .metric-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.key-metric-card .metric-description {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #6b7280;
+}
+
+.usage-analytics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.analytics-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.analytics-card.full-width {
+    grid-column: 1 / -1;
+}
+
+.chart-header-section {
+    padding: 24px 24px 20px 24px;
+}
+
+.chart-header-section h3 {
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.chart-footer-section {
+    padding: 16px 24px 24px 24px;
+}
+
+.analytics-card h3 {
+    margin: 0 0 16px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.chart-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.chart-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.chart-change {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+.chart-change.positive {
+    color: #059669;
+    background-color: #d1fae5;
+}
+
+.chart-change.negative {
+    color: #dc2626;
+    background-color: #fee2e2;
+}
+
+.change-icon {
+    width: 12px;
+    height: 12px;
+}
+
+.chart-area {
+    height: 120px;
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+
+.area-chart, .line-chart {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.chart-point {
+    cursor: pointer;
+}
+
+.chart-point:hover {
+    fill: currentColor;
+    fill-opacity: 0.8;
+}
+
+.chart-tooltip {
+    position: absolute;
+    background: #111827;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+    white-space: nowrap;
+}
+
+.chart-tooltip.visible {
+    opacity: 1;
+}
+
+.chart-description {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #6b7280;
+}
+
+/* 3-State Expandable Component Styles */
+.expandable-section {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.expandable-header {
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.expandable-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+.expandable-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Position controls in header for expanded and minimized states */
+.expandable-section.expanded .expandable-header,
+.expandable-section.minimized .expandable-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.expandable-section.expanded .expandable-controls,
+.expandable-section.minimized .expandable-controls {
+    position: static;
+    background: transparent;
+    padding: 0;
+}
+
+
+.expandable-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.expandable-toggle:hover {
+    background: #f3f4f6;
+}
+
+.expandable-toggle svg {
+    width: 20px;
+    height: 20px;
+}
+
+.expandable-content {
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.expandable-content-inner {
+    padding: 0 24px 24px;
+}
+
+/* Preview State */
+.expandable-section.preview {
+    position: relative;
+}
+
+.expandable-section.preview .expandable-content {
+    max-height: 150px;
+    position: relative;
+    overflow: hidden;
+}
+
+.expandable-section.preview .expandable-content::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 1) 100%);
+    pointer-events: none;
+}
+
+/* Move controls to bottom in preview state */
+.expandable-section.preview .expandable-controls {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    background: white;
+    padding: 0 4px;
+    z-index: 10;
+}
+
+.expandable-section.preview .expandable-header {
+    padding-bottom: 10px;
+}
+
+/* Expanded State */
+.expandable-section.expanded .expandable-content {
+    max-height: none;
+}
+
+/* Minimized State */
+.expandable-section.minimized .expandable-content {
+    max-height: 0;
+    padding: 0;
+}
+
+.expandable-section.minimized .expandable-header {
+    padding-bottom: 0;
+}
+
+
+
+/* Timeline specific expandable styles */
+.timeline-expandable {
+    background: transparent;
+    border: none;
+}
+
+.timeline-expandable .expandable-header {
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.timeline-expandable .expandable-content-inner {
+    padding: 0;
+}
+
+/* Timeline preview shows only first 3 items */
+.timeline-expandable.preview .timeline-item:nth-child(n+4) {
+    display: none;
+}
+
+/* Override the height-based preview for timeline */
+.timeline-expandable.preview .expandable-content {
+    max-height: none;
+    overflow: visible;
+}
+
+.timeline-expandable.preview .expandable-content::after {
+    display: none;
 }
