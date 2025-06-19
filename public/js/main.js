@@ -186,6 +186,154 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Accounts filter dropdown functionality
+    const accountsFilter = document.getElementById('accountsFilter');
+    if (accountsFilter) {
+        accountsFilter.addEventListener('change', function() {
+            const filterValue = this.value;
+            console.log('Filter changed to:', filterValue);
+            
+            // Get all account rows
+            const accountRows = document.querySelectorAll('.accounts-table tbody tr');
+            
+            accountRows.forEach(row => {
+                const companyCell = row.querySelector('.company-name');
+                const categoriesCell = row.querySelector('.categories');
+                const lastInteractionCell = row.cells[3]; // Last interaction column
+                
+                if (!companyCell || !categoriesCell) return;
+                
+                const companyName = companyCell.textContent.toLowerCase();
+                const categories = categoriesCell.textContent.toLowerCase();
+                const lastInteraction = lastInteractionCell ? lastInteractionCell.textContent.toLowerCase() : '';
+                
+                let shouldShow = true;
+                
+                switch (filterValue) {
+                    case 'all':
+                        shouldShow = true;
+                        break;
+                    case 'my':
+                        // Show companies with recent interactions (less than 6 months)
+                        shouldShow = !lastInteraction.includes('year') && !lastInteraction.includes('no contact');
+                        break;
+                    case 'enterprise':
+                        shouldShow = categories.includes('enterprise') || categories.includes('b2b');
+                        break;
+                    case 'education':
+                        shouldShow = categories.includes('education');
+                        break;
+                    case 'saas':
+                        shouldShow = categories.includes('saas');
+                        break;
+                    case 'recent':
+                        // Show companies with interactions in the last month
+                        shouldShow = lastInteraction.includes('days ago') || lastInteraction.includes('day ago');
+                        break;
+                    default:
+                        shouldShow = true;
+                }
+                
+                row.style.display = shouldShow ? '' : 'none';
+            });
+            
+            // Update count in footer
+            updateAccountCount();
+        });
+    }
+    
+    // Function to update account count
+    function updateAccountCount() {
+        const visibleRows = document.querySelectorAll('.accounts-table tbody tr:not([style*="display: none"])');
+        const countElement = document.querySelector('.pagination-info span');
+        if (countElement) {
+            countElement.textContent = `${visibleRows.length} count`;
+        }
+    }
+
+    // Contacts filter dropdown functionality
+    const contactsFilter = document.getElementById('contactsFilter');
+    if (contactsFilter) {
+        contactsFilter.addEventListener('change', function() {
+            const filterValue = this.value;
+            console.log('Contacts filter changed to:', filterValue);
+            
+            // Get all contact rows
+            const contactRows = document.querySelectorAll('.contacts-table tbody tr');
+            
+            contactRows.forEach(row => {
+                const nameCell = row.querySelector('.contact-name');
+                const companyCell = row.cells[2]; // Company column
+                const tagsCell = row.cells[4]; // Tags column
+                const lastInteractionCell = row.cells[5]; // Last interaction column
+                
+                if (!nameCell || !companyCell) return;
+                
+                const contactName = nameCell.textContent.toLowerCase();
+                const companyName = companyCell.textContent.toLowerCase();
+                const tags = tagsCell ? tagsCell.textContent.toLowerCase() : '';
+                const lastInteraction = lastInteractionCell ? lastInteractionCell.textContent.toLowerCase() : '';
+                
+                let shouldShow = true;
+                
+                switch (filterValue) {
+                    case 'all':
+                        shouldShow = true;
+                        break;
+                    case 'my':
+                        // Show contacts with recent interactions (less than 1 week)
+                        shouldShow = lastInteraction.includes('days ago') || lastInteraction.includes('day ago');
+                        break;
+                    case 'company':
+                        // In a real app, this would filter by the user's company
+                        // For demo, show contacts from specific companies
+                        shouldShow = companyName.includes('bilkent') || companyName.includes('flowla');
+                        break;
+                    default:
+                        shouldShow = true;
+                }
+                
+                row.style.display = shouldShow ? '' : 'none';
+            });
+            
+            // Update count in footer
+            updateContactCount();
+        });
+    }
+    
+    // Function to update contact count
+    function updateContactCount() {
+        const visibleRows = document.querySelectorAll('.contacts-table tbody tr:not([style*="display: none"])');
+        const countElement = document.querySelector('.contacts-table + .table-footer .pagination-info span');
+        if (countElement) {
+            countElement.textContent = `${visibleRows.length} contacts`;
+        }
+    }
+
+    // Overview expand/collapse functionality
+    const overviewExpandBtn = document.getElementById('overviewExpandBtn');
+    const overviewContent = document.getElementById('overviewContent');
+    
+    if (overviewExpandBtn && overviewContent) {
+        // Check if content needs expansion button
+        const checkOverviewHeight = () => {
+            const contentInner = overviewContent.querySelector('.overview-content-inner');
+            if (contentInner && contentInner.scrollHeight <= 300) {
+                overviewExpandBtn.style.display = 'none';
+                overviewContent.classList.add('expanded');
+            }
+        };
+        
+        // Initial check
+        checkOverviewHeight();
+        
+        overviewExpandBtn.addEventListener('click', function() {
+            const isExpanded = overviewContent.classList.toggle('expanded');
+            const expandText = this.querySelector('.expand-text');
+            expandText.textContent = isExpanded ? 'Show less' : 'Show more';
+        });
+    }
 });
 
 // Column resize functionality

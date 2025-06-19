@@ -143,7 +143,10 @@ const accountData = {
         industry: "Education",
         website: "bilkent.edu.tr",
         employees: "1000-5000",
+        plan: "Enterprise",
+        billing: "Annual",
         revenue: "$82,969",
+        renewalDate: "2025-07-15",
         location: "Ankara, Turkey",
         description: "Bilkent University is Turkey's first private, nonprofit university, established in 1984. Located in Ankara, the university is consistently ranked as one of the top institutions in Turkey and has gained international recognition for its academic excellence and research contributions. With over 13,000 students and 1,000 faculty members, Bilkent offers undergraduate and graduate programs across various disciplines including engineering, business, humanities, and sciences. The university is known for its English-medium instruction, modern campus facilities, and strong emphasis on research and innovation.",
         objectives: [
@@ -262,7 +265,10 @@ const accountData = {
         industry: "Technology",
         website: "example.com",
         employees: "50-200",
+        plan: "Pro",
+        billing: "Annual",
         revenue: "$1,000,000",
+        renewalDate: "2025-12-01",
         location: "San Francisco, CA",
         description: "A technology company focused on delivering innovative solutions to help businesses modernize their operations and improve efficiency. Founded with a mission to bridge the gap between traditional business processes and cutting-edge technology, the company serves mid-market organizations looking to digital transformation initiatives.",
         objectives: [
@@ -286,7 +292,10 @@ const accountMap = {
         industry: "Technology",
         website: "flowla.com",
         employees: "10-50",
+        plan: "Starter",
+        billing: "Monthly",
         revenue: "$26",
+        renewalDate: "2024-07-05",
         location: "San Francisco, CA",
         description: "Flowla is an innovative B2B SaaS company that specializes in sales enablement and buyer experience platforms. Founded in 2021, the company is headquartered in San Francisco and serves growing businesses looking to modernize their sales processes. Flowla's platform helps sales teams create personalized, interactive buyer journeys that engage prospects and accelerate deal closure. With a team of 25 employees, the company has quickly gained traction in the competitive sales tech market, serving over 150 customers globally.",
         objectives: [
@@ -370,7 +379,10 @@ const accountMap = {
         industry: "Internet & Media",
         website: "yahoo.com",
         employees: "5000+",
+        plan: "Enterprise",
+        billing: "Annual",
         revenue: "$1,424,939",
+        renewalDate: "2025-09-30",
         location: "Sunnyvale, CA",
         description: "Yahoo is a global media and technology company that has been a pioneer in the internet industry since 1994. Headquartered in Sunnyvale, California, Yahoo operates one of the largest digital media networks worldwide, reaching over 900 million users monthly. The company provides a comprehensive suite of web services including search, email, news, sports, finance, and entertainment content. With a focus on mobile-first experiences and personalized content delivery, Yahoo continues to innovate in digital advertising, data analytics, and enterprise solutions while maintaining its position as a trusted source of information and services for millions of users globally.",
         objectives: [
@@ -427,6 +439,7 @@ const accountMap = {
         website: "microsoft.com",
         employees: "100,000+",
         revenue: "$12,814,907",
+        renewalDate: "2025-11-15",
         location: "Redmond, WA",
         description: "Microsoft Corporation is one of the world's largest and most influential technology companies, founded in 1975 by Bill Gates and Paul Allen. Headquartered in Redmond, Washington, Microsoft employs over 200,000 people globally and serves billions of customers and businesses worldwide. The company is a leader in personal computing software, cloud computing, enterprise solutions, gaming, and productivity applications. With products and services spanning Windows operating systems, Microsoft 365, Azure cloud platform, Teams collaboration tools, and Xbox gaming, Microsoft continues to drive digital transformation across industries while maintaining its commitment to empowering every person and organization on the planet to achieve more.",
         objectives: [
@@ -996,21 +1009,21 @@ function getParticipantClass(type) {
                         <div class="account-meta">
                             <span class="meta-item">
                                 <svg viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-5L9 2H4z"/>
-                                </svg>
-                                <%= account.industry %>
-                            </span>
-                            <span class="meta-item">
-                                <svg viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"/>
-                                </svg>
-                                <%= account.website %>
-                            </span>
-                            <span class="meta-item">
-                                <svg viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
                                 </svg>
                                 <%= account.employees %>
+                            </span>
+                            <span class="meta-item">
+                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+                                </svg>
+                                <%= account.plan %>
+                            </span>
+                            <span class="meta-item">
+                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"/>
+                                </svg>
+                                <%= account.billing %>
                             </span>
                             <span class="meta-item">
                                 <svg viewBox="0 0 20 20" fill="currentColor">
@@ -1018,6 +1031,19 @@ function getParticipantClass(type) {
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z"/>
                                 </svg>
                                 ARR: <%= account.revenue %>
+                                <% if (account.billing === 'Annual' && account.renewalDate) { %>
+                                    <% 
+                                    const renewalDate = new Date(account.renewalDate);
+                                    const today = new Date();
+                                    const diffTime = renewalDate - today;
+                                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                                    const isWithin30 = diffDays <= 30 && diffDays > 0;
+                                    const isWithin90 = diffDays <= 90 && diffDays > 30;
+                                    const renewalClass = isWithin30 ? 'renewal-urgent' : isWithin90 ? 'renewal-warning' : 'renewal-normal';
+                                    const formattedDate = renewalDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                                    %>
+                                    • Renewal: <span class="<%= renewalClass %>"><%= formattedDate %></span>
+                                <% } %>
                             </span>
                         </div>
                     </div>
@@ -1048,25 +1074,39 @@ function getParticipantClass(type) {
                                 <!-- Overview Text Section -->
                                 <div class="overview-text-section">
                                     <div class="overview-card">
-                                        <!-- Company Description -->
-                                        <div class="overview-paragraph">
-                                            <p><%= account.description || account.summary %></p>
+                                        <div class="overview-content" id="overviewContent">
+                                            <div class="overview-content-inner">
+                                                <!-- Company Description -->
+                                                <div class="overview-paragraph">
+                                                    <p><%= account.description || account.summary %></p>
+                                                </div>
+                                                
+                                                <!-- Company Objectives -->
+                                                <% if (account.objectives && account.objectives.length > 0) { %>
+                                                <div class="overview-paragraph">
+                                                    <p>The company's primary strategic objectives include:</p>
+                                                    <ul class="objectives-list">
+                                                        <% account.objectives.forEach(objective => { %>
+                                                            <li><%= objective %></li>
+                                                        <% }) %>
+                                                    </ul>
+                                                </div>
+                                                <% } %>
+                                            </div>
+                                            <div class="overview-fade"></div>
                                         </div>
-                                        
-                                        <!-- Company Objectives -->
-                                        <% if (account.objectives && account.objectives.length > 0) { %>
-                                        <div class="overview-paragraph">
-                                            <p>The company's primary strategic objectives include:</p>
-                                            <ul class="objectives-list">
-                                                <% account.objectives.forEach(objective => { %>
-                                                    <li><%= objective %></li>
-                                                <% }) %>
-                                            </ul>
-                                        </div>
-                                        <% } %>
-                                        
+                                        <button class="overview-expand-btn" id="overviewExpandBtn">
+                                            <span class="expand-text">Show more</span>
+                                            <svg class="expand-icon" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Summary Section (Always Visible) -->
+                                    <div class="summary-section">
                                         <!-- Ticket Summary -->
-                                        <div class="overview-paragraph">
+                                        <div class="summary-item">
                                             <p><%= generateTicketSummary(accountTickets) %> 
                                                 <% if (accountTickets.length > 0) { %>
                                                     <a href="#" class="tab-link" data-tab="tickets">View all tickets →</a>
@@ -1075,7 +1115,7 @@ function getParticipantClass(type) {
                                         </div>
                                         
                                         <!-- Usage Analytics Summary -->
-                                        <div class="overview-paragraph">
+                                        <div class="summary-item">
                                             <p><%= generateUsageSummary(accountUsage, account.name) %> 
                                                 <% if (accountUsage.monthlyTrend.length > 0) { %>
                                                     <a href="#" class="tab-link" data-tab="usage">View detailed analytics →</a>

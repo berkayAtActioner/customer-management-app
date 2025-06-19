@@ -133,6 +133,64 @@ body {
     gap: 10px;
 }
 
+/* Accounts Page Single Row Header */
+.accounts-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 30px;
+}
+
+.accounts-header h1 {
+    margin: 0;
+    font-size: 24px;
+    margin-right: 0;
+}
+
+.accounts-header .search-bar {
+    flex: 1;
+    max-width: 400px;
+}
+
+/* Accounts Filter Dropdown */
+.accounts-filter-dropdown {
+    position: relative;
+}
+
+.filter-dropdown {
+    appearance: none;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 6px;
+    padding: 8px 32px 8px 12px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    min-width: 160px;
+    transition: all 0.2s;
+}
+
+.filter-dropdown:hover {
+    border-color: #cbd5e1;
+}
+
+.filter-dropdown:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.dropdown-icon {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: #666;
+    pointer-events: none;
+}
+
 .btn-import, .btn-primary {
     padding: 8px 16px;
     border: 1px solid #e5e5e5;
@@ -211,6 +269,36 @@ body {
 /* Table Styles */
 .accounts-table {
     overflow-x: auto;
+}
+
+/* Remove top spacing when used with single-row header */
+.accounts-header + .accounts-table,
+.contacts-header + .contacts-table {
+    border-top: 1px solid #e5e5e5;
+}
+
+/* Contacts Page Single Row Header - Same as accounts */
+.contacts-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 30px;
+}
+
+.contacts-header h1 {
+    margin: 0;
+    font-size: 24px;
+    margin-right: 0;
+}
+
+.contacts-header .search-bar {
+    flex: 1;
+    max-width: 400px;
+}
+
+/* Filter Dropdown - shared between accounts and contacts */
+.contacts-filter-dropdown {
+    position: relative;
 }
 
 table {
@@ -314,7 +402,8 @@ tbody tr:hover {
 .categories {
     display: flex;
     gap: 6px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow: hidden;
 }
 
 .category-tag {
@@ -322,6 +411,11 @@ tbody tr:hover {
     border-radius: 4px;
     font-size: 11px;
     font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80px;
+    display: inline-block;
 }
 
 .tag-education {
@@ -396,8 +490,106 @@ tbody tr:hover {
     color: #6b7280;
 }
 
+/* Contact Tags */
+.contact-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.contact-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.tag-admin {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.tag-economic {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.tag-power {
+    background-color: #fce7f3;
+    color: #831843;
+}
+
 .text-right {
     text-align: right;
+}
+
+/* MAU Sparkline Styles */
+.mau-sparkline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mau-sparkline svg {
+    background: #f8fafc;
+    border-radius: 4px;
+}
+
+.mau-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+    min-width: 40px;
+    text-align: right;
+}
+
+/* Health Score Sparkline Styles */
+.health-sparkline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.health-sparkline svg {
+    background: #f8fafc;
+    border-radius: 4px;
+}
+
+.health-value {
+    font-size: 14px;
+    font-weight: 600;
+    min-width: 30px;
+    text-align: right;
+}
+
+/* Renewal Date Styles */
+.renewal-normal {
+    color: #374151;
+    font-size: 14px;
+}
+
+.renewal-expiring {
+    color: #f59e0b;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.renewal-expired {
+    color: #ef4444;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Account Details Renewal Date Styles */
+.renewal-urgent {
+    color: #ef4444;
+    font-weight: 600;
+}
+
+.renewal-warning {
+    color: #8b5cf6;
+    font-weight: 600;
 }
 
 /* Table Footer */
@@ -962,6 +1154,22 @@ tbody tr:hover {
 }
 
 .contact-linkedin:hover {
+    text-decoration: underline;
+}
+
+.company-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.company-linkedin {
+    font-size: 12px;
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.company-linkedin:hover {
     text-decoration: underline;
 }
 
@@ -2198,4 +2406,85 @@ tbody tr:hover {
     background: white;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
+    position: relative;
+}
+
+.overview-content {
+    max-height: 300px;
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.3s ease;
+}
+
+.overview-content.expanded {
+    max-height: none;
+}
+
+.overview-content-inner {
+    padding-bottom: 20px;
+}
+
+.overview-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 1) 100%);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.overview-content.expanded .overview-fade {
+    opacity: 0;
+}
+
+.overview-expand-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 16px auto 0;
+    padding: 8px 16px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.overview-expand-btn:hover {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+.overview-expand-btn .expand-icon {
+    transition: transform 0.3s ease;
+}
+
+.overview-content.expanded + .overview-expand-btn .expand-icon {
+    transform: rotate(180deg);
+}
+
+.summary-section {
+    margin-top: 20px;
+    padding: 20px 24px;
+    background: #f9fafb;
+    border-radius: 8px;
+}
+
+.summary-item {
+    margin-bottom: 12px;
+}
+
+.summary-item:last-child {
+    margin-bottom: 0;
+}
+
+.summary-item p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #374151;
 }

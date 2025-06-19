@@ -8,7 +8,11 @@ const accounts = [
         lastInteraction: "over 1 year ago",
         status: "Very weak",
         arr: 82969,
-        twitter: "BilkentUniv",
+        renewalDate: "2025-07-15",
+        mau: [450, 445, 440, 438, 435, 430, 428, 425, 420, 415, 410, 408],
+        currentMau: 408,
+        healthScore: [45, 44, 42, 41, 40, 38, 35, 33, 30, 28, 25, 22],
+        currentHealth: 22,
         domain: "bilkent.edu.tr"
     },
     {
@@ -19,7 +23,11 @@ const accounts = [
         lastInteraction: "5 months ago",
         status: "Very weak",
         arr: 26,
-        twitter: "Flowlacom",
+        renewalDate: "2025-07-05",
+        mau: [15, 18, 22, 25, 28, 32, 35, 40, 38, 36, 35, 34],
+        currentMau: 34,
+        healthScore: [20, 25, 30, 35, 40, 45, 50, 55, 52, 48, 45, 42],
+        currentHealth: 42,
         domain: "flowla.com"
     },
     {
@@ -30,7 +38,11 @@ const accounts = [
         lastInteraction: "5 days ago",
         status: "Very weak",
         arr: null,
-        twitter: "successnavigator",
+        renewalDate: null,
+        mau: [5, 5, 6, 7, 8, 12, 15, 14, 13, 12, 11, 10],
+        currentMau: 10,
+        healthScore: [30, 32, 35, 40, 45, 55, 65, 62, 58, 55, 52, 50],
+        currentHealth: 50,
         domain: null
     },
     {
@@ -41,7 +53,11 @@ const accounts = [
         lastInteraction: "6 months ago",
         status: "Very weak",
         arr: null,
-        twitter: "reach2salescom",
+        renewalDate: null,
+        mau: [2, 2, 2, 3, 3, 3, 2, 2, 2, 1, 1, 1],
+        currentMau: 1,
+        healthScore: [25, 25, 25, 28, 28, 28, 25, 22, 20, 15, 12, 10],
+        currentHealth: 10,
         domain: null
     },
     {
@@ -52,7 +68,11 @@ const accounts = [
         lastInteraction: "5 days ago",
         status: "Weak",
         arr: 1386,
-        twitter: "merge_api",
+        renewalDate: "2025-07-10",
+        mau: [80, 85, 90, 88, 92, 95, 98, 102, 105, 110, 108, 112],
+        currentMau: 112,
+        healthScore: [60, 62, 65, 64, 66, 68, 70, 72, 74, 76, 75, 78],
+        currentHealth: 78,
         domain: "merge.dev"
     },
     {
@@ -63,7 +83,11 @@ const accounts = [
         lastInteraction: "7 days ago",
         status: "Very weak",
         arr: 1424939,
-        twitter: "Yahoo",
+        renewalDate: "2025-09-30",
+        mau: [1200, 1180, 1150, 1140, 1120, 1100, 1080, 1050, 1020, 1000, 980, 950],
+        currentMau: 950,
+        healthScore: [40, 38, 35, 34, 32, 30, 28, 25, 22, 20, 18, 15],
+        currentHealth: 15,
         domain: "yahoo.com"
     },
     {
@@ -74,7 +98,11 @@ const accounts = [
         lastInteraction: "No contact",
         status: "No communication",
         arr: 3342,
-        twitter: "VWO",
+        renewalDate: "2025-10-15",
+        mau: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        currentMau: 0,
+        healthScore: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+        currentHealth: 5,
         domain: "vwo.com"
     },
     {
@@ -85,7 +113,11 @@ const accounts = [
         lastInteraction: "about 1 year ago",
         status: "Weak",
         arr: null,
-        twitter: null,
+        renewalDate: null,
+        mau: [8, 8, 9, 10, 11, 12, 11, 10, 9, 8, 7, 6],
+        currentMau: 6,
+        healthScore: [35, 35, 38, 40, 42, 45, 42, 40, 38, 35, 32, 30],
+        currentHealth: 30,
         domain: "olympiaventure.com"
     },
     {
@@ -96,7 +128,11 @@ const accounts = [
         lastInteraction: "12 months ago",
         status: "Weak",
         arr: 82969,
-        twitter: "BilkentUniv",
+        renewalDate: "2025-12-01",
+        mau: [380, 385, 390, 395, 400, 420, 440, 435, 430, 425, 420, 415],
+        currentMau: 415,
+        healthScore: [50, 52, 54, 56, 58, 65, 70, 68, 66, 64, 62, 60],
+        currentHealth: 60,
         domain: "ug.bilkent.edu.tr"
     },
     {
@@ -107,7 +143,11 @@ const accounts = [
         lastInteraction: "No contact",
         status: "No communication",
         arr: 12814907,
-        twitter: "Microsoft",
+        renewalDate: "2025-11-15",
+        mau: [2500, 2520, 2550, 2580, 2600, 2650, 2700, 2680, 2660, 2640, 2620, 2600],
+        currentMau: 2600,
+        healthScore: [80, 82, 84, 86, 88, 90, 92, 90, 88, 86, 84, 82],
+        currentHealth: 82,
         domain: "microsoft.com"
     }
 ];
@@ -126,55 +166,45 @@ const accounts = [
     <div class="app-container">
         <%- include('../partials/sidebar') %>
         <div class="main-content">
-            <div class="page-header">
-                <div class="header-left">
-                    <h1>Companies</h1>
-                    <div class="header-tabs">
-                        <button class="tab-button active">All Companies</button>
-                        <button class="tab-button">View settings</button>
-                    </div>
+            <div class="page-header accounts-header">
+                <h1>Accounts</h1>
+                
+                <div class="accounts-filter-dropdown">
+                    <select class="filter-dropdown" id="accountsFilter">
+                        <option value="all">All Companies</option>
+                        <option value="my">My Companies</option>
+                        <option value="enterprise">Enterprise</option>
+                        <option value="education">Education</option>
+                        <option value="saas">SaaS</option>
+                        <option value="recent">Recently Active</option>
+                    </select>
+                    <svg class="dropdown-icon" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                    </svg>
                 </div>
-                <div class="header-right">
-                    <button class="btn-import">Import / Export</button>
-                    <button class="btn-primary">New Company</button>
-                </div>
-            </div>
-
-            <div class="toolbar">
+                
                 <div class="search-bar">
                     <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
                     </svg>
-                    <input type="text" placeholder="Quick actions" class="search-input">
+                    <input type="text" placeholder="Search accounts..." class="search-input">
                 </div>
-                <div class="toolbar-right">
-                    <button class="btn-filter">
-                        <svg viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"/>
-                        </svg>
-                        Filter
-                    </button>
-                    <button class="btn-sort">
-                        <svg viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
-                        </svg>
-                        Sort
-                    </button>
-                </div>
+                
+                <button class="btn-primary">New Company</button>
             </div>
 
             <div class="accounts-table">
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 200px;">Company<span class="resize-handle"></span></th>
-                            <th style="width: 250px;">Categories<span class="resize-handle"></span></th>
-                            <th style="width: 120px;">LinkedIn<span class="resize-handle"></span></th>
+                            <th style="width: 220px;">Company<span class="resize-handle"></span></th>
                             <th style="width: 140px;">Last interaction<span class="resize-handle"></span></th>
-                            <th style="width: 150px;">Connection strength<span class="resize-handle"></span></th>
-                            <th style="width: 120px;">Twitter followers<span class="resize-handle"></span></th>
-                            <th style="width: 120px;">Twitter<span class="resize-handle"></span></th>
+                            <th style="width: 140px;">MAU<span class="resize-handle"></span></th>
+                            <th style="width: 140px;">Health Score<span class="resize-handle"></span></th>
+                            <th style="width: 110px;">ARR<span class="resize-handle"></span></th>
+                            <th style="width: 130px;">Renewal<span class="resize-handle"></span></th>
                             <th style="width: 150px;">Domain<span class="resize-handle"></span></th>
+                            <th style="width: 240px;">Tags<span class="resize-handle"></span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -185,45 +215,123 @@ const accounts = [
                                     <div class="company-logo" style="background-color: <%= account.logo === 'B' ? '#3498db' : account.logo === 'F' ? '#e74c3c' : account.logo === 'R' ? '#e67e22' : account.logo === 'Y' ? '#9b59b6' : account.logo === 'M' ? '#2ecc71' : '#95a5a6' %>">
                                         <%= account.logo %>
                                     </div>
-                                    <span class="company-name"><%= account.company %></span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="categories">
-                                    <% account.categories.forEach((cat, index) => { %>
-                                        <span class="category-tag <%= cat === 'Education' ? 'tag-education' : cat === 'B2B' || cat === 'B2C' ? 'tag-business' : cat === 'E-commerce' ? 'tag-commerce' : cat === 'SAAS' ? 'tag-saas' : cat === 'Internet' ? 'tag-internet' : cat === 'Enterprise' ? 'tag-enterprise' : cat === 'Publishing' ? 'tag-publishing' : 'tag-default' %>">
-                                            <%= cat %>
-                                        </span>
-                                        <% if (index < account.categories.length - 1) { %>
+                                    <div class="company-info">
+                                        <span class="company-name"><%= account.company %></span>
+                                        <% if (account.linkedin) { %>
+                                            <a href="#" class="company-linkedin">LinkedIn</a>
                                         <% } %>
-                                    <% }) %>
+                                    </div>
                                 </div>
-                            </td>
-                            <td>
-                                <% if (account.linkedin) { %>
-                                    <a href="#" class="linkedin-link"><%= account.linkedin %></a>
-                                <% } %>
                             </td>
                             <td><%= account.lastInteraction %></td>
                             <td>
-                                <span class="status-badge <%= account.status === 'Very weak' ? 'status-very-weak' : account.status === 'Weak' ? 'status-weak' : 'status-none' %>">
-                                    <%= account.status %>
-                                </span>
+                                <div class="mau-sparkline">
+                                    <svg width="80" height="30" viewBox="0 0 80 30" preserveAspectRatio="none">
+                                        <% 
+                                        const maxValue = Math.max(...account.mau);
+                                        const minValue = Math.min(...account.mau);
+                                        const range = maxValue - minValue || 1;
+                                        const points = account.mau.map((value, index) => {
+                                            const x = (index / (account.mau.length - 1)) * 80;
+                                            const y = 30 - ((value - minValue) / range) * 25 - 2.5;
+                                            return `${x},${y}`;
+                                        }).join(' ');
+                                        const fillPoints = `0,30 ${points} 80,30`;
+                                        %>
+                                        <defs>
+                                            <linearGradient id="sparklineGradient<%= account.company.replace(/\s+/g, '') %>" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.3" />
+                                                <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0.05" />
+                                            </linearGradient>
+                                        </defs>
+                                        <polygon 
+                                            points="<%= fillPoints %>" 
+                                            fill="url(#sparklineGradient<%= account.company.replace(/\s+/g, '') %>)"
+                                        />
+                                        <polyline 
+                                            points="<%= points %>" 
+                                            fill="none" 
+                                            stroke="#3b82f6" 
+                                            stroke-width="2"
+                                        />
+                                    </svg>
+                                    <span class="mau-value"><%= account.currentMau %></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="health-sparkline">
+                                    <svg width="80" height="30" viewBox="0 0 80 30" preserveAspectRatio="none">
+                                        <% 
+                                        const hMaxValue = Math.max(...account.healthScore);
+                                        const hMinValue = Math.min(...account.healthScore);
+                                        const hRange = hMaxValue - hMinValue || 1;
+                                        const hPoints = account.healthScore.map((value, index) => {
+                                            const x = (index / (account.healthScore.length - 1)) * 80;
+                                            const y = 30 - ((value - hMinValue) / hRange) * 25 - 2.5;
+                                            return `${x},${y}`;
+                                        }).join(' ');
+                                        const hFillPoints = `0,30 ${hPoints} 80,30`;
+                                        const healthColor = account.currentHealth >= 70 ? '#10b981' : account.currentHealth >= 40 ? '#f59e0b' : '#ef4444';
+                                        %>
+                                        <defs>
+                                            <linearGradient id="healthGradient<%= account.company.replace(/\s+/g, '') %>" x1="0%" y1="0%" x2="0%" y2="100%">
+                                                <stop offset="0%" style="stop-color:<%= healthColor %>;stop-opacity:0.3" />
+                                                <stop offset="100%" style="stop-color:<%= healthColor %>;stop-opacity:0.05" />
+                                            </linearGradient>
+                                        </defs>
+                                        <polygon 
+                                            points="<%= hFillPoints %>" 
+                                            fill="url(#healthGradient<%= account.company.replace(/\s+/g, '') %>)"
+                                        />
+                                        <polyline 
+                                            points="<%= hPoints %>" 
+                                            fill="none" 
+                                            stroke="<%= healthColor %>" 
+                                            stroke-width="2"
+                                        />
+                                    </svg>
+                                    <span class="health-value" style="color: <%= healthColor %>"><%= account.currentHealth %></span>
+                                </div>
                             </td>
                             <td class="text-right">
                                 <% if (account.arr) { %>
-                                    <%= account.arr.toLocaleString() %>
+                                    $<%= account.arr.toLocaleString() %>
+                                <% } else { %>
+                                    -
                                 <% } %>
                             </td>
                             <td>
-                                <% if (account.twitter) { %>
-                                    <a href="#" class="twitter-link"><%= account.twitter %></a>
+                                <% if (account.renewalDate) { %>
+                                    <% 
+                                    const renewalDate = new Date(account.renewalDate);
+                                    const today = new Date();
+                                    const diffTime = renewalDate - today;
+                                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                                    const isWithin30 = diffDays <= 30 && diffDays > 0;
+                                    const isWithin90 = diffDays <= 90 && diffDays > 30;
+                                    const dateClass = isWithin30 ? 'renewal-urgent' : isWithin90 ? 'renewal-warning' : 'renewal-normal';
+                                    const formattedDate = renewalDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                                    %>
+                                    <span class="<%= dateClass %>"><%= formattedDate %></span>
+                                <% } else { %>
+                                    -
                                 <% } %>
                             </td>
                             <td>
                                 <% if (account.domain) { %>
                                     <a href="#" class="domain-link"><%= account.domain %></a>
                                 <% } %>
+                            </td>
+                            <td>
+                                <div class="categories">
+                                    <% account.categories.forEach((cat, index) => { %>
+                                        <span class="category-tag <%= cat === 'Education' ? 'tag-education' : cat === 'B2B' || cat === 'B2C' ? 'tag-business' : cat === 'E-commerce' ? 'tag-commerce' : cat === 'SAAS' ? 'tag-saas' : cat === 'Internet' ? 'tag-internet' : cat === 'Enterprise' ? 'tag-enterprise' : cat === 'Publishing' ? 'tag-publishing' : 'tag-default' %>" title="<%= cat %>">
+                                            <%= cat %>
+                                        </span>
+                                        <% if (index < account.categories.length - 1) { %>
+                                        <% } %>
+                                    <% }) %>
+                                </div>
                             </td>
                         </tr>
                         <% }) %>

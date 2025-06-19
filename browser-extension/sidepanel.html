@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Management Assistant</title>
+    <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+    <div class="sidepanel-container">
+        <header class="sidepanel-header">
+            <div class="logo">
+                <div class="logo-icon">CM</div>
+                <span>Customer Assistant</span>
+            </div>
+        </header>
+
+        <div class="content-area">
+            <!-- Loading State -->
+            <div id="loading-state" class="state-container">
+                <div class="loading-spinner"></div>
+                <p>Searching for contact information...</p>
+            </div>
+
+            <!-- No Contact Found State -->
+            <div id="no-contact-state" class="state-container hidden">
+                <div class="no-contact-icon">📧</div>
+                <h3>No Contact Found</h3>
+                <p>No matching contact or account information found for the detected email addresses on this page.</p>
+                <button id="manual-search-btn" class="btn-secondary">Manual Search</button>
+            </div>
+
+            <!-- Contact Found State -->
+            <div id="contact-found-state" class="state-container hidden">
+                <!-- Contact Information -->
+                <div class="contact-card">
+                    <div class="contact-header">
+                        <div class="contact-avatar">
+                            <span id="contact-initials">JD</span>
+                        </div>
+                        <div class="contact-info">
+                            <h3 id="contact-name">John Doe</h3>
+                            <p id="contact-title">Software Engineer</p>
+                            <p id="contact-email">john@example.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-details">
+                        <div class="detail-item">
+                            <span class="label">Phone:</span>
+                            <span id="contact-phone">+1 555 0123</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">LinkedIn:</span>
+                            <a id="contact-linkedin" href="#" target="_blank">View Profile</a>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Last Interaction:</span>
+                            <span id="contact-last-interaction">2 days ago</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Status:</span>
+                            <span id="contact-status" class="status-badge">Active</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Information -->
+                <div class="account-card">
+                    <div class="account-header">
+                        <h4 id="account-name">Company Name</h4>
+                        <button id="view-account-btn" class="btn-primary">View Account</button>
+                    </div>
+                    <div class="account-summary">
+                        <div class="summary-item">
+                            <span class="metric">12</span>
+                            <span class="metric-label">Active Tickets</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="metric">8</span>
+                            <span class="metric-label">Team Members</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="metric">$2.4K</span>
+                            <span class="metric-label">Monthly Usage</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <h4>Quick Actions</h4>
+                    <div class="action-buttons">
+                        <button id="create-ticket-btn" class="action-btn">
+                            <span class="action-icon">🎫</span>
+                            Create Ticket
+                        </button>
+                        <button id="add-note-btn" class="action-btn">
+                            <span class="action-icon">📝</span>
+                            Add Note
+                        </button>
+                        <button id="create-task-btn" class="action-btn">
+                            <span class="action-icon">✅</span>
+                            Create Task
+                        </button>
+                        <button id="view-usage-btn" class="action-btn">
+                            <span class="action-icon">📊</span>
+                            View Usage
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="recent-activity">
+                    <h4>Recent Activity</h4>
+                    <div id="activity-list" class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">🎫</div>
+                            <div class="activity-content">
+                                <p>Ticket #123 updated</p>
+                                <span class="activity-time">2 hours ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">📧</div>
+                            <div class="activity-content">
+                                <p>Email sent to team</p>
+                                <span class="activity-time">1 day ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manual Search Form -->
+            <div id="manual-search-form" class="state-container hidden">
+                <h3>Search Contact</h3>
+                <form id="search-form">
+                    <div class="form-group">
+                        <label for="search-email">Email Address</label>
+                        <input type="email" id="search-email" placeholder="Enter email address...">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Search</button>
+                        <button type="button" id="cancel-search-btn" class="btn-secondary">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <footer class="sidepanel-footer">
+            <div class="footer-links">
+                <a href="#" id="open-app-btn">Open App</a>
+                <a href="#" id="settings-btn">Settings</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="sidepanel.js"></script>
+</body>
+</html>
