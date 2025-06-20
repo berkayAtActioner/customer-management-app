@@ -1,294 +1,11 @@
 <%
-// All contacts data for filtering
-const allContacts = [
-    {
-        id: "mehmet-ozkan",
-        name: "Dr. Mehmet Özkan",
-        title: "IT Director",
-        company: "Bilkent Universitesi",
-        email: "mozkan@bilkent.edu.tr",
-        phone: "+90 312 290 1234",
-        linkedin: "mehmetozkan",
-        lastInteraction: "2 days ago",
-        status: "Active",
-        type: "contact"
-    },
-    {
-        id: "ayse-yilmaz",
-        name: "Prof. Ayşe Yılmaz",
-        title: "CTO",
-        company: "Bilkent Universitesi",
-        email: "ayilmaz@bilkent.edu.tr",
-        phone: "+90 312 290 1235",
-        linkedin: "ayseyilmaz",
-        lastInteraction: "1 week ago",
-        status: "Active",
-        type: "contact"
-    },
-    {
-        id: "alex-thompson",
-        name: "Alex Thompson",
-        title: "CEO",
-        company: "Flowla",
-        email: "alex@flowla.com",
-        phone: "+1 415 555 0100",
-        linkedin: "alexthompson",
-        lastInteraction: "3 days ago",
-        status: "Active",
-        type: "contact"
-    },
-    {
-        id: "emma-davis",
-        name: "Emma Davis",
-        title: "Head of Sales",
-        company: "Flowla",
-        email: "emma@flowla.com",
-        phone: "+1 415 555 0101",
-        linkedin: "emmadavis",
-        lastInteraction: "5 days ago",
-        status: "Active",
-        type: "contact"
-    },
-    {
-        id: "ryan-park",
-        name: "Ryan Park",
-        title: "CTO",
-        company: "Flowla",
-        email: "ryan@flowla.com",
-        phone: "+1 415 555 0102",
-        linkedin: "ryanpark",
-        lastInteraction: "1 week ago",
-        status: "Active",
-        type: "contact"
-    },
-    {
-        id: "emre-demir",
-        name: "Emre Demir",
-        title: "Lead Developer",
-        company: "Bilkent Universitesi",
-        email: "edemir@bilkent.edu.tr",
-        phone: "+90 312 290 1236",
-        linkedin: "emredemir",
-        lastInteraction: "2 weeks ago",
-        status: "Active",
-        type: "contact"
-    },
-    {
-        id: "zeynep-kaya",
-        name: "Zeynep Kaya",
-        title: "System Admin",
-        company: "Bilkent Universitesi",
-        email: "zkaya@bilkent.edu.tr",
-        phone: "+90 312 290 1237",
-        linkedin: "zeynepkaya",
-        lastInteraction: "3 days ago",
-        status: "Active",
-        type: "contact"
-    },
-    {
-        id: "david-chen",
-        name: "David Chen",
-        title: "Engineering Manager",
-        company: "Yahoo",
-        email: "dchen@yahoo.com",
-        phone: "+1 408 555 0200",
-        linkedin: "davidchen",
-        lastInteraction: "4 days ago",
-        status: "Active",
-        type: "contact"
-    },
-    {
-        id: "jennifer-wong",
-        name: "Jennifer Wong",
-        title: "Product Director",
-        company: "Yahoo",
-        email: "jwong@yahoo.com",
-        phone: "+1 408 555 0201",
-        linkedin: "jenniferwong",
-        lastInteraction: "1 week ago",
-        status: "Active",
-        type: "contact"
-    },
-    {
-        id: "michael-johnson",
-        name: "Michael Johnson",
-        title: "VP of Engineering",
-        company: "Microsoft",
-        email: "mjohnson@microsoft.com",
-        phone: "+1 425 555 0300",
-        linkedin: "michaeljohnson",
-        lastInteraction: "3 days ago",
-        status: "Active",
-        type: "contact"
-    },
-    {
-        id: "sarah-martinez",
-        name: "Sarah Martinez",
-        title: "Solutions Architect",
-        company: "Microsoft",
-        email: "smartinez@microsoft.com",
-        phone: "+1 425 555 0301",
-        linkedin: "sarahmartinez",
-        lastInteraction: "5 days ago",
-        status: "Active",
-        type: "contact"
-    }
-];
+// allContacts and accountData are now passed from the server
 
-// Sample data for the account
-const accountData = {
-    bilkent: {
-        name: "Bilkent Universitesi",
-        logo: "B",
-        industry: "Education",
-        website: "bilkent.edu.tr",
-        employees: "1000-5000",
-        plan: "Enterprise",
-        billing: "Annual",
-        revenue: "$82,969",
-        renewalDate: "2025-07-15",
-        location: "Ankara, Turkey",
-        productSubscriptions: [
-            { name: "Asyncro - Cryptonix Synergy", id: "asyncro-crypto" },
-            { name: "DataFlow Analytics Pro", id: "dataflow-pro" }
-        ],
-        description: "Bilkent University is Turkey's first private, nonprofit university, established in 1984. Located in Ankara, the university is consistently ranked as one of the top institutions in Turkey and has gained international recognition for its academic excellence and research contributions. With over 13,000 students and 1,000 faculty members, Bilkent offers undergraduate and graduate programs across various disciplines including engineering, business, humanities, and sciences. The university is known for its English-medium instruction, modern campus facilities, and strong emphasis on research and innovation.",
-        objectives: [
-            "Modernize student information systems to improve administrative efficiency and student experience",
-            "Enhance online learning capabilities to support hybrid and remote education models",
-            "Implement comprehensive LMS integration for seamless course management",
-            "Expand digital infrastructure to support growing student and faculty populations"
-        ],
-        summary: "Leading private university in Turkey focused on academic excellence and research. Primary contact is through their IT department for educational technology solutions. Recent discussions have focused on LMS integration requirements, student portal customization, and mobile app development for campus services. Their main objectives include modernizing student information systems, improving online learning capabilities, and enhancing campus-wide communication tools.",
-        highlights: [
-            {
-                type: "feature-request",
-                title: "Feature Request",
-                content: "Need bulk import functionality for student records with CSV support",
-                date: "2024-01-15",
-                source: "Email"
-            },
-            {
-                type: "pain-point",
-                title: "Pain Point",
-                content: "Current system timeout issues when processing large batches of grade submissions",
-                date: "2024-01-10",
-                source: "Support Ticket"
-            },
-            {
-                type: "competitor",
-                title: "Competitor Mention",
-                content: "Evaluating Blackboard and Canvas as alternative solutions",
-                date: "2024-01-08",
-                source: "Meeting Notes"
-            }
-        ],
-        timeline: [
-            {
-                type: "email",
-                title: "Follow-up on integration timeline",
-                date: "2024-01-15",
-                time: "14:30",
-                description: "Discussed API requirements and timeline for Q1 implementation",
-                participants: {
-                    from: {name: "Dr. Mehmet Özkan", title: "IT Director", type: "contact", email: "mozkan@bilkent.edu.tr"},
-                    to: [
-                        {name: "Sarah Johnson", title: "Account Manager", type: "user", email: "sarah.johnson@company.com"},
-                        {name: "Mike Chen", title: "Solutions Engineer", type: "user", email: "mike.chen@company.com"}
-                    ],
-                    cc: [{name: "Prof. Ayşe Yılmaz", title: "CTO", type: "contact", email: "ayilmaz@bilkent.edu.tr"}]
-                }
-            },
-            {
-                type: "meeting",
-                title: "Technical Requirements Review",
-                date: "2024-01-12",
-                time: "10:00",
-                description: "2-hour deep dive into system architecture and integration points",
-                participants: {
-                    organizer: {name: "Sarah Johnson", title: "Account Manager", type: "user", email: "sarah.johnson@company.com"},
-                    attendees: [
-                        {name: "Dr. Mehmet Özkan", title: "IT Director", type: "contact", email: "mozkan@bilkent.edu.tr"},
-                        {name: "Emre Demir", title: "Lead Developer", type: "contact", email: "edemir@bilkent.edu.tr"},
-                        {name: "Sarah Johnson", title: "Account Manager", type: "user", email: "sarah.johnson@company.com"},
-                        {name: "Mike Chen", title: "Solutions Engineer", type: "user", email: "mike.chen@company.com"},
-                        {name: "Lisa Park", title: "Product Manager", type: "user", email: "lisa.park@company.com"}
-                    ]
-                }
-            },
-            {
-                type: "ticket",
-                title: "Support Ticket #1234 - Login Issues",
-                date: "2024-01-10",
-                time: "09:15",
-                description: "Resolved authentication problems affecting 200+ users",
-                participants: {
-                    reporter: {name: "Zeynep Kaya", title: "System Admin", type: "contact", email: "zkaya@bilkent.edu.tr"},
-                    assignee: {name: "Tom Wilson", title: "Support Engineer", type: "user", email: "tom.wilson@company.com"},
-                    watchers: [{name: "Dr. Mehmet Özkan", title: "IT Director", type: "contact", email: "mozkan@bilkent.edu.tr"}]
-                }
-            },
-            {
-                type: "email",
-                title: "Contract renewal discussion",
-                date: "2024-01-08",
-                time: "11:00",
-                description: "Initial discussion about contract renewal and expansion options",
-                participants: {
-                    from: {name: "Sarah Johnson", title: "Account Manager", type: "user", email: "sarah.johnson@company.com"},
-                    to: [
-                        {name: "Dr. Mehmet Özkan", title: "IT Director", type: "contact", email: "mozkan@bilkent.edu.tr"},
-                        {name: "Prof. Ayşe Yılmaz", title: "CTO", type: "contact", email: "ayilmaz@bilkent.edu.tr"}
-                    ],
-                    cc: [
-                        {name: "James Miller", title: "Sales Director", type: "user", email: "james.miller@company.com"},
-                        {name: "John Smith", title: "Consultant", type: "third-party", email: "john@consultingfirm.com"}
-                    ]
-                }
-            },
-            {
-                type: "call",
-                title: "Quarterly Business Review",
-                date: "2024-01-05",
-                time: "15:00",
-                description: "Reviewed Q4 performance and discussed Q1 roadmap",
-                participants: {
-                    attendees: [
-                        {name: "Dr. Mehmet Özkan", title: "IT Director", type: "contact", email: "mozkan@bilkent.edu.tr"},
-                        {name: "Prof. Ayşe Yılmaz", title: "CTO", type: "contact", email: "ayilmaz@bilkent.edu.tr"},
-                        {name: "Sarah Johnson", title: "Account Manager", type: "user", email: "sarah.johnson@company.com"},
-                        {name: "James Miller", title: "Sales Director", type: "user", email: "james.miller@company.com"}
-                    ]
-                }
-            }
-        ]
-    },
-    default: {
-        name: "Account",
-        logo: "A",
-        industry: "Technology",
-        website: "example.com",
-        employees: "50-200",
-        plan: "Pro",
-        billing: "Annual",
-        revenue: "$1,000,000",
-        renewalDate: "2025-12-01",
-        location: "San Francisco, CA",
-        description: "A technology company focused on delivering innovative solutions to help businesses modernize their operations and improve efficiency. Founded with a mission to bridge the gap between traditional business processes and cutting-edge technology, the company serves mid-market organizations looking to digital transformation initiatives.",
-        objectives: [
-            "Improve operational efficiency through process automation",
-            "Expand market reach and customer acquisition",
-            "Enhance product features based on customer feedback",
-            "Scale technical infrastructure to support growth",
-            "Develop strategic partnerships with industry leaders"
-        ],
-        summary: "Technology company focused on innovative solutions. Recent discussions have covered product updates, support issues, and contract negotiations. The company is looking to improve operational efficiency, expand market reach, and enhance product features to better serve their customers.",
-        highlights: [],
-        timeline: []
-    }
-};
+// Use the accountData passed from server instead of hardcoded mapping
+const accountMap = accountData;
 
-// For demo purposes, let's create a simple mapping
+// Old hardcoded mapping (commented out)
+/*
 const accountMap = {
     'flowla': {
         name: "Flowla",
@@ -379,7 +96,6 @@ const accountMap = {
             }
         ]
     },
-    'bilkent-universitesi': accountData.bilkent,
     'yahoo': {
         name: "Yahoo",
         logo: "Y",
@@ -596,24 +312,29 @@ const accountMap = {
         ]
     }
 };
+*/
 
-// Map numeric IDs from accounts page to account keys
-const accountIdMap = {
-    '1': 'bilkent',
-    '2': 'flowla', 
-    '3': 'successnavigator',
-    '4': 'r2s',
-    '5': 'merge',
-    '6': 'yahoo',
-    '7': 'wingify',
-    '8': 'olympia',
-    '9': 'bilkent-ug',
-    '10': 'microsoft'
+// Since we're now using company slugs in URLs, we can directly use the accountId
+const accountKey = accountId.toLowerCase().replace(/\s+/g, '-');
+
+// Use the accountData passed from server
+const account = accountMap[accountKey] || {
+    name: "Account",
+    logo: "A",
+    industry: "Technology",
+    website: "example.com",
+    employees: "50-200",
+    plan: "Pro",
+    billing: "Annual",
+    revenue: "$1,000,000",
+    renewalDate: "2025-12-01",
+    location: "San Francisco, CA",
+    description: "A technology company focused on delivering innovative solutions.",
+    objectives: [],
+    summary: "Technology company focused on innovative solutions.",
+    highlights: [],
+    timeline: []
 };
-
-// Use the mapped data if available, otherwise use default
-const accountKey = accountIdMap[accountId] || accountId.toLowerCase().replace(/\s+/g, '-');
-const account = accountMap[accountKey] || accountData.default;
 
 // Filter contacts by account domain
 const accountDomain = account.website;
@@ -1495,10 +1216,8 @@ function getParticipantClass(type) {
                     <div class="tab-pane" id="contacts-tab">
                         <div class="contacts-section">
                             <div class="section-header">
-                                <h3>Contacts at <%= account.name %></h3>
+                                <h3>Contacts</h3>
                                 <div class="header-actions">
-                                    <button class="btn-secondary">Import / Export</button>
-                                    <button class="btn-primary">New Contact</button>
                                 </div>
                             </div>
                             
@@ -1510,18 +1229,6 @@ function getParticipantClass(type) {
                                     <input type="text" placeholder="Search contacts..." class="search-input">
                                 </div>
                                 <div class="toolbar-right">
-                                    <button class="btn-filter">
-                                        <svg viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"/>
-                                        </svg>
-                                        Filter
-                                    </button>
-                                    <button class="btn-sort">
-                                        <svg viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
-                                        </svg>
-                                        Sort
-                                    </button>
                                 </div>
                             </div>
 
@@ -1533,7 +1240,7 @@ function getParticipantClass(type) {
                                                 <th style="width: 250px;">Name<span class="resize-handle"></span></th>
                                                 <th style="width: 200px;">Title<span class="resize-handle"></span></th>
                                                 <th style="width: 200px;">Email<span class="resize-handle"></span></th>
-                                                <th style="width: 150px;">Phone<span class="resize-handle"></span></th>
+                                                <th style="width: 250px;">Tags<span class="resize-handle"></span></th>
                                                 <th style="width: 150px;">Last Interaction<span class="resize-handle"></span></th>
                                                 <th style="width: 100px;">Status<span class="resize-handle"></span></th>
                                             </tr>
@@ -1558,7 +1265,17 @@ function getParticipantClass(type) {
                                                 <td>
                                                     <a href="mailto:<%= contact.email %>" class="email-link"><%= contact.email %></a>
                                                 </td>
-                                                <td><%= contact.phone %></td>
+                                                <td>
+                                                    <div class="contact-tags">
+                                                        <% if (contact.tags && contact.tags.length > 0) { %>
+                                                            <% contact.tags.forEach(tag => { %>
+                                                                <span class="contact-tag <%= tag === 'Economic buyer' ? 'tag-economic' : tag === 'Admin' ? 'tag-admin' : tag === 'Champion' ? 'tag-champion' : tag === 'Exec sponsor' ? 'tag-exec' : tag === 'Power user' ? 'tag-power' : 'tag-default' %>">
+                                                                    <%= tag %>
+                                                                </span>
+                                                            <% }) %>
+                                                        <% } %>
+                                                    </div>
+                                                </td>
                                                 <td><%= contact.lastInteraction %></td>
                                                 <td>
                                                     <span class="status-badge status-<%= contact.status.toLowerCase() %>">
@@ -1595,7 +1312,6 @@ function getParticipantClass(type) {
                             <div class="section-header">
                                 <h3>Support Tickets</h3>
                                 <div class="header-actions">
-                                    <button class="btn-secondary">Export</button>
                                     <button class="btn-primary">New Ticket</button>
                                 </div>
                             </div>
@@ -1608,18 +1324,6 @@ function getParticipantClass(type) {
                                     <input type="text" placeholder="Search tickets..." class="search-input">
                                 </div>
                                 <div class="toolbar-right">
-                                    <button class="btn-filter">
-                                        <svg viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"/>
-                                        </svg>
-                                        Filter
-                                    </button>
-                                    <button class="btn-sort">
-                                        <svg viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
-                                        </svg>
-                                        Sort
-                                    </button>
                                 </div>
                             </div>
 
@@ -1893,7 +1597,6 @@ function getParticipantClass(type) {
                             <div class="section-header">
                                 <h3>Account Notes</h3>
                                 <div class="header-actions">
-                                    <button class="btn-secondary">Export Notes</button>
                                     <button class="btn-primary">New Note</button>
                                 </div>
                             </div>
@@ -1993,7 +1696,6 @@ function getParticipantClass(type) {
                             <div class="section-header">
                                 <h3>Account Tasks</h3>
                                 <div class="header-actions">
-                                    <button class="btn-secondary">Export Tasks</button>
                                     <button class="btn-primary">New Task</button>
                                 </div>
                             </div>
@@ -2013,18 +1715,6 @@ function getParticipantClass(type) {
                                         <option value="pending">Pending</option>
                                         <option value="completed">Completed</option>
                                     </select>
-                                    <button class="btn-filter">
-                                        <svg viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"/>
-                                        </svg>
-                                        Filter
-                                    </button>
-                                    <button class="btn-sort">
-                                        <svg viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z"/>
-                                        </svg>
-                                        Sort
-                                    </button>
                                 </div>
                             </div>
 

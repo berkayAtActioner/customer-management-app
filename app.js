@@ -3,6 +3,9 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
+// Import mock data
+const mockData = require('./data/mockData');
+
 // Set up EJS as view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -20,7 +23,8 @@ app.get('/', (req, res) => {
 app.get('/accounts', (req, res) => {
     res.render('pages/accounts', { 
         title: 'Accounts',
-        activeTab: 'accounts'
+        activeTab: 'accounts',
+        accounts: mockData.accounts
     });
 });
 
@@ -30,7 +34,9 @@ app.get('/accounts/:id', (req, res) => {
     res.render('pages/account-details', { 
         title: 'Account Details',
         activeTab: 'accounts',
-        accountId: accountId
+        accountId: accountId,
+        allContacts: mockData.allContacts,
+        accountData: mockData.accountData
     });
 });
 
@@ -44,7 +50,8 @@ app.get('/chat', (req, res) => {
 app.get('/contacts', (req, res) => {
     res.render('pages/contacts', { 
         title: 'Contacts',
-        activeTab: 'contacts'
+        activeTab: 'contacts',
+        contacts: mockData.allContacts.filter(c => c.type === 'contact')
     });
 });
 
@@ -53,7 +60,8 @@ app.get('/contacts/:id', (req, res) => {
     res.render('pages/contact-details', { 
         title: 'Contact Details',
         activeTab: 'contacts',
-        contactId: contactId
+        contactId: contactId,
+        contactsData: mockData.contactsData
     });
 });
 

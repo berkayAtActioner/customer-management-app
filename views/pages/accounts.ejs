@@ -1,156 +1,14 @@
 <%
-const accounts = [
-    {
-        company: "Bilkent Universitesi",
-        logo: "B",
-        categories: ["Education"],
-        linkedin: "bilkentunam",
-        lastInteraction: "over 1 year ago",
-        status: "Very weak",
-        arr: 82969,
-        renewalDate: "2025-07-15",
-        mau: [450, 445, 440, 438, 435, 430, 428, 425, 420, 415, 410, 408],
-        currentMau: 408,
-        healthScore: [45, 44, 42, 41, 40, 38, 35, 33, 30, 28, 25, 22],
-        currentHealth: 22,
-        domain: "bilkent.edu.tr"
-    },
-    {
-        company: "Flowla",
-        logo: "F",
-        categories: ["B2B", "IT", "SAAS"],
-        linkedin: "flowlacom",
-        lastInteraction: "5 months ago",
-        status: "Very weak",
-        arr: 26,
-        renewalDate: "2025-07-05",
-        mau: [15, 18, 22, 25, 28, 32, 35, 40, 38, 36, 35, 34],
-        currentMau: 34,
-        healthScore: [20, 25, 30, 35, 40, 45, 50, 55, 52, 48, 45, 42],
-        currentHealth: 42,
-        domain: "flowla.com"
-    },
-    {
-        company: "SuccessNavigator",
-        logo: "S",
-        categories: ["Supplies", "PS"],
-        linkedin: "successnavigator",
-        lastInteraction: "5 days ago",
-        status: "Very weak",
-        arr: null,
-        renewalDate: null,
-        mau: [5, 5, 6, 7, 8, 12, 15, 14, 13, 12, 11, 10],
-        currentMau: 10,
-        healthScore: [30, 32, 35, 40, 45, 55, 65, 62, 58, 55, 52, 50],
-        currentHealth: 50,
-        domain: null
-    },
-    {
-        company: "R2S",
-        logo: "R",
-        categories: ["Automation", "B2C", "PS"],
-        linkedin: null,
-        lastInteraction: "6 months ago",
-        status: "Very weak",
-        arr: null,
-        renewalDate: null,
-        mau: [2, 2, 2, 3, 3, 3, 2, 2, 2, 1, 1, 1],
-        currentMau: 1,
-        healthScore: [25, 25, 25, 28, 28, 28, 25, 22, 20, 15, 12, 10],
-        currentHealth: 10,
-        domain: null
-    },
-    {
-        company: "Merge",
-        logo: "M",
-        categories: ["B2B", "IT", "SAAS"],
-        linkedin: "merge-api",
-        lastInteraction: "5 days ago",
-        status: "Weak",
-        arr: 1386,
-        renewalDate: "2025-07-10",
-        mau: [80, 85, 90, 88, 92, 95, 98, 102, 105, 110, 108, 112],
-        currentMau: 112,
-        healthScore: [60, 62, 65, 64, 66, 68, 70, 72, 74, 76, 75, 78],
-        currentHealth: 78,
-        domain: "merge.dev"
-    },
-    {
-        company: "Yahoo",
-        logo: "Y",
-        categories: ["B2C", "Publishing"],
-        linkedin: "yahoo",
-        lastInteraction: "7 days ago",
-        status: "Very weak",
-        arr: 1424939,
-        renewalDate: "2025-09-30",
-        mau: [1200, 1180, 1150, 1140, 1120, 1100, 1080, 1050, 1020, 1000, 980, 950],
-        currentMau: 950,
-        healthScore: [40, 38, 35, 34, 32, 30, 28, 25, 22, 20, 18, 15],
-        currentHealth: 15,
-        domain: "yahoo.com"
-    },
-    {
-        company: "Wingify",
-        logo: "W",
-        categories: ["B2B", "B2C", "IT"],
-        linkedin: "vwo",
-        lastInteraction: "No contact",
-        status: "No communication",
-        arr: 3342,
-        renewalDate: "2025-10-15",
-        mau: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        currentMau: 0,
-        healthScore: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
-        currentHealth: 5,
-        domain: "vwo.com"
-    },
-    {
-        company: "Olympia Venture Advisory",
-        logo: "O",
-        categories: ["B2B", "PS"],
-        linkedin: "olympia-venture-advisory",
-        lastInteraction: "about 1 year ago",
-        status: "Weak",
-        arr: null,
-        renewalDate: null,
-        mau: [8, 8, 9, 10, 11, 12, 11, 10, 9, 8, 7, 6],
-        currentMau: 6,
-        healthScore: [35, 35, 38, 40, 42, 45, 42, 40, 38, 35, 32, 30],
-        currentHealth: 30,
-        domain: "olympiaventure.com"
-    },
-    {
-        company: "Bilkent Universitesi",
-        logo: "B",
-        categories: ["Education"],
-        linkedin: "bilkentunam",
-        lastInteraction: "12 months ago",
-        status: "Weak",
-        arr: 82969,
-        renewalDate: "2025-12-01",
-        mau: [380, 385, 390, 395, 400, 420, 440, 435, 430, 425, 420, 415],
-        currentMau: 415,
-        healthScore: [50, 52, 54, 56, 58, 65, 70, 68, 66, 64, 62, 60],
-        currentHealth: 60,
-        domain: "ug.bilkent.edu.tr"
-    },
-    {
-        company: "Microsoft",
-        logo: "M",
-        categories: ["B2B", "Enterprise", "Software"],
-        linkedin: "microsoft",
-        lastInteraction: "No contact",
-        status: "No communication",
-        arr: 12814907,
-        renewalDate: "2025-11-15",
-        mau: [2500, 2520, 2550, 2580, 2600, 2650, 2700, 2680, 2660, 2640, 2620, 2600],
-        currentMau: 2600,
-        healthScore: [80, 82, 84, 86, 88, 90, 92, 90, 88, 86, 84, 82],
-        currentHealth: 82,
-        domain: "microsoft.com"
+// accounts is now passed from the server
+
+// Helper function to create company slug
+function getCompanySlug(companyName) {
+    // Special case for Bilkent Universitesi to match accountData key
+    if (companyName === 'Bilkent Universitesi') {
+        return 'bilkent';
     }
-];
+    return companyName.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+}
 %>
 
 <% layout = false %>
@@ -190,7 +48,6 @@ const accounts = [
                     <input type="text" placeholder="Search accounts..." class="search-input">
                 </div>
                 
-                <button class="btn-primary">New Company</button>
             </div>
 
             <div class="accounts-table">
@@ -209,14 +66,14 @@ const accounts = [
                     </thead>
                     <tbody>
                         <% accounts.forEach((account, index) => { %>
-                        <tr class="clickable-row" data-href="/accounts/<%= index + 1 %>">
+                        <tr class="clickable-row" data-href="/accounts/<%= getCompanySlug(account.company) %>">
                             <td>
                                 <div class="company-cell">
                                     <div class="company-logo" style="background-color: <%= account.logo === 'B' ? '#3498db' : account.logo === 'F' ? '#e74c3c' : account.logo === 'R' ? '#e67e22' : account.logo === 'Y' ? '#9b59b6' : account.logo === 'M' ? '#2ecc71' : '#95a5a6' %>">
                                         <%= account.logo %>
                                     </div>
                                     <div class="company-info">
-                                        <a href="/accounts/<%= index + 1 %>" class="company-name-link">
+                                        <a href="/accounts/<%= getCompanySlug(account.company) %>" class="company-name-link">
                                             <span class="company-name"><%= account.company %></span>
                                         </a>
                                         <% if (account.linkedin) { %>

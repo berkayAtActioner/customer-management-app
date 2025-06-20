@@ -1314,6 +1314,36 @@ tbody tr.clickable-row:hover {
     font-size: 13px;
 }
 
+.contact-tag.tag-economic {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.contact-tag.tag-admin {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.contact-tag.tag-champion {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.contact-tag.tag-exec {
+    background-color: #fce7f3;
+    color: #9f1239;
+}
+
+.contact-tag.tag-power {
+    background-color: #e9d5ff;
+    color: #6b21a8;
+}
+
+.contact-tag.tag-default {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
 .contact-actions {
     display: flex;
     gap: 12px;

@@ -1,94 +1,7 @@
 <%
-// Only show customer contacts (people with customer domain emails)
+// contacts is now passed from the server
+// Only customer contacts (people with customer domain emails) are shown
 // Internal users and third parties are not shown in the contacts list
-const contacts = [
-    {
-        id: "mehmet-ozkan",
-        name: "Dr. Mehmet Özkan",
-        title: "IT Director",
-        company: "Bilkent Universitesi",
-        email: "mozkan@bilkent.edu.tr",
-        linkedin: "mehmetozkan",
-        lastInteraction: "2 days ago",
-        status: "Active",
-        tags: ["Admin", "Economic buyer"],
-        type: "contact"
-    },
-    {
-        id: "ayse-yilmaz",
-        name: "Prof. Ayşe Yılmaz",
-        title: "CTO",
-        company: "Bilkent Universitesi",
-        email: "ayilmaz@bilkent.edu.tr",
-        linkedin: "ayseyilmaz",
-        lastInteraction: "1 week ago",
-        status: "Active",
-        tags: ["Economic buyer"],
-        type: "contact"
-    },
-    {
-        id: "alex-thompson",
-        name: "Alex Thompson",
-        title: "CEO",
-        company: "Flowla",
-        email: "alex@flowla.com",
-        linkedin: "alexthompson",
-        lastInteraction: "3 days ago",
-        status: "Active",
-        tags: ["Economic buyer", "Admin"],
-        type: "contact"
-    },
-    {
-        id: "emma-davis",
-        name: "Emma Davis",
-        title: "Head of Sales",
-        company: "Flowla",
-        email: "emma@flowla.com",
-        linkedin: "emmadavis",
-        lastInteraction: "5 days ago",
-        status: "Active",
-        tags: ["Power user"],
-        type: "contact"
-    },
-    {
-        id: "ryan-park",
-        name: "Ryan Park",
-        title: "CTO",
-        company: "Flowla",
-        email: "ryan@flowla.com",
-        linkedin: "ryanpark",
-        lastInteraction: "1 week ago",
-        status: "Active",
-        tags: ["Admin", "Power user"],
-        type: "contact"
-    },
-    {
-        id: "emre-demir",
-        name: "Emre Demir",
-        title: "Lead Developer",
-        company: "Bilkent Universitesi",
-        email: "edemir@bilkent.edu.tr",
-        linkedin: "emredemir",
-        lastInteraction: "2 weeks ago",
-        status: "Active",
-        tags: ["Power user"],
-        type: "contact"
-    },
-    {
-        id: "zeynep-kaya",
-        name: "Zeynep Kaya",
-        title: "System Admin",
-        company: "Bilkent Universitesi",
-        email: "zkaya@bilkent.edu.tr",
-        linkedin: "zeynepkaya",
-        lastInteraction: "3 days ago",
-        status: "Active",
-        tags: ["Admin"],
-        type: "contact"
-    }
-    // Internal users (Sarah Johnson, Mike Chen, Tom Wilson, Lisa Park, James Miller) 
-    // are not shown in contacts - they are "users" of our software, not customer contacts
-];
 %>
 
 <% layout = false %>
@@ -125,7 +38,6 @@ const contacts = [
                     <input type="text" placeholder="Search contacts..." class="search-input">
                 </div>
                 
-                <button class="btn-primary">New Contact</button>
             </div>
 
             <div class="contacts-table">
@@ -143,7 +55,7 @@ const contacts = [
                     </thead>
                     <tbody>
                         <% contacts.forEach(contact => { %>
-                        <tr data-contact-id="<%= contact.id %>">
+                        <tr class="clickable-row" data-href="/contacts/<%= contact.id %>">
                             <td>
                                 <div class="contact-cell">
                                     <div class="contact-avatar">
