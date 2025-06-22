@@ -1,6 +1,42 @@
 // Main JavaScript file for Customer Management App
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Sidebar toggle functionality
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const appContainer = document.getElementById('appContainer');
+    
+    // Remove init class now that JS is loaded
+    document.documentElement.classList.remove('sidebar-collapsed-init');
+    
+    // Load sidebar state from localStorage
+    const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    if (sidebarCollapsed && sidebar) {
+        sidebar.classList.add('collapsed');
+    }
+    
+    if (sidebarToggle && sidebar) {
+        sidebarToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            sidebar.classList.toggle('collapsed');
+            
+            // Save state to localStorage
+            const isCollapsed = sidebar.classList.contains('collapsed');
+            localStorage.setItem('sidebarCollapsed', isCollapsed.toString());
+        });
+    }
+    
+    // Add tooltips to nav items for collapsed state
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        const text = item.querySelector('.nav-text');
+        if (text) {
+            item.setAttribute('data-tooltip', text.textContent);
+        }
+    });
+    
     // Column resize functionality
     initColumnResize();
     
@@ -42,6 +78,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (link.getAttribute('href') === currentPath) {
             link.parentElement.classList.add('active');
         }
+        
+        // Prevent sidebar toggle on navigation link clicks
+        link.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
     });
 
     // Search functionality
@@ -157,6 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         svg.addEventListener('mousemove', function(e) {
             const rect = svg.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const width = rect.width;
             
@@ -164,9 +206,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const dataPoints = container.classList.contains('mau-sparkline') ? 12 : 12; // Both have 12 months
             const pointIndex = Math.floor((x / width) * dataPoints);
             
-            // Position tooltip
-            tooltip.style.left = e.clientX - rect.left + 'px';
-            tooltip.style.top = '-30px';
+            // Position tooltip relative to the container
+            tooltip.style.left = (x + rect.left - containerRect.left) + 'px';
+            tooltip.style.top = '-35px';
             
             // Set tooltip content based on the type
             if (container.classList.contains('mau-sparkline')) {
@@ -493,6 +535,238 @@ document.addEventListener('DOMContentLoaded', function() {
             // Handle various interactive actions here
         });
     });
+
+    // Description expand functionality
+    const descriptionSection = document.getElementById('descriptionSection');
+    const descriptionContent = document.getElementById('descriptionContent');
+    const descriptionExpandBtn = document.getElementById('descriptionExpandBtn');
+    
+    if (descriptionSection && descriptionContent && descriptionExpandBtn) {
+        // Check if content overflows
+        function checkDescriptionOverflow() {
+            const contentHeight = descriptionContent.scrollHeight;
+            const sectionHeight = 150; // Max height from CSS
+            
+            if (contentHeight > sectionHeight) {
+                descriptionSection.classList.add('needs-expand');
+            } else {
+                descriptionSection.classList.remove('needs-expand');
+                descriptionSection.classList.remove('expanded');
+            }
+        }
+        
+        // Initial check
+        checkDescriptionOverflow();
+        
+        // Handle expand/collapse
+        descriptionExpandBtn.addEventListener('click', function() {
+            descriptionSection.classList.toggle('expanded');
+        });
+        
+        // Recheck on window resize
+        window.addEventListener('resize', checkDescriptionOverflow);
+    }
+
+    // Initialize interactions when the tab is clicked
+    let interactionsInitialized = false;
+    
+    function initializeInteractions() {
+        if (interactionsInitialized) return;
+        
+        const timelineItems = document.querySelectorAll('.interactions-timeline .timeline-item');
+        const detailsPlaceholder = document.querySelector('.details-placeholder');
+        const detailsContent = document.getElementById('interactionDetails');
+        
+        if (!timelineItems.length || !detailsPlaceholder || !detailsContent) {
+            console.log('Interactions elements not found');
+            return;
+        }
+        
+        console.log('Initializing interactions with', timelineItems.length, 'items');
+        
+        timelineItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                // Remove selected class from all items
+                timelineItems.forEach(i => i.classList.remove('selected'));
+                
+                // Add selected class to clicked item
+                this.classList.add('selected');
+                
+                // Get interaction data
+                const interactionId = this.dataset.interactionId;
+                const interaction = window.timelineData ? window.timelineData[interactionId] : null;
+                
+                if (interaction) {
+                    console.log('Updating details for:', interaction.title);
+                    
+                    // Hide placeholder, show content
+                    detailsPlaceholder.style.display = 'none';
+                    detailsContent.style.display = 'block';  // Force display
+                    detailsContent.classList.add('active');
+                    
+                    // Build details HTML
+                    let html = `
+                        <div class="detail-section summary-section">
+                            <div class="detail-label">Summary</div>
+                            <div class="detail-value">
+                                <p>${interaction.description}</p>
+                                <p>This interaction involved discussions about ${interaction.title.toLowerCase()} and helped progress the relationship with key stakeholders. The conversation provided valuable insights into the customer's current needs and future plans.</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Helper functions for participants
+                    function getParticipantIcon(type) {
+                        switch(type) {
+                            case 'contact': return '👤';
+                            case 'user': return '🏢';
+                            case 'third-party': return '🤝';
+                            default: return '👤';
+                        }
+                    }
+                    
+                    function formatParticipant(participant) {
+                        const icon = getParticipantIcon(participant.type);
+                        const typeClass = `participant-${participant.type || 'contact'}`;
+                        const id = participant.name.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
+                        
+                        if (participant.type === 'contact') {
+                            return `<span class="participant-item">
+                                <span class="participant-icon">${icon}</span>
+                                <a href="/contacts/${id}" class="participant-link ${typeClass}">
+                                    ${participant.name}
+                                </a>
+                                <span class="participant-title">${participant.title}</span>
+                            </span>`;
+                        } else {
+                            return `<span class="participant-item">
+                                <span class="participant-icon">${icon}</span>
+                                <span class="participant-link ${typeClass}">
+                                    ${participant.name}
+                                </span>
+                                <span class="participant-title">${participant.title}</span>
+                            </span>`;
+                        }
+                    }
+                    
+                    // Add participants if available
+                    if (interaction.participants) {
+                        html += `<div class="detail-section participants-section">`;
+                        
+                        if (interaction.type === 'email') {
+                            if (interaction.participants.from) {
+                                html += `
+                                    <div class="participant-group">
+                                        <div class="participant-label">From</div>
+                                        <div class="participant-list">
+                                            ${formatParticipant(interaction.participants.from)}
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                            if (interaction.participants.to && interaction.participants.to.length > 0) {
+                                html += `
+                                    <div class="participant-group">
+                                        <div class="participant-label">To</div>
+                                        <div class="participant-list">
+                                            ${interaction.participants.to.map(p => formatParticipant(p)).join('')}
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                            if (interaction.participants.cc && interaction.participants.cc.length > 0) {
+                                html += `
+                                    <div class="participant-group">
+                                        <div class="participant-label">CC</div>
+                                        <div class="participant-list">
+                                            ${interaction.participants.cc.map(p => formatParticipant(p)).join('')}
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        } else if (interaction.type === 'meeting' || interaction.type === 'call') {
+                            const allParticipants = [];
+                            if (interaction.participants.organizer) {
+                                allParticipants.push({...interaction.participants.organizer, role: 'Organizer'});
+                            }
+                            if (interaction.participants.attendees) {
+                                interaction.participants.attendees.forEach(p => {
+                                    allParticipants.push({...p, role: 'Attendee'});
+                                });
+                            }
+                            
+                            html += `
+                                <div class="participant-group">
+                                    <div class="participant-label">Participants</div>
+                                    <div class="participant-list">
+                                        ${allParticipants.map(p => formatParticipant(p)).join('')}
+                                    </div>
+                                </div>
+                            `;
+                        } else if (interaction.type === 'ticket') {
+                            if (interaction.participants.reporter) {
+                                html += `
+                                    <div class="participant-group">
+                                        <div class="participant-label">Reporter</div>
+                                        <div class="participant-list">
+                                            ${formatParticipant(interaction.participants.reporter)}
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                            if (interaction.participants.assignee) {
+                                html += `
+                                    <div class="participant-group">
+                                        <div class="participant-label">Assignee</div>
+                                        <div class="participant-list">
+                                            ${formatParticipant(interaction.participants.assignee)}
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                            if (interaction.participants.watchers && interaction.participants.watchers.length > 0) {
+                                html += `
+                                    <div class="participant-group">
+                                        <div class="participant-label">Watchers</div>
+                                        <div class="participant-list">
+                                            ${interaction.participants.watchers.map(p => formatParticipant(p)).join('')}
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        }
+                        
+                        html += `</div>`;
+                    }
+                    
+                    detailsContent.innerHTML = html;
+                }
+            });
+        });
+        
+        
+        interactionsInitialized = true;
+        
+        // Select first item by default
+        if (timelineItems.length > 0) {
+            timelineItems[0].click();
+        }
+    }
+    
+    // Initialize interactions when the interactions tab is clicked
+    const interactionsTabBtn = document.querySelector('.account-tab[data-tab="interactions"]');
+    if (interactionsTabBtn) {
+        interactionsTabBtn.addEventListener('click', function() {
+            // Wait a bit for the tab content to be visible
+            setTimeout(initializeInteractions, 50);
+        });
+    }
+
+    // Journey Tab Functionality
+    initializeJourneyTab();
+    initializeChat();
 });
 
 // Column resize functionality
@@ -650,4 +924,496 @@ function initExpandableSections() {
         // Initialize with current state
         updateState(currentState);
     });
+}
+
+// Initialize new overview page features
+document.addEventListener('DOMContentLoaded', function() {
+    // Fixed section expand/collapse functionality
+    document.querySelectorAll('.section-expand-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const section = this.dataset.section;
+            const sectionDiv = document.getElementById(section + 'Section');
+            if (sectionDiv) {
+                sectionDiv.classList.toggle('expanded');
+            }
+        });
+    });
+});
+
+// Journey Tab Functionality
+function initializeJourneyTab() {
+    // Handle milestone completion buttons
+    const completeButtons = document.querySelectorAll('.btn-complete');
+    completeButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const milestoneId = this.getAttribute('data-milestone-id');
+            handleMilestoneComplete(milestoneId, this);
+        });
+    });
+
+    // Handle goal achievement buttons
+    const achieveButtons = document.querySelectorAll('.btn-achieve');
+    achieveButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const goalId = this.getAttribute('data-goal-id');
+            handleGoalAchieve(goalId, this);
+        });
+    });
+
+    // Handle add milestone button
+    const addMilestoneBtn = document.querySelector('.journey-timeline .btn-primary');
+    if (addMilestoneBtn) {
+        addMilestoneBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleAddMilestone();
+        });
+    }
+
+    // Handle add goal button
+    const addGoalBtn = document.querySelector('.business-goals .btn-primary');
+    if (addGoalBtn) {
+        addGoalBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleAddGoal();
+        });
+    }
+}
+
+function handleMilestoneComplete(milestoneId, button) {
+    // Find the timeline item
+    const timelineItem = button.closest('.timeline-item');
+    if (!timelineItem) return;
+
+    // Update visual state
+    timelineItem.classList.remove('in_progress', 'pending');
+    timelineItem.classList.add('completed');
+
+    // Update marker
+    const marker = timelineItem.querySelector('.timeline-marker');
+    marker.innerHTML = `
+        <svg viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        </svg>
+    `;
+
+    // Update status badge
+    const statusBadge = timelineItem.querySelector('.milestone-status');
+    statusBadge.textContent = 'completed';
+    statusBadge.className = 'milestone-status completed';
+
+    // Update meta information
+    const metaDiv = timelineItem.querySelector('.milestone-meta');
+    const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    const dateSpan = metaDiv.querySelector('.milestone-date');
+    if (dateSpan) {
+        dateSpan.textContent = `Completed ${currentDate} • John Smith (CSM)`;
+    }
+
+    // Remove the button
+    button.remove();
+
+    // Update overall progress
+    updateJourneyProgress();
+
+    // Show success message
+    showNotification('Milestone marked as complete!', 'success');
+}
+
+function handleGoalAchieve(goalId, button) {
+    // Find the goal card
+    const goalCard = button.closest('.goal-card');
+    if (!goalCard) return;
+
+    // Update visual state
+    goalCard.classList.remove('in_progress', 'at_risk');
+    goalCard.classList.add('achieved');
+
+    // Update icon
+    const icon = goalCard.querySelector('.goal-icon');
+    icon.innerHTML = `
+        <svg viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        </svg>
+    `;
+
+    // Update status badge
+    const statusBadge = goalCard.querySelector('.goal-status');
+    statusBadge.textContent = 'achieved';
+    statusBadge.className = 'goal-status achieved';
+
+    // Update progress bar to 100%
+    const progressFill = goalCard.querySelector('.goal-progress-fill');
+    progressFill.style.width = '100%';
+
+    // Update footer
+    const footer = goalCard.querySelector('.goal-footer');
+    const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    footer.innerHTML = `<span class="goal-date">Achieved ${currentDate} • John Smith (CSM)</span>`;
+
+    // Show success message
+    showNotification('Goal marked as achieved!', 'success');
+}
+
+function updateJourneyProgress() {
+    // This would typically update the overall progress based on completed milestones
+    // For now, we'll just log that progress was updated
+    console.log('Journey progress updated');
+}
+
+function handleAddMilestone() {
+    // Show modal or form for adding new milestone
+    // For now, show a simple alert
+    alert('Add Milestone functionality would open a modal form here.');
+    console.log('Add milestone clicked');
+}
+
+function handleAddGoal() {
+    // Show modal or form for adding new goal
+    // For now, show a simple alert
+    alert('Add Goal functionality would open a modal form here.');
+    console.log('Add goal clicked');
+}
+
+function showNotification(message, type = 'info') {
+    // Create a simple notification
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 12px 20px;
+        background-color: ${type === 'success' ? '#10b981' : '#3b82f6'};
+        color: white;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        font-size: 14px;
+        font-weight: 500;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.3s ease;
+    `;
+
+    document.body.appendChild(notification);
+
+    // Animate in
+    setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateX(0)';
+    }, 10);
+
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Chat functionality for home page
+function initializeChat() {
+    const chatToggleBtn = document.getElementById('chatToggleBtn');
+    const chatMinimizeBtn = document.getElementById('chatMinimizeBtn');
+    const chatSidebar = document.getElementById('chatSidebar');
+    const chatInput = document.getElementById('chatInput');
+    const chatSendBtn = document.getElementById('chatSendBtn');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatResizeHandle = document.getElementById('chatResizeHandle');
+    const homePage = document.querySelector('.home-page');
+    
+    if (!chatToggleBtn || !chatSidebar || !homePage) {
+        return; // Not on home page
+    }
+    
+    // Load chat state from localStorage
+    const chatState = localStorage.getItem('chatExpanded');
+    const isExpanded = chatState === 'true';
+    
+    // Set initial state
+    if (isExpanded) {
+        homePage.classList.add('chat-expanded');
+        homePage.classList.remove('chat-collapsed');
+        chatSidebar.classList.remove('collapsed');
+    } else {
+        homePage.classList.add('chat-collapsed');
+        homePage.classList.remove('chat-expanded');
+        chatSidebar.classList.add('collapsed');
+    }
+    
+    // Toggle chat function
+    function toggleChat() {
+        const isCurrentlyExpanded = homePage.classList.contains('chat-expanded');
+        
+        if (isCurrentlyExpanded) {
+            // Collapse chat
+            homePage.classList.remove('chat-expanded');
+            homePage.classList.add('chat-collapsed');
+            chatSidebar.classList.add('collapsed');
+            localStorage.setItem('chatExpanded', 'false');
+        } else {
+            // Expand chat
+            homePage.classList.remove('chat-collapsed');
+            homePage.classList.add('chat-expanded');
+            chatSidebar.classList.remove('collapsed');
+            localStorage.setItem('chatExpanded', 'true');
+            
+            // Scroll to bottom of messages
+            setTimeout(() => {
+                if (chatMessages) {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }, 300);
+        }
+    }
+    
+    // Event listeners
+    if (chatToggleBtn) {
+        chatToggleBtn.addEventListener('click', toggleChat);
+    }
+    
+    if (chatMinimizeBtn) {
+        chatMinimizeBtn.addEventListener('click', toggleChat);
+    }
+    
+    // Chat input functionality
+    if (chatInput && chatSendBtn && chatMessages) {
+        // Auto-resize textarea
+        chatInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+        });
+        
+        // Send message function
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, 'user');
+            chatInput.value = '';
+            chatInput.style.height = 'auto';
+            
+            // Simulate AI response
+            setTimeout(() => {
+                addTypingIndicator();
+                setTimeout(() => {
+                    removeTypingIndicator();
+                    const responses = [
+                        "I'm here to help! Let me look into that for you.",
+                        "Based on your schedule, I'd recommend focusing on the Microsoft QBR preparation first.",
+                        "I can help you with that. Would you like me to pull up the relevant account information?",
+                        "That's a great question! Let me check your upcoming tasks and priorities.",
+                        "I've noted that for you. I'll remind you before your next meeting."
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessage(randomResponse, 'ai');
+                }, 1500);
+            }, 500);
+        }
+        
+        // Send on Enter (but allow Shift+Enter for new lines)
+        chatInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Send button click
+        chatSendBtn.addEventListener('click', sendMessage);
+        
+        // Quick action buttons
+        const quickActionBtns = document.querySelectorAll('.quick-action-btn');
+        quickActionBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const action = this.dataset.action;
+                const actionTexts = {
+                    'prepare-meeting': 'Help me prepare for my next meeting',
+                    'show-insights': 'Show me insights about my accounts',
+                    'optimize-schedule': 'How can I optimize my schedule today?'
+                };
+                
+                if (actionTexts[action]) {
+                    addMessage(actionTexts[action], 'user');
+                    
+                    // Simulate AI response based on action
+                    setTimeout(() => {
+                        addTypingIndicator();
+                        setTimeout(() => {
+                            removeTypingIndicator();
+                            let response = '';
+                            switch(action) {
+                                case 'prepare-meeting':
+                                    response = 'For your Microsoft QBR at 10 AM, I suggest reviewing their Q2 metrics, recent milestones, and upcoming renewal discussion. Would you like me to pull up their account details?';
+                                    break;
+                                case 'show-insights':
+                                    response = 'Here are key insights: Yahoo has a critical escalation ($50K at risk), Microsoft is in expansion phase, and Flowla needs API integration follow-up. Which account would you like to focus on?';
+                                    break;
+                                case 'optimize-schedule':
+                                    response = 'I recommend using your 9 AM available time for the Yahoo payment issue (high priority), and the 11 AM slot for Flowla API follow-up. This leaves afternoon prep time for tomorrow\'s meetings.';
+                                    break;
+                            }
+                            addMessage(response, 'ai');
+                        }, 1500);
+                    }, 500);
+                }
+            });
+        });
+    }
+    
+    // Add message to chat
+    function addMessage(text, type) {
+        if (!chatMessages) return;
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${type}`;
+        
+        const now = new Date();
+        const timestamp = now.toLocaleTimeString('en-US', { 
+            hour: 'numeric', 
+            minute: '2-digit' 
+        });
+        
+        if (type === 'ai') {
+            messageDiv.innerHTML = `
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="message-text">${text}</div>
+                    <div class="message-timestamp">${timestamp}</div>
+                </div>
+            `;
+        } else {
+            messageDiv.innerHTML = `
+                <div class="message-content">
+                    <div class="message-text">${text}</div>
+                    <div class="message-timestamp">${timestamp}</div>
+                </div>
+            `;
+        }
+        
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Remove chat badge when user sends message
+        if (type === 'user') {
+            const chatBadge = document.querySelector('.chat-badge');
+            if (chatBadge) {
+                chatBadge.style.display = 'none';
+            }
+        }
+    }
+    
+    // Add typing indicator
+    function addTypingIndicator() {
+        if (!chatMessages) return;
+        
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message ai typing-indicator';
+        typingDiv.innerHTML = `
+            <div class="message-avatar">🤖</div>
+            <div class="message-content">
+                <div class="message-text">
+                    <span class="typing-dots">
+                        <span>•</span>
+                        <span>•</span>
+                        <span>•</span>
+                    </span>
+                </div>
+            </div>
+        `;
+        
+        // Add typing animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            .typing-dots span {
+                animation: typing 1.4s infinite;
+                opacity: 0.4;
+            }
+            .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+            .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+            @keyframes typing {
+                0%, 60%, 100% { opacity: 0.4; }
+                30% { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    // Remove typing indicator
+    function removeTypingIndicator() {
+        const typingIndicator = chatMessages?.querySelector('.typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+    
+    // ESC key to close chat
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && homePage.classList.contains('chat-expanded')) {
+            toggleChat();
+        }
+    });
+    
+    // Chat resize functionality
+    if (chatResizeHandle) {
+        let isResizing = false;
+        let startX = 0;
+        let startWidth = 0;
+        
+        // Load saved width
+        const savedWidth = localStorage.getItem('chatWidth');
+        if (savedWidth) {
+            chatSidebar.style.width = savedWidth + 'px';
+        }
+        
+        chatResizeHandle.addEventListener('mousedown', function(e) {
+            isResizing = true;
+            startX = e.clientX;
+            startWidth = parseInt(document.defaultView.getComputedStyle(chatSidebar).width, 10);
+            document.body.style.cursor = 'col-resize';
+            document.body.style.userSelect = 'none';
+            e.preventDefault();
+        });
+        
+        document.addEventListener('mousemove', function(e) {
+            if (!isResizing) return;
+            
+            const width = startWidth - (e.clientX - startX);
+            const minWidth = 280;
+            const maxWidth = 500;
+            const constrainedWidth = Math.min(Math.max(width, minWidth), maxWidth);
+            
+            chatSidebar.style.width = constrainedWidth + 'px';
+        });
+        
+        document.addEventListener('mouseup', function() {
+            if (isResizing) {
+                isResizing = false;
+                document.body.style.cursor = '';
+                document.body.style.userSelect = '';
+                
+                // Save width to localStorage
+                const currentWidth = parseInt(chatSidebar.style.width, 10);
+                localStorage.setItem('chatWidth', currentWidth);
+            }
+        });
+    }
+    
+    // Initialize with messages scrolled to bottom
+    if (isExpanded && chatMessages) {
+        setTimeout(() => {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 100);
+    }
 }

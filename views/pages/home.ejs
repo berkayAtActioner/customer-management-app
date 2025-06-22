@@ -1,0 +1,289 @@
+<% layout = false %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Customer Management</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <%- include('../partials/sidebar') %>
+        <div class="main-content">
+            <div class="home-page">
+                <!-- Page Header -->
+                <div class="page-header home-header">
+                    <div class="header-left">
+                        <h1>Today's Schedule</h1>
+                        <span class="date-display"><%= scheduleData.today %> • <%= scheduleData.currentTime %></span>
+                    </div>
+                    <div class="header-right">
+                        <div class="overview-badge">
+                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/>
+                            </svg>
+                            <span><%= scheduleData.meetingCount %> Meetings</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Wrapper -->
+                <div class="home-content-wrapper">
+                    <!-- Timeline Container -->
+                    <div class="timeline-container">
+                    <% 
+                    // Calculate current time position
+                    const now = new Date();
+                    const currentHour = now.getHours();
+                    const currentMinute = now.getMinutes();
+                    const currentTimeString = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+                    
+                    // Function to parse time string to 24-hour format
+                    function parseTimeToHour(timeStr) {
+                        const [time, period] = timeStr.split(' ');
+                        const [hour, minute] = time.split(':');
+                        let hourNum = parseInt(hour);
+                        if (period === 'PM' && hourNum !== 12) hourNum += 12;
+                        if (period === 'AM' && hourNum === 12) hourNum = 0;
+                        return hourNum;
+                    }
+                    
+                    scheduleData.schedule.forEach((item, index) => { 
+                        const itemHour = parseTimeToHour(item.time);
+                        
+                        // Check if we need to insert "You are here" indicator
+                        const nextItem = scheduleData.schedule[index + 1];
+                        let showCurrentTime = false;
+                        
+                        if (nextItem) {
+                            const nextItemHour = parseTimeToHour(nextItem.time);
+                            // Show current time if we're between this item and the next one
+                            if (currentHour >= itemHour && currentHour < nextItemHour) {
+                                showCurrentTime = true;
+                            }
+                        } else {
+                            // For the last item, show if current time is after it
+                            if (currentHour >= itemHour) {
+                                showCurrentTime = true;
+                            }
+                        }
+                    %>
+                    
+                    <div class="timeline-item <%= item.type %>">
+                        <div class="timeline-time">
+                            <span class="time-marker"><%= item.time %></span>
+                        </div>
+                        <div class="timeline-content">
+                            <% if (item.type === 'available') { %>
+                                <div class="available-block">
+                                    <h3><%= item.title %></h3>
+                                    <p class="block-description"><%= item.description %></p>
+                                    <div class="suggestions-list">
+                                        <% item.suggestions.forEach(suggestion => { %>
+                                            <div class="suggestion-card">
+                                                <div class="suggestion-header">
+                                                    <span class="suggestion-icon"><%= suggestion.icon %></span>
+                                                    <span class="suggestion-title"><%= suggestion.title %></span>
+                                                </div>
+                                                <div class="suggestion-meta">
+                                                    <span class="time-estimate">
+                                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                                        </svg>
+                                                        <%= suggestion.estimatedTime %> min
+                                                    </span>
+                                                    <% if (suggestion.priority === 'high') { %>
+                                                        <span class="priority-badge high">
+                                                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                                                <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"/>
+                                                            </svg>
+                                                            <%= suggestion.severity || suggestion.escalation || '$50K at risk' %>
+                                                        </span>
+                                                    <% } %>
+                                                    <% if (suggestion.revenue) { %>
+                                                        <span class="revenue-badge"><%= suggestion.revenue %></span>
+                                                    <% } %>
+                                                    <% if (suggestion.blocker) { %>
+                                                        <span class="blocker-badge">
+                                                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                                                <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"/>
+                                                            </svg>
+                                                            <%= suggestion.blocker %>
+                                                        </span>
+                                                    <% } %>
+                                                    <% if (suggestion.due) { %>
+                                                        <span class="due-badge">
+                                                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                                                                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 1 1 0 000 2H6a2 2 0 00-2 2v6a2 2 0 002 2h2a1 1 0 100 2H6a4 4 0 01-4-4V5a4 4 0 014-4h5a4 4 0 014 4v6a4 4 0 01-4 4h-1a1 1 0 110-2h1a2 2 0 002-2V5a2 2 0 00-2-2h-1a1 1 0 110-2h1a4 4 0 014 4v6a4 4 0 01-4 4H6a4 4 0 01-4-4V5z"/>
+                                                            </svg>
+                                                            <%= suggestion.due %>
+                                                        </span>
+                                                    <% } %>
+                                                    <% if (suggestion.account) { %>
+                                                        <a href="/accounts/<%= suggestion.accountId %>" class="account-link"><%= suggestion.account %></a>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            <% } else if (item.type === 'meeting') { %>
+                                <div class="meeting-block <%= item.priority === 'critical' ? 'critical' : '' %>">
+                                    <div class="meeting-header">
+                                        <h3><%= item.title %></h3>
+                                        <div class="meeting-badges">
+                                            <% if (item.priority === 'critical') { %>
+                                                <span class="priority-indicator critical">
+                                                    <svg viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    Critical
+                                                </span>
+                                            <% } %>
+                                            <span class="meeting-type"><%= item.meetingType %></span>
+                                        </div>
+                                    </div>
+                                    <p class="meeting-description"><%= item.description %></p>
+                                    <div class="meeting-meta">
+                                        <span class="duration">
+                                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <%= item.duration %> min
+                                        </span>
+                                        <% if (typeof item.attendees === 'number') { %>
+                                            <span class="attendees">
+                                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                                                </svg>
+                                                <%= item.attendees %> attendees
+                                            </span>
+                                        <% } else { %>
+                                            <span class="attendees">
+                                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                                    <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+                                                </svg>
+                                                <%= item.attendees %>
+                                            </span>
+                                        <% } %>
+                                        <% if (item.features && item.features.length > 0) { %>
+                                            <% item.features.forEach(feature => { %>
+                                                <span class="feature-tag"><%= feature %></span>
+                                            <% }) %>
+                                        <% } %>
+                                        <% if (item.revenue) { %>
+                                            <span class="revenue-indicator">
+                                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                                    <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z"/>
+                                                </svg>
+                                                <%= item.revenue %>
+                                            </span>
+                                        <% } %>
+                                        <% if (item.account) { %>
+                                            <a href="/accounts/<%= item.accountId %>" class="account-link"><%= item.account %></a>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            <% } else if (item.type === 'break') { %>
+                                <div class="break-block">
+                                    <h3><%= item.title %></h3>
+                                    <p class="block-description"><%= item.description %></p>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                    
+                    <% if (showCurrentTime) { %>
+                        <!-- Current Time Indicator -->
+                        <div class="current-time-indicator">
+                            <div class="timeline-time">
+                                <span class="current-time-display"><%= currentTimeString %></span>
+                                <span class="current-marker">You are here</span>
+                            </div>
+                            <div class="timeline-content">
+                                <div class="current-line"></div>
+                            </div>
+                        </div>
+                    <% } %>
+                    
+                    <% }) %>
+                    </div>
+
+                    <!-- AI Chat Sidebar -->
+                    <div class="chat-sidebar" id="chatSidebar">
+                        <!-- Resize Handle -->
+                        <div class="chat-resize-handle" id="chatResizeHandle"></div>
+                        <!-- Chat Header -->
+                        <div class="chat-header">
+                            <div class="chat-title">
+                                <span class="chat-avatar">🤖</span>
+                                <span class="chat-name">AI Assistant</span>
+                                <span class="chat-status">Online</span>
+                            </div>
+                            <button class="chat-minimize-btn" id="chatMinimizeBtn">
+                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Chat Messages -->
+                        <div class="chat-messages" id="chatMessages">
+                            <% chatData.messages.forEach(message => { %>
+                                <div class="message <%= message.type %>">
+                                    <% if (message.type === 'ai') { %>
+                                        <div class="message-avatar"><%= message.avatar %></div>
+                                    <% } %>
+                                    <div class="message-content">
+                                        <div class="message-text">
+                                            <%- message.content.replace(/\n/g, '<br>') %>
+                                            <% if (message.accountLinks) { %>
+                                                <% message.accountLinks.forEach(accountId => { %>
+                                                    <a href="/accounts/<%= accountId %>" class="account-link-chat">View account →</a>
+                                                <% }) %>
+                                            <% } %>
+                                        </div>
+                                        <div class="message-timestamp"><%= message.timestamp %></div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+
+                        <!-- Chat Input -->
+                        <div class="chat-input-container">
+                            <div class="chat-quick-actions">
+                                <% chatData.quickActions.forEach(action => { %>
+                                    <button class="quick-action-btn" data-action="<%= action.action %>">
+                                        <%= action.text %>
+                                    </button>
+                                <% }) %>
+                            </div>
+                            <div class="chat-input-wrapper">
+                                <textarea class="chat-input" placeholder="Ask about your schedule, accounts, or tasks..." rows="1" id="chatInput"></textarea>
+                                <button class="chat-send-btn" id="chatSendBtn">
+                                    <svg viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Toggle Button -->
+                <button class="chat-toggle-btn" id="chatToggleBtn">
+                    <svg viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/>
+                        <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"/>
+                    </svg>
+                    <span class="chat-badge">1</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="/js/main.js"></script>
+</body>
+</html>

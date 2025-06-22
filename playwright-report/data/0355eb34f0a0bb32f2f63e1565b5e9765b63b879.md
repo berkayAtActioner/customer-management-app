@@ -1,0 +1,159 @@
+# Page snapshot
+
+```yaml
+- text: A Actioner
+- button:
+  - img
+- navigation:
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: /home
+        - img
+        - text: Home
+    - listitem:
+      - link "Chat":
+        - /url: /chat
+        - img
+        - text: Chat
+    - listitem:
+      - link "Accounts":
+        - /url: /accounts
+        - img
+        - text: Accounts
+    - listitem:
+      - link "Contacts":
+        - /url: /contacts
+        - img
+        - text: Contacts
+    - listitem:
+      - link "Tasks":
+        - /url: /tasks
+        - img
+        - text: Tasks
+    - listitem:
+      - link "Dashboards":
+        - /url: /dashboards
+        - img
+        - text: Dashboards
+    - listitem:
+      - link "Usage":
+        - /url: /usage
+        - img
+        - text: Usage
+    - listitem:
+      - link "Tickets":
+        - /url: /tickets
+        - img
+        - text: Tickets
+    - listitem:
+      - link "Settings":
+        - /url: /settings
+        - img
+        - text: Settings
+- heading "Today's Schedule" [level=1]
+- text: Sunday, June 22, 2025 • 10:36 PM
+- img
+- text: 4 Meetings 9:00 AM
+- heading "Available Time (1 hour)" [level=3]
+- paragraph: Suggested focus time before your first meeting
+- text: 🔥 Respond to Yahoo payment issue
+- img
+- text: 15 min
+- img
+- text: P0 Severity $50K at risk
+- link "Yahoo":
+  - /url: /accounts/yahoo
+- text: 💼 Follow up on Merge contract renewal
+- img
+- text: 20 min $120K renewal
+- link "Merge":
+  - /url: /accounts/merge
+- text: 📊 Review QBR prep for Microsoft
+- img
+- text: 25 min
+- link "Microsoft":
+  - /url: /accounts/microsoft
+- text: 10:00 AM
+- heading "Quarterly Business Review - Microsoft" [level=3]
+- text: QBR
+- paragraph: Strategic review and planning session
+- img
+- text: 60 min
+- img
+- text: 5 attendees Q2 metrics review Roadmap discussion
+- link "Microsoft":
+  - /url: /accounts/microsoft
+- text: 11:00 AM
+- heading "Available Time (45 minutes)" [level=3]
+- paragraph: Perfect time for focused work before lunch
+- text: ⚠️ Follow up on Flowla API integration
+- img
+- text: 30 min
+- img
+- text: $50K at risk
+- img
+- text: Technical blocker
+- link "Flowla":
+  - /url: /accounts/flowla
+- text: 📝 Update account notes from morning calls
+- img
+- text: 15 min 12:00 PM
+- heading "Lunch Break" [level=3]
+- paragraph: 1 hour
+- text: 1:00 PM
+- heading "Onboarding Call - Wingify" [level=3]
+- text: Onboarding
+- paragraph: Initial setup and platform training
+- img
+- text: 45 min
+- img
+- text: 3 attendees Training session Setup checklist
+- link "Wingify":
+  - /url: /accounts/wingify
+- text: 2:00 PM
+- heading "Available Time (30 minutes)" [level=3]
+- paragraph: Quick wins before afternoon meetings
+- text: 📋 Compile Bilkent product feedback
+- img
+- text: 25 min
+- img
+- text: Due today
+- link "Bilkent Universitesi":
+  - /url: /accounts/bilkent
+- text: 2:30 PM
+- heading "Escalation Review - Yahoo" [level=3]
+- img
+- text: Critical Escalation
+- paragraph: Address critical payment processing issue
+- img
+- text: 30 min
+- img
+- text: 4 attendees
+- img
+- text: $50K at risk
+- link "Yahoo":
+  - /url: /accounts/yahoo
+- text: 3:30 PM
+- heading "CSM Team Standup" [level=3]
+- text: Internal
+- paragraph: Weekly team sync and updates
+- img
+- text: 30 min
+- img
+- text: Team meeting Status updates 4:00 PM
+- heading "Wrap-up Time (1.5 hours)" [level=3]
+- paragraph: End of day tasks and preparation
+- text: 🎯 Prepare tomorrow's QBR deck for Merge
+- img
+- text: 45 min
+- img
+- text: $50K at risk
+- link "Merge":
+  - /url: /accounts/merge
+- text: ✉️ Send follow-up emails from today's meetings
+- img
+- text: 30 min 💾 Update CRM with today's meeting notes
+- img
+- text: 15 min 10:41 PM You are here
+```

@@ -17,7 +17,22 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.get('/', (req, res) => {
-    res.redirect('/accounts');
+    res.redirect('/home');
+});
+
+app.get('/home', (req, res) => {
+    res.render('pages/home', { 
+        title: 'Home',
+        activeTab: 'home',
+        scheduleData: mockData.scheduleData,
+        chatData: mockData.chatData
+    });
+});
+
+app.get('/try', (req, res) => {
+    res.render('pages/landing', { 
+        title: 'Try Actioner - AI-Powered Customer Insights'
+    });
 });
 
 app.get('/accounts', (req, res) => {

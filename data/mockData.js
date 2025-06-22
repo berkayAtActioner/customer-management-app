@@ -1290,10 +1290,249 @@ const contactsData = {
     }
 };
 
+// Schedule data for home page
+const scheduleData = {
+    today: new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+    currentTime: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+    meetingCount: 4,
+    
+    schedule: [
+        {
+            time: "9:00 AM",
+            type: "available",
+            duration: 60,
+            title: "Available Time (1 hour)",
+            description: "Suggested focus time before your first meeting",
+            suggestions: [
+                {
+                    id: 1,
+                    title: "Respond to Yahoo payment issue",
+                    priority: "high",
+                    estimatedTime: 15,
+                    revenue: "$50K at risk",
+                    severity: "P0 Severity",
+                    icon: "🔥",
+                    account: "Yahoo",
+                    accountId: "yahoo"
+                },
+                {
+                    id: 2,
+                    title: "Follow up on Merge contract renewal",
+                    priority: "medium",
+                    estimatedTime: 20,
+                    revenue: "$120K renewal",
+                    escalation: "CEO escalation",
+                    icon: "💼",
+                    account: "Merge",
+                    accountId: "merge"
+                },
+                {
+                    id: 3,
+                    title: "Review QBR prep for Microsoft",
+                    priority: "medium",
+                    estimatedTime: 25,
+                    meeting: "Meeting at 10 AM",
+                    icon: "📊",
+                    account: "Microsoft",
+                    accountId: "microsoft"
+                }
+            ]
+        },
+        {
+            time: "10:00 AM",
+            type: "meeting",
+            duration: 60,
+            title: "Quarterly Business Review - Microsoft",
+            description: "Strategic review and planning session",
+            attendees: 5,
+            meetingType: "QBR",
+            features: ["Q2 metrics review", "Roadmap discussion"],
+            account: "Microsoft",
+            accountId: "microsoft",
+            status: "confirmed"
+        },
+        {
+            time: "11:00 AM",
+            type: "available",
+            duration: 45,
+            title: "Available Time (45 minutes)",
+            description: "Perfect time for focused work before lunch",
+            suggestions: [
+                {
+                    id: 4,
+                    title: "Follow up on Flowla API integration",
+                    priority: "high",
+                    estimatedTime: 30,
+                    risk: "Churn risk",
+                    blocker: "Technical blocker",
+                    icon: "⚠️",
+                    account: "Flowla",
+                    accountId: "flowla"
+                },
+                {
+                    id: 5,
+                    title: "Update account notes from morning calls",
+                    priority: "low",
+                    estimatedTime: 15,
+                    count: 3,
+                    icon: "📝"
+                }
+            ]
+        },
+        {
+            time: "12:00 PM",
+            type: "break",
+            duration: 60,
+            title: "Lunch Break",
+            description: "1 hour"
+        },
+        {
+            time: "1:00 PM",
+            type: "meeting",
+            duration: 45,
+            title: "Onboarding Call - Wingify",
+            description: "Initial setup and platform training",
+            attendees: 3,
+            meetingType: "Onboarding",
+            features: ["Training session", "Setup checklist"],
+            account: "Wingify",
+            accountId: "wingify",
+            status: "confirmed"
+        },
+        {
+            time: "2:00 PM",
+            type: "available",
+            duration: 30,
+            title: "Available Time (30 minutes)",
+            description: "Quick wins before afternoon meetings",
+            suggestions: [
+                {
+                    id: 6,
+                    title: "Compile Bilkent product feedback",
+                    priority: "medium",
+                    estimatedTime: 25,
+                    features: "Feature requests",
+                    due: "Due today",
+                    icon: "📋",
+                    account: "Bilkent Universitesi",
+                    accountId: "bilkent"
+                }
+            ]
+        },
+        {
+            time: "2:30 PM",
+            type: "meeting",
+            duration: 30,
+            title: "Escalation Review - Yahoo",
+            description: "Address critical payment processing issue",
+            attendees: 4,
+            meetingType: "Escalation",
+            priority: "critical",
+            revenue: "$50K at risk",
+            account: "Yahoo",
+            accountId: "yahoo",
+            status: "confirmed"
+        },
+        {
+            time: "3:30 PM",
+            type: "meeting",
+            duration: 30,
+            title: "CSM Team Standup",
+            description: "Weekly team sync and updates",
+            attendees: "Team meeting",
+            meetingType: "Internal",
+            features: ["Status updates"],
+            status: "confirmed"
+        },
+        {
+            time: "4:00 PM",
+            type: "available",
+            duration: 90,
+            title: "Wrap-up Time (1.5 hours)",
+            description: "End of day tasks and preparation",
+            suggestions: [
+                {
+                    id: 7,
+                    title: "Prepare tomorrow's QBR deck for Merge",
+                    priority: "high",
+                    estimatedTime: 45,
+                    meeting: "QBR tomorrow 9 AM",
+                    icon: "🎯",
+                    account: "Merge",
+                    accountId: "merge"
+                },
+                {
+                    id: 8,
+                    title: "Send follow-up emails from today's meetings",
+                    priority: "medium",
+                    estimatedTime: 30,
+                    count: 4,
+                    icon: "✉️"
+                },
+                {
+                    id: 9,
+                    title: "Update CRM with today's meeting notes",
+                    priority: "low",
+                    estimatedTime: 15,
+                    icon: "💾"
+                }
+            ]
+        }
+    ]
+};
+
+// Chat data for AI assistant
+const chatData = {
+    messages: [
+        {
+            id: 1,
+            type: "ai",
+            content: "Good morning! I see you have a busy day with 4 meetings scheduled. Would you like me to help you prepare for your QBR with Microsoft at 10 AM?",
+            timestamp: "9:05 AM",
+            avatar: "🤖"
+        },
+        {
+            id: 2,
+            type: "user",
+            content: "Yes, what should I prepare for the Microsoft meeting?",
+            timestamp: "9:06 AM"
+        },
+        {
+            id: 3,
+            type: "ai",
+            content: "Based on Microsoft's account data, I'd suggest reviewing:\n\n• Their Q2 metrics and growth trajectory\n• Recent expansion milestones completed\n• Enterprise features they've been requesting\n• Renewal discussion for November 2025\n\nWould you like me to pull up their account details?",
+            timestamp: "9:06 AM",
+            avatar: "🤖",
+            accountLinks: ["microsoft"]
+        },
+        {
+            id: 4,
+            type: "user",
+            content: "Great! Also remind me about the Yahoo escalation later",
+            timestamp: "9:07 AM"
+        },
+        {
+            id: 5,
+            type: "ai",
+            content: "I'll remind you about the Yahoo escalation meeting at 2:30 PM. It's marked as critical with $50K at risk - I'll make sure you have all the payment processing issue details ready before then.",
+            timestamp: "9:07 AM",
+            avatar: "🤖",
+            isTyping: false
+        }
+    ],
+    quickActions: [
+        { id: "prepare", text: "📄 Prepare", action: "prepare-meeting" },
+        { id: "insights", text: "📊 Insights", action: "show-insights" },
+        { id: "schedule", text: "📅 Schedule", action: "optimize-schedule" }
+    ]
+};
+
 // Export all data
 module.exports = {
     accounts,
     allContacts,
     accountData,
-    contactsData
+    contactsData,
+    scheduleData,
+    chatData
 };
