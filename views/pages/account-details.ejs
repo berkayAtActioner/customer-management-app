@@ -94,7 +94,106 @@ const accountMap = {
                     ]
                 }
             }
-        ]
+        ],
+        journey: {
+            startDate: "2024-01-03",
+            healthScore: 72,
+            currentStage: "adoption",
+            stages: {
+                onboarding: { completed: 2, total: 2 },
+                adoption: { completed: 1, total: 2 },
+                growth: { completed: 0, total: 2 },
+                expansion: { completed: 0, total: 1 }
+            },
+            milestones: [
+                {
+                    id: 1,
+                    title: "Account Setup Complete",
+                    description: "Initial configuration and user onboarding",
+                    stage: "onboarding",
+                    status: "completed",
+                    completedDate: "2024-01-05",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 2,
+                    title: "First Value Realization",
+                    description: "Customer created their first buyer journey",
+                    stage: "onboarding",
+                    status: "completed",
+                    completedDate: "2024-01-12",
+                    completedBy: "Sarah Johnson (CSM)",
+                    isAutomatic: false
+                },
+                {
+                    id: 3,
+                    title: "Team Expansion",
+                    description: "Added 5+ users to the platform",
+                    stage: "adoption",
+                    status: "completed",
+                    completedDate: "2024-01-20",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 4,
+                    title: "Integration Setup",
+                    description: "Connect with Salesforce CRM",
+                    stage: "adoption",
+                    status: "in_progress",
+                    targetDate: "2024-02-15",
+                    isAutomatic: false
+                },
+                {
+                    id: 5,
+                    title: "Advanced Features Adoption",
+                    description: "Using 3+ advanced platform features",
+                    stage: "growth",
+                    status: "pending",
+                    targetDate: "2024-03-01",
+                    isAutomatic: true
+                },
+                {
+                    id: 6,
+                    title: "Executive Sponsor Identified",
+                    description: "C-level champion engaged and active",
+                    stage: "expansion",
+                    status: "pending",
+                    targetDate: "2024-04-01",
+                    isAutomatic: false
+                }
+            ],
+            businessGoals: [
+                {
+                    id: 1,
+                    title: "Reduce Sales Cycle by 20%",
+                    currentValue: 15,
+                    targetValue: 20,
+                    unit: "%",
+                    status: "in_progress",
+                    targetDate: "2024-03-31"
+                },
+                {
+                    id: 2,
+                    title: "Increase Deal Velocity",
+                    currentValue: 12,
+                    targetValue: 25,
+                    unit: "%",
+                    status: "at_risk",
+                    targetDate: "2024-02-28"
+                },
+                {
+                    id: 3,
+                    title: "Onboard 50 Sales Reps",
+                    currentValue: 18,
+                    targetValue: 50,
+                    unit: "users",
+                    status: "in_progress",
+                    targetDate: "2024-05-01"
+                }
+            ]
+        }
     },
     'yahoo': {
         name: "Yahoo",
@@ -153,7 +252,127 @@ const accountMap = {
                 time: "13:00",
                 description: "Deep dive into API capabilities and integration options"
             }
-        ]
+        ],
+        journey: {
+            startDate: "2023-09-15",
+            healthScore: 85,
+            currentStage: "growth",
+            stages: {
+                onboarding: { completed: 2, total: 2 },
+                adoption: { completed: 2, total: 2 },
+                growth: { completed: 1, total: 2 },
+                expansion: { completed: 0, total: 1 }
+            },
+            milestones: [
+                {
+                    id: 1,
+                    title: "Account Setup Complete",
+                    description: "Initial configuration and user onboarding",
+                    stage: "onboarding",
+                    status: "completed",
+                    completedDate: "2023-09-22",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 2,
+                    title: "First Value Realization",
+                    description: "Customer achieved their first key outcome",
+                    stage: "onboarding",
+                    status: "completed",
+                    completedDate: "2023-10-05",
+                    completedBy: "John Smith (CSM)",
+                    isAutomatic: false
+                },
+                {
+                    id: 3,
+                    title: "Team Expansion",
+                    description: "Added 100+ users to the platform",
+                    stage: "adoption",
+                    status: "completed",
+                    completedDate: "2023-11-12",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 4,
+                    title: "API Integration Complete",
+                    description: "Integrated with enterprise systems",
+                    stage: "adoption",
+                    status: "completed",
+                    completedDate: "2023-12-18",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 5,
+                    title: "Advanced Analytics Enabled",
+                    description: "Using advanced analytics and reporting features",
+                    stage: "growth",
+                    status: "completed",
+                    completedDate: "2024-01-15",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 6,
+                    title: "Multi-Department Rollout",
+                    description: "Expand to 3+ departments",
+                    stage: "growth",
+                    status: "in_progress",
+                    targetDate: "2024-03-01",
+                    isAutomatic: false
+                },
+                {
+                    id: 7,
+                    title: "Executive Business Review",
+                    description: "Quarterly business review with C-suite",
+                    stage: "expansion",
+                    status: "pending",
+                    targetDate: "2024-04-15",
+                    isAutomatic: false
+                }
+            ],
+            businessGoals: [
+                {
+                    id: 1,
+                    title: "Reduce Data Processing Time by 40%",
+                    currentValue: 35,
+                    targetValue: 40,
+                    unit: "%",
+                    status: "achieved",
+                    achievedDate: "2024-01-10",
+                    achievedBy: "auto"
+                },
+                {
+                    id: 2,
+                    title: "Increase User Adoption to 95%",
+                    currentValue: 88,
+                    targetValue: 95,
+                    unit: "%",
+                    status: "in_progress",
+                    targetDate: "2024-03-31"
+                },
+                {
+                    id: 3,
+                    title: "Deploy to 500K Users",
+                    currentValue: 425000,
+                    targetValue: 500000,
+                    unit: "users",
+                    status: "in_progress",
+                    targetDate: "2024-06-01"
+                },
+                {
+                    id: 4,
+                    title: "Achieve 99.9% Uptime SLA",
+                    currentValue: 99.2,
+                    targetValue: 99.9,
+                    unit: "%",
+                    status: "at_risk",
+                    targetDate: "2024-02-28"
+                }
+            ]
+        }
     },
     'microsoft': {
         name: "Microsoft",
@@ -210,7 +429,148 @@ const accountMap = {
                 time: "14:30",
                 description: "Received detailed security requirements for vendor approval"
             }
-        ]
+        ],
+        journey: {
+            startDate: "2023-03-01",
+            healthScore: 95,
+            currentStage: "expansion",
+            stages: {
+                onboarding: { completed: 2, total: 2 },
+                adoption: { completed: 3, total: 3 },
+                growth: { completed: 2, total: 2 },
+                expansion: { completed: 1, total: 2 }
+            },
+            milestones: [
+                {
+                    id: 1,
+                    title: "Enterprise Account Setup",
+                    description: "Complete enterprise-grade security configuration",
+                    stage: "onboarding",
+                    status: "completed",
+                    completedDate: "2023-03-15",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 2,
+                    title: "Azure AD Integration",
+                    description: "Successfully integrated with Azure Active Directory",
+                    stage: "onboarding",
+                    status: "completed",
+                    completedDate: "2023-04-01",
+                    completedBy: "Technical Team",
+                    isAutomatic: false
+                },
+                {
+                    id: 3,
+                    title: "Department Rollout Phase 1",
+                    description: "Deployed to IT and Security departments",
+                    stage: "adoption",
+                    status: "completed",
+                    completedDate: "2023-05-15",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 4,
+                    title: "User Training Completed",
+                    description: "Comprehensive training for 500+ enterprise users",
+                    stage: "adoption",
+                    status: "completed",
+                    completedDate: "2023-06-30",
+                    completedBy: "Training Team",
+                    isAutomatic: false
+                },
+                {
+                    id: 5,
+                    title: "Custom Workflow Implementation",
+                    description: "Deployed enterprise-specific automation workflows",
+                    stage: "adoption",
+                    status: "completed",
+                    completedDate: "2023-08-15",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 6,
+                    title: "Global Rollout",
+                    description: "Deployed across all global Microsoft offices",
+                    stage: "growth",
+                    status: "completed",
+                    completedDate: "2023-11-20",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 7,
+                    title: "Advanced Analytics Enabled",
+                    description: "Implemented enterprise reporting and analytics",
+                    stage: "growth",
+                    status: "completed",
+                    completedDate: "2024-01-10",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 8,
+                    title: "Executive Sponsor Program",
+                    description: "C-suite sponsor actively engaged in success program",
+                    stage: "expansion",
+                    status: "completed",
+                    completedDate: "2024-01-25",
+                    completedBy: "Account Manager",
+                    isAutomatic: false
+                },
+                {
+                    id: 9,
+                    title: "Additional Product Integration",
+                    description: "Integrate additional enterprise products",
+                    stage: "expansion",
+                    status: "in_progress",
+                    targetDate: "2024-03-15",
+                    isAutomatic: false
+                }
+            ],
+            businessGoals: [
+                {
+                    id: 1,
+                    title: "Reduce Infrastructure Costs by 30%",
+                    currentValue: 32,
+                    targetValue: 30,
+                    unit: "%",
+                    status: "achieved",
+                    achievedDate: "2023-12-01",
+                    achievedBy: "auto"
+                },
+                {
+                    id: 2,
+                    title: "Achieve 99.99% Uptime SLA",
+                    currentValue: 99.98,
+                    targetValue: 99.99,
+                    unit: "%",
+                    status: "in_progress",
+                    targetDate: "2024-06-30"
+                },
+                {
+                    id: 3,
+                    title: "Deploy to 50,000 Users",
+                    currentValue: 48500,
+                    targetValue: 50000,
+                    unit: "users",
+                    status: "in_progress",
+                    targetDate: "2024-04-01"
+                },
+                {
+                    id: 4,
+                    title: "Implement Zero Trust Architecture",
+                    currentValue: 85,
+                    targetValue: 100,
+                    unit: "%",
+                    status: "in_progress",
+                    targetDate: "2024-07-01"
+                }
+            ]
+        }
     },
     'bilkent': {
         name: "Bilkent Universitesi",
@@ -897,23 +1257,140 @@ function getParticipantClass(type) {
                 <div class="account-tabs">
                     <div class="tab-list">
                         <button class="account-tab active" data-tab="overview">Overview</button>
+                        <button class="account-tab" data-tab="highlights">Highlights</button>
+                        <button class="account-tab" data-tab="interactions">Interactions</button>
                         <button class="account-tab" data-tab="contacts">Contacts</button>
                         <button class="account-tab" data-tab="tickets">Tickets</button>
                         <button class="account-tab" data-tab="usage">Usage</button>
                         <button class="account-tab" data-tab="notes">Notes</button>
                         <button class="account-tab" data-tab="tasks">Tasks</button>
+                        <button class="account-tab" data-tab="journey">Journey</button>
                     </div>
                 </div>
 
                 <!-- Tab Content -->
                 <div class="tab-content">
-                    <!-- Overview Tab -->
+                    <!-- NEW Overview Tab (Alternative Layout) -->
                     <div class="tab-pane active" id="overview-tab">
-                        <!-- Two Column Layout for Overview and Timeline -->
+                        <div class="overview-new-layout-v2">
+                            <!-- Description Section Full Width -->
+                            <div class="description-section" id="descriptionSection">
+                                <div class="description-content" id="descriptionContent">
+                                    <p><%= account.description || account.summary %></p>
+                                </div>
+                                <button class="description-expand-btn" id="descriptionExpandBtn">
+                                    <svg viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- Two Column Layout -->
+                            <div class="overview-columns">
+                                <!-- Left Column: Highlights -->
+                                <div class="overview-left-col">
+                                    <div class="summary-section highlights-full">
+                                        <h3><a href="#" class="tab-link section-title-link" data-tab="highlights">Highlights</a></h3>
+                                        <% if (account.highlights && account.highlights.length > 0) { %>
+                                            <% account.highlights.slice(0, 2).forEach(highlight => { %>
+                                                <div class="highlight-card <%= highlight.type %>">
+                                                    <div class="highlight-header">
+                                                        <span class="highlight-label"><%= highlight.title %></span>
+                                                        <span class="highlight-source"><%= highlight.source %></span>
+                                                    </div>
+                                                    <p class="highlight-content"><%= highlight.content %></p>
+                                                    <span class="highlight-date"><%= highlight.date %></span>
+                                                </div>
+                                            <% }) %>
+                                        <% } else { %>
+                                            <p class="no-highlights">No recent highlights</p>
+                                        <% } %>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column: Tasks, Usage, Tickets -->
+                                <div class="overview-right-col">
+                                    <!-- Tasks Section -->
+                                    <div class="summary-section">
+                                        <h3><a href="#" class="tab-link section-title-link" data-tab="tasks">Tasks</a></h3>
+                                        <div class="summary-content">
+                                            <%
+                                            // Generate tasks summary
+                                            let tasksSummary = "No active tasks at this time.";
+                                            if (accountTasks && accountTasks.length > 0) {
+                                                const activeTasks = accountTasks.filter(t => t.status !== 'Completed');
+                                                const overdueTasks = accountTasks.filter(t => {
+                                                    if (t.dueDate && t.status !== 'Completed') {
+                                                        const due = new Date(t.dueDate);
+                                                        return due < new Date();
+                                                    }
+                                                    return false;
+                                                });
+                                                
+                                                if (activeTasks.length > 0) {
+                                                    tasksSummary = `${activeTasks.length} active task${activeTasks.length !== 1 ? 's' : ''}`;
+                                                    if (overdueTasks.length > 0) {
+                                                        tasksSummary += `, ${overdueTasks.length} overdue`;
+                                                    }
+                                                    tasksSummary += '.';
+                                                }
+                                            }
+                                            %>
+                                            <p><%= tasksSummary %></p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Usage Section -->
+                                    <div class="summary-section">
+                                        <h3><a href="#" class="tab-link section-title-link" data-tab="usage">Usage</a></h3>
+                                        <div class="summary-content">
+                                            <p><%= generateUsageSummary(accountUsage, account.name) %></p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tickets Section -->
+                                    <div class="summary-section">
+                                        <h3><a href="#" class="tab-link section-title-link" data-tab="tickets">Tickets</a></h3>
+                                        <div class="summary-content">
+                                            <p><%= generateTicketSummary(accountTickets) %></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Highlights Tab -->
+                    <div class="tab-pane" id="highlights-tab">
+                        <div class="highlights-full-section">
+                            
+                            <% if (account.highlights && account.highlights.length > 0) { %>
+                                <% account.highlights.forEach(highlight => { %>
+                                    <div class="highlight-card <%= highlight.type %>">
+                                        <div class="highlight-header">
+                                            <span class="highlight-label"><%= highlight.title %></span>
+                                            <span class="highlight-source"><%= highlight.source %></span>
+                                        </div>
+                                        <p class="highlight-content"><%= highlight.content %></p>
+                                        <span class="highlight-date"><%= highlight.date %></span>
+                                    </div>
+                                <% }) %>
+                            <% } else { %>
+                                <div class="empty-state">
+                                    <svg viewBox="0 0 20 20" fill="currentColor" class="empty-icon">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <p>No highlights available for this account</p>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+
+                    <!-- OLD Overview Tab (Preserved as backup) -->
+                    <!--
+                    <div class="tab-pane" id="overview-tab-old">
                         <div class="content-grid">
-                            <!-- Left Column: Overview Text + Highlights -->
                             <div class="overview-left-column">
-                                <!-- Overview Text Section -->
                                 <div class="overview-text-section">
                                     <div class="expandable-section preview" id="overviewSection">
                                         <div class="expandable-header">
@@ -929,12 +1406,10 @@ function getParticipantClass(type) {
                                         </div>
                                         <div class="expandable-content">
                                             <div class="expandable-content-inner" id="overviewContentInner">
-                                                <!-- Company Description -->
                                                 <div class="overview-paragraph">
                                                     <p><%= account.description || account.summary %></p>
                                                 </div>
                                                 
-                                                <!-- Company Objectives -->
                                                 <% if (account.objectives && account.objectives.length > 0) { %>
                                                 <div class="overview-paragraph">
                                                     <p>The company's primary strategic objectives include:</p>
@@ -949,9 +1424,7 @@ function getParticipantClass(type) {
                                         </div>
                                     </div>
                                     
-                                    <!-- Summary Section (Always Visible) -->
                                     <div class="summary-section">
-                                        <!-- Ticket Summary -->
                                         <div class="summary-item">
                                             <p><%= generateTicketSummary(accountTickets) %> 
                                                 <% if (accountTickets.length > 0) { %>
@@ -960,7 +1433,6 @@ function getParticipantClass(type) {
                                             </p>
                                         </div>
                                         
-                                        <!-- Usage Analytics Summary -->
                                         <div class="summary-item">
                                             <p><%= generateUsageSummary(accountUsage, account.name) %> 
                                                 <% if (accountUsage.monthlyTrend.length > 0) { %>
@@ -971,7 +1443,6 @@ function getParticipantClass(type) {
                                     </div>
                                 </div>
                                 
-                                <!-- Highlights Section -->
                                 <div class="highlights-section">
                                     <h2>Key Highlights</h2>
                                     <% account.highlights.forEach(highlight => { %>
@@ -987,23 +1458,7 @@ function getParticipantClass(type) {
                                 </div>
                             </div>
 
-                            <!-- Right Column: Timeline -->
                             <div class="timeline-section">
-                                <div class="expandable-section timeline-expandable preview" id="timelineSection">
-                                    <div class="expandable-header">
-                                        <h2 class="expandable-title">Interaction Timeline</h2>
-                                    </div>
-                                    <div class="expandable-controls">
-                                        <button class="expandable-toggle" id="timelineToggle">
-                                            <span class="toggle-text">More</span>
-                                            <svg class="toggle-icon" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="expandable-content">
-                                        <div class="expandable-content-inner">
-                                            <div class="timeline">
                                                 <% account.timeline.forEach((item, index) => { %>
                             <div class="timeline-item">
                                 <div class="timeline-marker <%= item.type %>">
@@ -1210,6 +1665,72 @@ function getParticipantClass(type) {
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    -->
+
+                    <!-- Interactions Tab -->
+                    <div class="tab-pane" id="interactions-tab">
+                        <div class="interactions-layout">
+                            <!-- Left: Timeline -->
+                            <div class="interactions-timeline">
+                                <h3>Interaction Timeline</h3>
+                                <div class="timeline">
+                                    <% account.timeline.forEach((item, index) => { %>
+                                        <div class="timeline-item clickable" data-interaction-id="<%= index %>">
+                                            <div class="timeline-marker <%= item.type %>">
+                                                <% if (item.type === 'email') { %>
+                                                    <svg viewBox="0 0 20 20" fill="currentColor">
+                                                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                                                    </svg>
+                                                <% } else if (item.type === 'meeting') { %>
+                                                    <svg viewBox="0 0 20 20" fill="currentColor">
+                                                        <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/>
+                                                    </svg>
+                                                <% } else if (item.type === 'ticket') { %>
+                                                    <svg viewBox="0 0 20 20" fill="currentColor">
+                                                        <path d="M2 6a2 2 0 012-2h12a2 2 0 012 2v2a2 2 0 100 4v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2a2 2 0 100-4V6z"/>
+                                                    </svg>
+                                                <% } else if (item.type === 'call') { %>
+                                                    <svg viewBox="0 0 20 20" fill="currentColor">
+                                                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                                                    </svg>
+                                                <% } %>
+                                            </div>
+                                            <div class="timeline-content">
+                                                <h4><%= item.title %></h4>
+                                                <p><%= item.description %></p>
+                                                <div class="timeline-meta">
+                                                    <span class="timeline-date"><%= item.date %></span>
+                                                    <span class="timeline-time"><%= item.time %></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% }) %>
+                                </div>
+                            </div>
+
+                            <!-- Right: Interaction Details -->
+                            <div class="interaction-details">
+                                <div class="details-placeholder">
+                                    <svg viewBox="0 0 20 20" fill="currentColor" class="placeholder-icon">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <p>Select an interaction from the timeline to view details</p>
+                                </div>
+                                
+                                <!-- Details content will be populated by JavaScript -->
+                                <div class="details-content" id="interactionDetails">
+                                    <!-- Content dynamically inserted here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hidden timeline data for JavaScript -->
+                        <script>
+                            window.timelineData = <%- JSON.stringify(account.timeline) %>;
+                        </script>
                     </div>
 
                     <!-- Contacts Tab -->
@@ -1799,6 +2320,217 @@ function getParticipantClass(type) {
                                 </div>
                             <% } %>
                         </div>
+                    </div>
+
+                    <!-- Journey Tab -->
+                    <div class="tab-pane" id="journey-tab">
+                        <% if (account.journey) { %>
+                        <div class="journey-section">
+                            <!-- Customer Lifecycle Summary -->
+                            <div class="journey-summary">
+                                <div class="journey-header">
+                                    <div class="journey-title">
+                                        <span class="journey-meta"><%= account.plan %> • Started <%= new Date(account.journey.startDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></span>
+                                    </div>
+                                </div>
+
+                                <!-- Journey Stages Progress -->
+                                <div class="journey-stages">
+                                    <div class="stages-container">
+                                        <% 
+                                        const stages = ['onboarding', 'adoption', 'growth', 'expansion'];
+                                        const stageLabels = {
+                                            onboarding: 'Onboarding',
+                                            adoption: 'Adoption',
+                                            growth: 'Growth',
+                                            expansion: 'Expansion'
+                                        };
+                                        
+                                        stages.forEach((stage, index) => {
+                                            const stageData = account.journey.stages[stage];
+                                            const isCompleted = stageData.completed === stageData.total && stageData.total > 0;
+                                            const isCurrent = account.journey.currentStage === stage;
+                                            const isPending = stages.indexOf(stage) > stages.indexOf(account.journey.currentStage);
+                                        %>
+                                        <div class="stage-item <%= isCompleted ? 'completed' : isCurrent ? 'current' : 'pending' %>">
+                                            <div class="stage-indicator">
+                                                <% if (isCompleted) { %>
+                                                    <svg viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                <% } else if (isCurrent) { %>
+                                                    <svg viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                <% } else { %>
+                                                    <span class="stage-number"><%= index + 1 %></span>
+                                                <% } %>
+                                            </div>
+                                            <div class="stage-info">
+                                                <div class="stage-name"><%= stageLabels[stage] %></div>
+                                                <div class="stage-progress"><%= stageData.completed %>/<%= stageData.total %></div>
+                                            </div>
+                                        </div>
+                                        <% if (index < stages.length - 1) { %>
+                                            <div class="stage-connector <%= stages.indexOf(stage) < stages.indexOf(account.journey.currentStage) ? 'completed' : '' %>"></div>
+                                        <% } %>
+                                        <% }) %>
+                                    </div>
+                                </div>
+
+                                <!-- Overall Progress -->
+                                <div class="overall-progress">
+                                    <% 
+                                    const totalMilestones = Object.values(account.journey.stages).reduce((sum, stage) => sum + stage.total, 0);
+                                    const completedMilestones = Object.values(account.journey.stages).reduce((sum, stage) => sum + stage.completed, 0);
+                                    const progressPercentage = totalMilestones > 0 ? (completedMilestones / totalMilestones) * 100 : 0;
+                                    %>
+                                    <div class="progress-info">
+                                        <span class="progress-label">Overall Journey Progress</span>
+                                        <span class="progress-text"><%= completedMilestones %> of <%= totalMilestones %> milestones completed</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: <%= progressPercentage %>%"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Two Column Layout -->
+                            <div class="journey-content">
+                                <!-- Left Column - Journey Timeline -->
+                                <div class="journey-timeline">
+                                    <div class="timeline-header">
+                                        <h3>Journey Timeline</h3>
+                                        <button class="btn-primary btn-sm">Add Milestone</button>
+                                    </div>
+                                    
+                                    <div class="timeline-container">
+                                        <% account.journey.milestones.forEach((milestone, index) => { %>
+                                        <div class="timeline-item <%= milestone.status %>">
+                                            <div class="timeline-marker">
+                                                <% if (milestone.status === 'completed') { %>
+                                                    <svg viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                <% } else if (milestone.status === 'in_progress') { %>
+                                                    <svg viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                <% } else { %>
+                                                    <svg viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                <% } %>
+                                            </div>
+                                            <% if (index < account.journey.milestones.length - 1) { %>
+                                                <div class="timeline-connector"></div>
+                                            <% } %>
+                                            <div class="timeline-content">
+                                                <div class="milestone-header">
+                                                    <h4><%= milestone.title %></h4>
+                                                    <span class="milestone-status <%= milestone.status %>">
+                                                        <%= milestone.status === 'completed' ? 'completed' : milestone.status === 'in_progress' ? 'in progress' : 'pending' %>
+                                                    </span>
+                                                </div>
+                                                <p class="milestone-description"><%= milestone.description %></p>
+                                                <div class="milestone-meta">
+                                                    <span class="milestone-stage stage-<%= milestone.stage %>"><%= milestone.stage.charAt(0).toUpperCase() + milestone.stage.slice(1) %></span>
+                                                    <% if (milestone.status === 'completed') { %>
+                                                        <span class="milestone-date">Completed <%= new Date(milestone.completedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %> • <%= milestone.completedBy %></span>
+                                                    <% } else if (milestone.targetDate) { %>
+                                                        <span class="milestone-date">Target: <%= new Date(milestone.targetDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></span>
+                                                    <% } %>
+                                                </div>
+                                                <% if (milestone.status !== 'completed') { %>
+                                                    <button class="btn-complete" data-milestone-id="<%= milestone.id %>">
+                                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                        </svg>
+                                                        Mark Complete
+                                                    </button>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column - Business Goals -->
+                                <div class="business-goals">
+                                    <div class="goals-header">
+                                        <h3>Business Goals</h3>
+                                        <button class="btn-primary btn-sm">Add Goal</button>
+                                    </div>
+                                    
+                                    <div class="goals-container">
+                                        <% account.journey.businessGoals.forEach(goal => { %>
+                                        <div class="goal-card <%= goal.status %>">
+                                            <div class="goal-header">
+                                                <div class="goal-title-row">
+                                                    <div class="goal-icon">
+                                                        <% if (goal.status === 'achieved') { %>
+                                                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                            </svg>
+                                                        <% } else if (goal.status === 'in_progress') { %>
+                                                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                                            </svg>
+                                                        <% } else { %>
+                                                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                                            </svg>
+                                                        <% } %>
+                                                    </div>
+                                                    <h4><%= goal.title %></h4>
+                                                    <span class="goal-status <%= goal.status %>">
+                                                        <%= goal.status === 'achieved' ? 'achieved' : goal.status === 'in_progress' ? 'in progress' : 'at risk' %>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="goal-progress">
+                                                <div class="progress-label">Progress</div>
+                                                <div class="progress-value">
+                                                    <% if (goal.unit === '%') { %>
+                                                        <%= goal.currentValue %>% / <%= goal.targetValue %>%
+                                                    <% } else if (goal.unit === 'users') { %>
+                                                        <%= goal.currentValue.toLocaleString() %>users / <%= goal.targetValue.toLocaleString() %>users
+                                                    <% } else { %>
+                                                        <%= goal.currentValue %> / <%= goal.targetValue %> <%= goal.unit %>
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                            <div class="goal-progress-bar">
+                                                <div class="goal-progress-fill" style="width: <%= Math.min((goal.currentValue / goal.targetValue) * 100, 100) %>%"></div>
+                                            </div>
+                                            <div class="goal-footer">
+                                                <% if (goal.status === 'achieved') { %>
+                                                    <span class="goal-date">Achieved <%= new Date(goal.achievedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %> • <%= goal.achievedBy %></span>
+                                                <% } else if (goal.targetDate) { %>
+                                                    <span class="goal-date">Target: <%= new Date(goal.targetDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></span>
+                                                <% } %>
+                                                <% if (goal.status !== 'achieved') { %>
+                                                    <button class="btn-achieve" data-goal-id="<%= goal.id %>">
+                                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                        </svg>
+                                                        Mark Achieved
+                                                    </button>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% } else { %>
+                        <div class="tab-placeholder">
+                            <h3>Journey Not Available</h3>
+                            <p>Journey data has not been configured for this account yet.</p>
+                            <button class="btn-primary">Configure Journey</button>
+                        </div>
+                        <% } %>
                     </div>
                 </div>
             </div>

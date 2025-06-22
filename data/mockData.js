@@ -283,6 +283,45 @@ const allContacts = [
         status: "Active",
         type: "contact",
         tags: ["Power user", "Admin"]
+    },
+    {
+        id: "robert-johnson",
+        name: "Robert Johnson",
+        title: "VP Operations",
+        company: "ACME Corporation",
+        email: "rjohnson@acme.com",
+        phone: "+1 313 555 0400",
+        linkedin: "robertjohnsonacme",
+        lastInteraction: "Today",
+        status: "Active",
+        type: "contact",
+        tags: ["Economic buyer", "Exec sponsor"]
+    },
+    {
+        id: "lisa-chen",
+        name: "Lisa Chen",
+        title: "IT Director",
+        company: "ACME Corporation",
+        email: "lchen@acme.com",
+        phone: "+1 313 555 0401",
+        linkedin: "lisachenacme",
+        lastInteraction: "1 day ago",
+        status: "Active",
+        type: "contact",
+        tags: ["Admin", "Champion"]
+    },
+    {
+        id: "mark-williams",
+        name: "Mark Williams",
+        title: "Production Manager",
+        company: "ACME Corporation",
+        email: "mwilliams@acme.com",
+        phone: "+1 313 555 0402",
+        linkedin: "markwilliamsacme",
+        lastInteraction: "3 days ago",
+        status: "Active",
+        type: "contact",
+        tags: ["Power user"]
     }
 ];
 
@@ -303,14 +342,14 @@ const accountData = {
             { name: "Asyncro - Cryptonix Synergy", id: "asyncro-crypto" },
             { name: "DataFlow Analytics Pro", id: "dataflow-pro" }
         ],
-        description: "Bilkent University is Turkey's first private, nonprofit university, established in 1984. Located in Ankara, the university is consistently ranked as one of the top institutions in Turkey and has gained international recognition for its academic excellence and research contributions. With over 13,000 students and 1,000 faculty members, Bilkent offers undergraduate and graduate programs across various disciplines including engineering, business, humanities, and sciences. The university is known for its English-medium instruction, modern campus facilities, and strong emphasis on research and innovation.",
+        description: "Bilkent University is Turkey's first private, nonprofit university, established in 1984. Located in Ankara, the university is consistently ranked as one of the top institutions in Turkey and has gained international recognition for its academic excellence and research contributions. With over 13,000 students and 1,000 faculty members, Bilkent offers undergraduate and graduate programs across various disciplines including engineering, business, humanities, and sciences. The university is known for its English-medium instruction, modern campus facilities, and strong emphasis on research and innovation. hosting over 13,000 students across undergraduate, graduate, and doctoral programs xxxxxx  xxxxxxxx  rrrrrrr  sdfasdfasdf adsfasd fsadf asdf ads fad sfafdfsdfa asdfasdfa ty is Turkey's first private, nonprofit university, established in 1984. Located in Ankara, the university is consistently ranked as one of the top institutions in Turkey and has gained international recognition for its academic excellence and research contributions. With over 13,000 students and 1,000 faculty members, Bilkent offers undergraduate and graduate programs across various disciplines including engineering, business, humanities, and sciences. The university is known for its English-medium instruction, modern campus facilities, and strong emphasis on research and innovation. hosting over 13,000 students across undergraduate, graduate, and doctoral programs xxxxxx  xxxxxxxx  rrrrrrr  sdfasdfasdf adsfasd fsadf asdf ads fad sfafdfsdfa asdfasdfa",
         objectives: [
             "Modernize student information systems to improve administrative efficiency and student experience",
             "Enhance online learning capabilities to support hybrid and remote education models",
             "Implement comprehensive LMS integration for seamless course management",
             "Expand digital infrastructure to support growing student and faculty populations"
         ],
-        summary: "Leading private university in Turkey focused on academic excellence and research. Primary contact is through their IT department for educational technology solutions. Recent discussions have focused on LMS integration requirements, student portal customization, and mobile app development for campus services. Their main objectives include modernizing student information systems, improving online learning capabilities, and enhancing campus-wide communication tools.",
+        summary: "Leading private university in Turkey focused on academic excellence and research. Primary contact is through their IT department for educational technology solutions. Recent discussions have focused on LMS integration requirements, student portal customization, and mobile app development for campus services. Their main objectives include modernizing student information systems, improving online learning capabilities, and enhancing campus-wide communication tools. Bilkent University, established in 1984, is recognized as one of Turkey's premier educational institutions, hosting over 13,000 students across undergraduate, graduate, and doctoral programs. The university's commitment to technological innovation extends beyond academics into comprehensive digital infrastructure modernization projects. Their current initiative involves implementing a unified student experience platform that integrates academic records, course management, library services, dormitory administration, and campus-wide communication systems. The IT department is particularly focused on creating seamless mobile experiences for students, faculty, and staff while ensuring robust security compliance with international education technology standards. Recent partnerships with leading tech companies have positioned Bilkent as a model for digital transformation in higher education across the region. transformation in higher education across the region. transformation in higher education across the region. transformation in higher education across the region. dfasdff asdfasdf asdf asdf asdf asd fasd fa df asdfzzzzzzzzzzzzz",
         highlights: [
             {
                 type: "feature-request",
@@ -412,7 +451,131 @@ const accountData = {
                     ]
                 }
             }
-        ]
+        ],
+        journey: {
+            startDate: "2023-08-15",
+            healthScore: 45,
+            currentStage: "onboarding",
+            stages: {
+                onboarding: { completed: 1, total: 3 },
+                adoption: { completed: 0, total: 2 },
+                growth: { completed: 0, total: 2 },
+                expansion: { completed: 0, total: 1 }
+            },
+            milestones: [
+                {
+                    id: 1,
+                    title: "University Account Setup",
+                    description: "Initial configuration for academic institution",
+                    stage: "onboarding",
+                    status: "completed",
+                    completedDate: "2023-08-22",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 2,
+                    title: "Student Information System Integration",
+                    description: "Connect with university's existing SIS",
+                    stage: "onboarding",
+                    status: "in_progress",
+                    targetDate: "2024-03-01",
+                    isAutomatic: false
+                },
+                {
+                    id: 3,
+                    title: "Faculty Training Program",
+                    description: "Comprehensive training for 200+ faculty members",
+                    stage: "onboarding",
+                    status: "pending",
+                    targetDate: "2024-04-15",
+                    isAutomatic: false
+                },
+                {
+                    id: 4,
+                    title: "Student Portal Launch",
+                    description: "Deploy student-facing portal for 13,000+ students",
+                    stage: "adoption",
+                    status: "pending",
+                    targetDate: "2024-05-01",
+                    isAutomatic: true
+                },
+                {
+                    id: 5,
+                    title: "Academic Analytics Implementation",
+                    description: "Enable learning analytics and student performance tracking",
+                    stage: "adoption",
+                    status: "pending",
+                    targetDate: "2024-06-01",
+                    isAutomatic: true
+                },
+                {
+                    id: 6,
+                    title: "Multi-Campus Deployment",
+                    description: "Expand to all university campuses and departments",
+                    stage: "growth",
+                    status: "pending",
+                    targetDate: "2024-09-01",
+                    isAutomatic: false
+                },
+                {
+                    id: 7,
+                    title: "Research Collaboration Tools",
+                    description: "Deploy advanced research collaboration features",
+                    stage: "growth",
+                    status: "pending",
+                    targetDate: "2024-12-01",
+                    isAutomatic: false
+                },
+                {
+                    id: 8,
+                    title: "Partner University Integration",
+                    description: "Connect with partner institutions for academic exchange",
+                    stage: "expansion",
+                    status: "pending",
+                    targetDate: "2025-03-01",
+                    isAutomatic: false
+                }
+            ],
+            businessGoals: [
+                {
+                    id: 1,
+                    title: "Improve Student Engagement by 40%",
+                    currentValue: 15,
+                    targetValue: 40,
+                    unit: "%",
+                    status: "at_risk",
+                    targetDate: "2024-08-31"
+                },
+                {
+                    id: 2,
+                    title: "Reduce Administrative Overhead by 25%",
+                    currentValue: 8,
+                    targetValue: 25,
+                    unit: "%",
+                    status: "in_progress",
+                    targetDate: "2024-12-31"
+                },
+                {
+                    id: 3,
+                    title: "Deploy to 13,000 Students",
+                    currentValue: 1200,
+                    targetValue: 13000,
+                    unit: "users",
+                    status: "in_progress",
+                    targetDate: "2024-09-01"
+                },
+                {
+                    id: 4,
+                    title: "Achieve 95% Faculty Adoption",
+                    currentValue: 25,
+                    targetValue: 95,
+                    unit: "%",
+                    status: "at_risk",
+                    targetDate: "2024-06-30"
+                }
+            ]
+        }
     },
     flowla: {
         name: "Flowla",
@@ -428,7 +591,7 @@ const accountData = {
         productSubscriptions: [
             { name: "Starter Package", id: "starter-pkg" }
         ],
-        description: "Flowla is an innovative B2B SaaS company that specializes in sales enablement and buyer experience platforms. Founded in 2021, the company is headquartered in San Francisco and serves growing businesses looking to modernize their sales processes. Flowla's platform helps sales teams create personalized, interactive buyer journeys that engage prospects and accelerate deal closure. With a team of 25 employees, the company has quickly gained traction in the competitive sales tech market, serving over 150 customers globally.",
+        description: "Flowla is an innovative B2B SaaS company that specializes in sales enablement and buyer experience platforms. Founded in 2021, the company is headquartered in San Francisco and serves growing businesses looking to modernize their sales processes. Flowla's platform helps sales teams create personalized, interactive buyer journeys that engage prospects and accelerate deal closure. With a team of 25 employees, the company has quickly gained traction in the competitive sales tech market, serving over 150 customers globally. The company's cutting-edge technology stack includes advanced analytics, AI-powered personalization engines, and seamless CRM integrations that enable sales teams to track prospect engagement in real-time. Their flagship product features dynamic content blocks, interactive pricing calculators, proposal automation, and comprehensive buyer experience tracking that provides deep insights into prospect behavior and preferences. Flowla has raised $3.2M in seed funding and is currently expanding into European markets while developing enterprise-grade features for Fortune 500 companies. Their innovative approach to sales enablement has earned them recognition in leading industry publications and positioned them as a rising star in the sales technology ecosystem.",
         objectives: [
             "Scale customer onboarding process to support rapid growth and reduce time-to-value",
             "Improve sales team efficiency through advanced automation and workflow optimization",
@@ -501,7 +664,106 @@ const accountData = {
                     ]
                 }
             }
-        ]
+        ],
+        journey: {
+            startDate: "2024-01-03",
+            healthScore: 72,
+            currentStage: "adoption",
+            stages: {
+                onboarding: { completed: 2, total: 2 },
+                adoption: { completed: 1, total: 2 },
+                growth: { completed: 0, total: 2 },
+                expansion: { completed: 0, total: 1 }
+            },
+            milestones: [
+                {
+                    id: 1,
+                    title: "Account Setup Complete",
+                    description: "Initial configuration and user onboarding",
+                    stage: "onboarding",
+                    status: "completed",
+                    completedDate: "2024-01-05",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 2,
+                    title: "First Value Realization",
+                    description: "Customer created their first buyer journey",
+                    stage: "onboarding",
+                    status: "completed",
+                    completedDate: "2024-01-12",
+                    completedBy: "Sarah Johnson (CSM)",
+                    isAutomatic: false
+                },
+                {
+                    id: 3,
+                    title: "Team Expansion",
+                    description: "Added 5+ users to the platform",
+                    stage: "adoption",
+                    status: "completed",
+                    completedDate: "2024-01-20",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 4,
+                    title: "Integration Setup",
+                    description: "Connect with Salesforce CRM",
+                    stage: "adoption",
+                    status: "in_progress",
+                    targetDate: "2024-02-15",
+                    isAutomatic: false
+                },
+                {
+                    id: 5,
+                    title: "Advanced Features Adoption",
+                    description: "Using 3+ advanced platform features",
+                    stage: "growth",
+                    status: "pending",
+                    targetDate: "2024-03-01",
+                    isAutomatic: true
+                },
+                {
+                    id: 6,
+                    title: "Executive Sponsor Identified",
+                    description: "C-level champion engaged and active",
+                    stage: "expansion",
+                    status: "pending",
+                    targetDate: "2024-04-01",
+                    isAutomatic: false
+                }
+            ],
+            businessGoals: [
+                {
+                    id: 1,
+                    title: "Reduce Sales Cycle by 20%",
+                    currentValue: 15,
+                    targetValue: 20,
+                    unit: "%",
+                    status: "in_progress",
+                    targetDate: "2024-03-31"
+                },
+                {
+                    id: 2,
+                    title: "Increase Deal Velocity",
+                    currentValue: 12,
+                    targetValue: 25,
+                    unit: "%",
+                    status: "at_risk",
+                    targetDate: "2024-02-28"
+                },
+                {
+                    id: 3,
+                    title: "Onboard 50 Sales Reps",
+                    currentValue: 18,
+                    targetValue: 50,
+                    unit: "users",
+                    status: "in_progress",
+                    targetDate: "2024-05-01"
+                }
+            ]
+        }
     },
     yahoo: {
         name: "Yahoo",
@@ -571,7 +833,7 @@ const accountData = {
         revenue: "$12,814,907",
         renewalDate: "2025-11-15",
         location: "Redmond, WA",
-        description: "Microsoft Corporation is one of the world's largest and most influential technology companies, founded in 1975 by Bill Gates and Paul Allen. Headquartered in Redmond, Washington, Microsoft employs over 200,000 people globally and serves billions of customers and businesses worldwide. The company is a leader in personal computing software, cloud computing, enterprise solutions, gaming, and productivity applications. With products and services spanning Windows operating systems, Microsoft 365, Azure cloud platform, Teams collaboration tools, and Xbox gaming, Microsoft continues to drive digital transformation across industries while maintaining its commitment to empowering every person and organization on the planet to achieve more.",
+        description: "Microsoft Corporation is one of the world's largest and most influential technology companies, founded in 1975 by Bill Gates and Paul Allen. Headquartered in Redmond, Washington, Microsoft employs over 200,000 people globally and serves billions of customers and businesses worldwide. The company is a leader in personal computing software, cloud computing, enterprise solutions, gaming, and productivity applications. With products and services spanning Windows operating systems, Microsoft 365, Azure cloud platform, Teams collaboration tools, and Xbox gaming, Microsoft continues to drive digital transformation across industries while maintaining its commitment to empowering every person and organization on the planet to achieve more. Microsoft's Azure cloud platform serves as the backbone for countless enterprise applications, providing scalable infrastructure, AI and machine learning services, data analytics, and IoT solutions that power digital transformation initiatives worldwide. The company's commitment to sustainability includes becoming carbon negative by 2030 and removing all historical carbon emissions by 2050. Microsoft's diverse portfolio includes Surface devices, LinkedIn professional networking, GitHub developer platform, and cutting-edge research in quantum computing, mixed reality through HoloLens, and artificial intelligence with OpenAI partnership. Their enterprise solutions serve Fortune 500 companies across every industry, from healthcare and finance to manufacturing and retail, providing mission-critical infrastructure that enables global business operations at unprecedented scale.",
         objectives: [
             "Streamline enterprise deployment processes to reduce implementation complexity and time-to-value",
             "Enhance security compliance features to meet evolving regulatory requirements and enterprise standards",
@@ -616,6 +878,212 @@ const accountData = {
                 date: "2024-01-15",
                 time: "14:30",
                 description: "Received detailed security requirements for vendor approval"
+            }
+        ],
+        journey: {
+            startDate: "2023-03-01",
+            healthScore: 95,
+            currentStage: "expansion",
+            stages: {
+                onboarding: { completed: 2, total: 2 },
+                adoption: { completed: 3, total: 3 },
+                growth: { completed: 2, total: 2 },
+                expansion: { completed: 1, total: 2 }
+            },
+            milestones: [
+                {
+                    id: 1,
+                    title: "Enterprise Account Setup",
+                    description: "Complete enterprise-grade security configuration",
+                    stage: "onboarding",
+                    status: "completed",
+                    completedDate: "2023-03-15",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 2,
+                    title: "Azure AD Integration",
+                    description: "Successfully integrated with Azure Active Directory",
+                    stage: "onboarding",
+                    status: "completed",
+                    completedDate: "2023-04-01",
+                    completedBy: "Technical Team",
+                    isAutomatic: false
+                },
+                {
+                    id: 3,
+                    title: "Department Rollout Phase 1",
+                    description: "Deployed to IT and Security departments",
+                    stage: "adoption",
+                    status: "completed",
+                    completedDate: "2023-05-15",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 4,
+                    title: "User Training Completed",
+                    description: "Comprehensive training for 500+ enterprise users",
+                    stage: "adoption",
+                    status: "completed",
+                    completedDate: "2023-06-30",
+                    completedBy: "Training Team",
+                    isAutomatic: false
+                },
+                {
+                    id: 5,
+                    title: "Custom Workflow Implementation",
+                    description: "Deployed enterprise-specific automation workflows",
+                    stage: "adoption",
+                    status: "completed",
+                    completedDate: "2023-08-15",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 6,
+                    title: "Global Rollout",
+                    description: "Deployed across all global Microsoft offices",
+                    stage: "growth",
+                    status: "completed",
+                    completedDate: "2023-11-20",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 7,
+                    title: "Advanced Analytics Enabled",
+                    description: "Implemented enterprise reporting and analytics",
+                    stage: "growth",
+                    status: "completed",
+                    completedDate: "2024-01-10",
+                    completedBy: "auto",
+                    isAutomatic: true
+                },
+                {
+                    id: 8,
+                    title: "Executive Sponsor Program",
+                    description: "C-suite sponsor actively engaged in success program",
+                    stage: "expansion",
+                    status: "completed",
+                    completedDate: "2024-01-25",
+                    completedBy: "Account Manager",
+                    isAutomatic: false
+                },
+                {
+                    id: 9,
+                    title: "Additional Product Integration",
+                    description: "Integrate additional enterprise products",
+                    stage: "expansion",
+                    status: "in_progress",
+                    targetDate: "2024-03-15",
+                    isAutomatic: false
+                }
+            ],
+            businessGoals: [
+                {
+                    id: 1,
+                    title: "Reduce Infrastructure Costs by 30%",
+                    currentValue: 32,
+                    targetValue: 30,
+                    unit: "%",
+                    status: "achieved",
+                    achievedDate: "2023-12-01",
+                    achievedBy: "auto"
+                },
+                {
+                    id: 2,
+                    title: "Achieve 99.99% Uptime SLA",
+                    currentValue: 99.98,
+                    targetValue: 99.99,
+                    unit: "%",
+                    status: "in_progress",
+                    targetDate: "2024-06-30"
+                },
+                {
+                    id: 3,
+                    title: "Deploy to 50,000 Users",
+                    currentValue: 48500,
+                    targetValue: 50000,
+                    unit: "users",
+                    status: "in_progress",
+                    targetDate: "2024-04-01"
+                },
+                {
+                    id: 4,
+                    title: "Implement Zero Trust Architecture",
+                    currentValue: 85,
+                    targetValue: 100,
+                    unit: "%",
+                    status: "in_progress",
+                    targetDate: "2024-07-01"
+                }
+            ]
+        }
+    },
+    acme: {
+        name: "ACME Corporation",
+        logo: "A",
+        industry: "Manufacturing",
+        website: "acme.com",
+        employees: "1000-5000",
+        plan: "Enterprise",
+        billing: "Annual",
+        revenue: "$2,500,000",
+        renewalDate: "2025-06-30",
+        location: "Detroit, MI",
+        description: "ACME Corporation is a leading manufacturing company specializing in industrial equipment and automation solutions. Founded in 1985, ACME has grown to become a trusted partner for businesses across North America. With state-of-the-art facilities and a commitment to innovation, ACME delivers high-quality products that help companies optimize their production processes and increase efficiency.",
+        objectives: [
+            "Modernize production tracking systems for real-time visibility",
+            "Implement predictive maintenance across all facilities",
+            "Enhance supply chain integration with key partners",
+            "Expand automation capabilities to reduce operational costs",
+            "Improve customer portal for better self-service options"
+        ],
+        summary: "Leading manufacturing company focused on industrial equipment and automation. Recent email discussions indicate interest in modernizing their production tracking systems and improving supply chain integration. Key contacts are focused on operational efficiency and cost reduction initiatives.",
+        highlights: [
+            {
+                type: "feature-request",
+                title: "Feature Request",
+                content: "Need real-time production tracking dashboard with mobile access",
+                date: "2024-01-18",
+                source: "Email"
+            },
+            {
+                type: "pain-point",
+                title: "Pain Point",
+                content: "Current system lacks integration with supplier inventory systems",
+                date: "2024-01-17",
+                source: "Email"
+            }
+        ],
+        timeline: [
+            {
+                type: "email",
+                title: "Production tracking requirements",
+                date: "2024-01-18",
+                time: "09:30",
+                description: "Discussed need for real-time visibility into production metrics",
+                participants: {
+                    from: {name: "Robert Johnson", title: "VP Operations", type: "contact", email: "rjohnson@acme.com"},
+                    to: [
+                        {name: "John Smith", title: "CSM", type: "user", email: "john@saasco.com"}
+                    ]
+                }
+            },
+            {
+                type: "email",
+                title: "Supplier integration inquiry",
+                date: "2024-01-17",
+                time: "14:15",
+                description: "Asked about API capabilities for supplier system integration",
+                participants: {
+                    from: {name: "Lisa Chen", title: "IT Director", type: "contact", email: "lchen@acme.com"},
+                    to: [
+                        {name: "John Smith", title: "CSM", type: "user", email: "john@saasco.com"}
+                    ]
+                }
             }
         ]
     },
@@ -751,6 +1219,72 @@ const contactsData = {
                 title: "Product Demo",
                 date: "2024-01-10",
                 description: "Demonstrated new features and discussed customization needs"
+            }
+        ]
+    },
+    "robert-johnson": {
+        name: "Robert Johnson",
+        title: "VP Operations",
+        company: "ACME Corporation",
+        companyId: "acme",
+        email: "rjohnson@acme.com",
+        phone: "+1 313 555 0400",
+        mobile: "+1 313 555 9400",
+        linkedin: "robertjohnsonacme",
+        location: "Detroit, MI",
+        timezone: "EST",
+        avatar: "RJ",
+        bio: "Vice President of Operations at ACME Corporation with 20+ years of experience in manufacturing and supply chain management. Leading digital transformation initiatives across all production facilities.",
+        tags: ["Decision Maker", "Executive", "Manufacturing"],
+        preferredChannel: "Email",
+        lastInteraction: "Today",
+        status: "Active",
+        notes: [
+            {
+                date: "2024-01-18",
+                author: "John Smith",
+                content: "Very interested in real-time production tracking. Wants mobile access for floor managers."
+            }
+        ],
+        interactions: [
+            {
+                type: "email",
+                title: "Production tracking requirements",
+                date: "2024-01-18",
+                description: "Discussed need for real-time visibility into production metrics"
+            }
+        ]
+    },
+    "lisa-chen": {
+        name: "Lisa Chen",
+        title: "IT Director",
+        company: "ACME Corporation",
+        companyId: "acme",
+        email: "lchen@acme.com",
+        phone: "+1 313 555 0401",
+        mobile: "+1 313 555 9401",
+        linkedin: "lisachenacme",
+        location: "Detroit, MI",
+        timezone: "EST",
+        avatar: "LC",
+        bio: "IT Director at ACME Corporation responsible for enterprise systems and digital initiatives. Focus on modernizing legacy systems and improving integration across the technology stack.",
+        tags: ["Technical", "Admin", "Champion"],
+        preferredChannel: "Email",
+        lastInteraction: "1 day ago",
+        status: "Active",
+        notes: [
+            {
+                date: "2024-01-17",
+                author: "John Smith",
+                content: "Main technical contact. Very knowledgeable about their current systems and integration needs."
+            }
+        ],
+        interactions: [
+            {
+                type: "email",
+                title: "Supplier integration inquiry",
+                date: "2024-01-17",
+                description: "Asked about API capabilities for supplier system integration"
             }
         ]
     }
