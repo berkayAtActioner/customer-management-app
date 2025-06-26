@@ -1527,6 +1527,137 @@ const chatData = {
     ]
 };
 
+// Account-specific chat data for SQL-focused conversations
+const accountChatData = {
+    flowla: {
+        messages: [
+            {
+                id: 1,
+                type: "ai",
+                content: "Hi! I'm here to help you with Flowla. I can help you generate SQL queries, analyze account data, and answer questions about this customer.",
+                timestamp: "Just now",
+                avatar: "🤖"
+            }
+        ],
+        quickActions: [
+            { id: "generate-sql", text: "🔍 Generate SQL", action: "generate-sql" },
+            { id: "analyze-account", text: "📊 Analyze Account", action: "analyze-account" },
+            { id: "show-contacts", text: "👥 Show Contacts", action: "show-contacts" }
+        ],
+        suggestedQueries: [
+            "Show me all active customers that have more than $10K ARR and have a renewal in 90 days",
+            "Find accounts similar to Flowla with low health scores",
+            "Show me all contacts for this account with their last interaction date",
+            "Find all accounts in the B2B/SaaS category with similar ARR"
+        ]
+    },
+    microsoft: {
+        messages: [
+            {
+                id: 1,
+                type: "ai",
+                content: "Hi! I'm here to help you with Microsoft. I can help you generate SQL queries, analyze account data, and answer questions about this customer.",
+                timestamp: "Just now",
+                avatar: "🤖"
+            }
+        ],
+        quickActions: [
+            { id: "generate-sql", text: "🔍 Generate SQL", action: "generate-sql" },
+            { id: "analyze-account", text: "📊 Analyze Account", action: "analyze-account" },
+            { id: "show-contacts", text: "👥 Show Contacts", action: "show-contacts" }
+        ],
+        suggestedQueries: [
+            "Show me all enterprise accounts with ARR > $1M",
+            "Find accounts in expansion stage like Microsoft",
+            "Show renewal timeline for all high-value accounts",
+            "Find accounts with similar enterprise features and integrations"
+        ]
+    },
+    "bilkent-universitesi": {
+        messages: [
+            {
+                id: 1,
+                type: "ai",
+                content: "Hi! I'm here to help you with Bilkent Universitesi. I can help you generate SQL queries, analyze account data, and answer questions about this customer.",
+                timestamp: "Just now",
+                avatar: "🤖"
+            }
+        ],
+        quickActions: [
+            { id: "generate-sql", text: "🔍 Generate SQL", action: "generate-sql" },
+            { id: "analyze-account", text: "📊 Analyze Account", action: "analyze-account" },
+            { id: "show-contacts", text: "👥 Show Contacts", action: "show-contacts" }
+        ],
+        suggestedQueries: [
+            "Show me all education sector accounts",
+            "Find accounts with declining health scores like Bilkent",
+            "Show accounts that haven't had interactions in over 6 months",
+            "Find all university and education customers with similar patterns"
+        ]
+    }
+};
+
+// SQL query templates for different use cases
+const sqlTemplates = {
+    highValueRenewals: `SELECT 
+    company_name,
+    arr,
+    renewal_date,
+    health_score,
+    DATEDIFF(renewal_date, CURRENT_DATE) as days_to_renewal
+FROM accounts 
+WHERE arr > 10000 
+    AND renewal_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '90 days'
+    AND health_score < 75
+ORDER BY renewal_date ASC;`,
+    
+    similarAccounts: `SELECT 
+    a1.company_name as similar_account,
+    a1.arr,
+    a1.health_score,
+    a1.industry,
+    a1.employees
+FROM accounts a1
+CROSS JOIN accounts a2
+WHERE a2.company_name = 'TARGET_ACCOUNT'
+    AND a1.company_name != a2.company_name
+    AND ABS(a1.arr - a2.arr) / a2.arr < 0.5
+    AND a1.industry = a2.industry
+ORDER BY ABS(a1.health_score - a2.health_score) ASC
+LIMIT 10;`,
+    
+    contactInteractions: `SELECT 
+    c.name,
+    c.email,
+    c.title,
+    COUNT(i.id) as interaction_count,
+    MAX(i.interaction_date) as last_interaction,
+    AVG(i.sentiment_score) as avg_sentiment
+FROM contacts c
+JOIN accounts a ON c.account_id = a.id
+LEFT JOIN interactions i ON c.id = i.contact_id
+WHERE a.company_name = 'TARGET_ACCOUNT'
+GROUP BY c.id, c.name, c.email, c.title
+ORDER BY last_interaction DESC;`,
+    
+    atRiskAccounts: `SELECT 
+    company_name,
+    arr,
+    health_score,
+    mau_current,
+    renewal_date,
+    CASE 
+        WHEN health_score < 30 THEN 'High Risk'
+        WHEN health_score < 50 THEN 'Medium Risk'
+        ELSE 'Low Risk'
+    END as risk_level
+FROM accounts
+WHERE health_score < 60
+    AND arr > 5000
+    AND renewal_date <= CURRENT_DATE + INTERVAL '180 days'
+ORDER BY health_score ASC, renewal_date ASC;`
+};
+
 // Export all data
 module.exports = {
     accounts,
@@ -1534,5 +1665,7 @@ module.exports = {
     accountData,
     contactsData,
     scheduleData,
-    chatData
+    chatData,
+    accountChatData,
+    sqlTemplates
 };

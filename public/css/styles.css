@@ -37,6 +37,19 @@ body {
     width: 64px;
 }
 
+/* Prevent accidental clicks when collapsed */
+.sidebar.collapsed .sidebar-header .logo {
+    pointer-events: none;
+}
+
+.sidebar.collapsed .nav-icon {
+    pointer-events: none;
+}
+
+.sidebar.collapsed .nav-text {
+    pointer-events: none;
+}
+
 .sidebar-collapsed-init .logo-text {
     opacity: 0;
     width: 0;
@@ -822,7 +835,7 @@ tbody tr.clickable-row:hover {
 
 .settings-sidebar {
     width: 200px;
-    border-right: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e7eb;
     padding: 20px;
 }
 
@@ -877,7 +890,7 @@ tbody tr.clickable-row:hover {
 /* Account Details Styles */
 .account-header {
     padding: 20px 30px;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e7eb;
     background-color: #f9fafb;
 }
 
@@ -953,7 +966,7 @@ tbody tr.clickable-row:hover {
 
 /* Account Tabs */
 .account-tabs {
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e7eb;
     background-color: #fff;
 }
 
@@ -1109,7 +1122,7 @@ tbody tr.clickable-row:hover {
 /* Highlights Section */
 .highlight-card {
     background-color: #fff;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #e5e7eb;
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 12px;
@@ -1183,7 +1196,7 @@ tbody tr.clickable-row:hover {
     top: 0;
     bottom: 0;
     width: 2px;
-    background-color: #e5e5e5;
+    background-color: #e5e7eb;
 }
 
 .timeline-item {
@@ -1201,7 +1214,7 @@ tbody tr.clickable-row:hover {
     align-items: center;
     justify-content: center;
     background-color: #fff;
-    border: 2px solid #e5e5e5;
+    border: 2px solid #e5e7eb;
 }
 
 .timeline-marker svg {
@@ -1426,7 +1439,7 @@ tbody tr.clickable-row:hover {
 /* Contact Details Styles */
 .contact-header {
     padding: 20px 30px;
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e7eb;
     background-color: #f9fafb;
 }
 
@@ -1537,7 +1550,7 @@ tbody tr.clickable-row:hover {
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #e5e7eb;
     border-radius: 6px;
     background: #fff;
     cursor: pointer;
@@ -1694,7 +1707,7 @@ tbody tr.clickable-row:hover {
     width: 100%;
     min-height: 80px;
     padding: 12px;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #e5e7eb;
     border-radius: 6px;
     resize: vertical;
     margin-bottom: 12px;
@@ -1714,7 +1727,7 @@ tbody tr.clickable-row:hover {
 
 .note-item {
     background-color: #fff;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #e5e7eb;
     border-radius: 6px;
     padding: 12px;
 }
@@ -3395,19 +3408,21 @@ tbody tr.clickable-row:hover {
 }
 
 .btn-simulate {
-    background-color: #4338ca;
-    color: white;
-    border: none;
-    padding: 14px 28px;
-    font-size: 16px;
-    font-weight: 500;
-    border-radius: 8px;
+    font-size: 0.85rem;
+    padding: 4px 12px;
+    background: #f3f4f6;
+    color: #555;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    margin-top: 8px;
+    margin-bottom: 0;
     cursor: pointer;
-    transition: all 0.3s;
+    box-shadow: none;
+    transition: background 0.2s, color 0.2s;
 }
-
 .btn-simulate:hover {
-    background-color: #3730a3;
+    background: #e5e7eb;
+    color: #222;
 }
 
 .waiting-section {
@@ -5476,6 +5491,266 @@ tbody tr.clickable-row:hover {
     display: none;
 }
 
+/* Account Details Page Chat Styles */
+.account-details-page {
+    transition: margin-right 0.3s ease;
+}
+
+.account-details-page.chat-expanded {
+    margin-right: 350px;
+}
+
+.account-details-page.chat-collapsed {
+    margin-right: 0;
+}
+
+.account-details-page.chat-expanded .chat-sidebar {
+    transform: translateX(0);
+}
+
+.account-details-page.chat-collapsed .chat-sidebar {
+    transform: translateX(100%);
+}
+
+.account-details-page.chat-collapsed .chat-toggle-btn {
+    display: flex;
+}
+
+.account-details-page.chat-expanded .chat-toggle-btn {
+    display: none;
+}
+
+/* Account-specific chat header styles */
+.chat-account-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chat-account-logo {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.chat-account-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.chat-account-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #111827;
+}
+
+.chat-assistant-name {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* Account content layout adjustment */
+.account-content {
+    transition: margin-right 0.3s ease;
+}
+
+/* SQL Query Styling for Account Chat */
+.sql-query {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 13px;
+    color: #1e293b;
+    white-space: pre-wrap;
+    margin: 8px 0;
+    position: relative;
+}
+
+.sql-query::before {
+    content: 'SQL';
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    background: #3b82f6;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.sql-copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #e2e8f0;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.sql-copy-btn:hover {
+    background: #cbd5e1;
+}
+
+/* Accounts Page Chat Styles */
+.accounts-page {
+    transition: margin-right 0.3s ease;
+}
+
+.accounts-page.chat-expanded {
+    margin-right: 350px;
+}
+
+.accounts-page.chat-collapsed {
+    margin-right: 0;
+}
+
+.accounts-page.chat-expanded .chat-sidebar {
+    transform: translateX(0);
+}
+
+.accounts-page.chat-collapsed .chat-sidebar {
+    transform: translateX(100%);
+}
+
+.accounts-page.chat-collapsed .chat-toggle-btn {
+    display: flex;
+}
+
+.accounts-page.chat-expanded .chat-toggle-btn {
+    display: none;
+}
+
+/* Accounts-specific chat header styles */
+.chat-accounts-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chat-accounts-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    background: #3b82f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.chat-accounts-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.chat-accounts-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #111827;
+}
+
+/* Table filtering and column management */
+.accounts-table.filtered {
+    transition: all 0.3s ease;
+}
+
+.accounts-table tbody tr.hidden {
+    display: none;
+}
+
+.accounts-table th.hidden,
+.accounts-table td.hidden {
+    display: none;
+}
+
+.filter-summary {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 12px;
+    margin: 8px 0;
+    font-size: 13px;
+    color: #6b7280;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.filter-summary > div {
+    flex: 1;
+}
+
+.filter-clear-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+    align-self: flex-start;
+}
+
+.filter-clear-btn:hover {
+    background: #dc2626;
+}
+
+.column-selector {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 12px;
+    margin: 8px 0;
+    display: none;
+}
+
+.column-selector.active {
+    display: block;
+}
+
+.column-selector h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.column-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.column-option {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+
+.column-option input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .home-header {
@@ -5517,4 +5792,31 @@ tbody tr.clickable-row:hover {
         right: 16px;
         bottom: 16px;
     }
+}
+
+.simulate-result-section {
+    background: #fffbe6 !important;
+    border: 3px solid #f59e42 !important;
+    border-radius: 6px;
+    padding: 24px 20px;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    color: #222;
+    font-size: 1rem;
+    display: none;
+    min-height: 100px;
+}
+.simulate-result-section.active {
+    display: block;
+}
+.simulate-result-section .simulate-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+.simulate-result-section .simulate-link {
+    color: #2563eb;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: 500;
 }

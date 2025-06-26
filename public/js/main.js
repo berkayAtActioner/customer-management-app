@@ -28,6 +28,26 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Prevent accidental sidebar expansion
+    if (sidebar) {
+        // Capture phase to catch events early
+        sidebar.addEventListener('click', function(e) {
+            // If clicking anywhere on the sidebar when it's collapsed
+            // (except the toggle button), prevent any default behavior
+            if (sidebar.classList.contains('collapsed') && !e.target.closest('#sidebarToggle')) {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+            }
+        }, true); // Use capture phase
+        
+        // Also handle mousedown to prevent any early triggers
+        sidebar.addEventListener('mousedown', function(e) {
+            if (sidebar.classList.contains('collapsed') && !e.target.closest('#sidebarToggle')) {
+                e.stopPropagation();
+            }
+        }, true);
+    }
+    
     // Add tooltips to nav items for collapsed state
     const navItems = document.querySelectorAll('.nav-item');
     navItems.forEach(item => {
@@ -35,6 +55,36 @@ document.addEventListener('DOMContentLoaded', function() {
         if (text) {
             item.setAttribute('data-tooltip', text.textContent);
         }
+        
+        // Prevent sidebar expansion on nav item clicks
+        item.addEventListener('click', function(e) {
+            if (sidebar && sidebar.classList.contains('collapsed')) {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+            }
+        }, true);
+    });
+    
+    // Prevent clicks on sidebar header/logo when collapsed
+    const sidebarHeader = document.querySelector('.sidebar-header');
+    if (sidebarHeader) {
+        sidebarHeader.addEventListener('click', function(e) {
+            if (sidebar && sidebar.classList.contains('collapsed') && !e.target.closest('#sidebarToggle')) {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+            }
+        }, true);
+    }
+    
+    // Prevent clicks on any SVG elements in the sidebar
+    const sidebarSvgs = document.querySelectorAll('.sidebar svg');
+    sidebarSvgs.forEach(svg => {
+        svg.addEventListener('click', function(e) {
+            if (sidebar && sidebar.classList.contains('collapsed') && !e.target.closest('#sidebarToggle')) {
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+            }
+        }, true);
     });
     
     // Column resize functionality
@@ -82,6 +132,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Prevent sidebar toggle on navigation link clicks
         link.addEventListener('click', function(e) {
             e.stopPropagation();
+            e.stopImmediatePropagation();
+        }, true); // Capture phase
+        
+        // Also handle mousedown
+        link.addEventListener('mousedown', function(e) {
+            if (sidebar && sidebar.classList.contains('collapsed')) {
+                e.stopPropagation();
+            }
         });
     });
 
@@ -1118,7 +1176,269 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// Chat functionality for home page
+// SQL Query generation helper function
+function generateSQLResponse() {
+    const sqlQueries = [
+        `SELECT * FROM accounts 
+WHERE arr > 10000 
+  AND renewal_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '90 days'
+  AND health_score < 50
+ORDER BY renewal_date ASC;`,
+        
+        `SELECT a.company_name, a.arr, c.name, c.email, i.interaction_date
+FROM accounts a
+JOIN contacts c ON a.id = c.account_id
+JOIN interactions i ON c.id = i.contact_id
+WHERE a.arr > 10000
+  AND i.interaction_date >= CURRENT_DATE - INTERVAL '30 days'
+ORDER BY i.interaction_date DESC;`,
+        
+        `SELECT 
+    company_name,
+    arr,
+    health_score,
+    mau_current,
+    renewal_date,
+    CASE 
+        WHEN renewal_date <= CURRENT_DATE + INTERVAL '30 days' THEN 'Urgent'
+        WHEN renewal_date <= CURRENT_DATE + INTERVAL '90 days' THEN 'Warning'
+        ELSE 'Normal'
+    END as renewal_risk
+FROM accounts
+WHERE arr > 5000
+ORDER BY renewal_date ASC;`
+    ];
+    
+    const randomQuery = sqlQueries[Math.floor(Math.random() * sqlQueries.length)];
+    return `Here's a SQL query that might help:\n\n<div class="sql-query">${randomQuery}<button class="sql-copy-btn" onclick="copyToClipboard(this)">Copy</button></div>\n\nThis query will help you find accounts that match similar criteria. Would you like me to explain what this query does or generate a different one?`;
+}
+
+// Copy to clipboard helper function
+function copyToClipboard(button) {
+    const sqlQuery = button.parentElement;
+    const text = sqlQuery.textContent.replace('Copy', '').trim();
+    navigator.clipboard.writeText(text).then(() => {
+        const originalText = button.textContent;
+        button.textContent = 'Copied!';
+        setTimeout(() => {
+            button.textContent = originalText;
+        }, 2000);
+    });
+}
+
+// Column management for accounts table
+const COLUMN_INDICES = {
+    company: 0,
+    lastInteraction: 1,
+    mau: 2,
+    healthScore: 3,
+    arr: 4,
+    renewal: 5,
+    domain: 6,
+    tags: 7
+};
+
+const COLUMN_SETS = {
+    'default': ['company', 'lastInteraction', 'mau', 'healthScore', 'arr', 'renewal', 'domain', 'tags'],
+    'high-value': ['company', 'arr', 'renewal', 'healthScore', 'lastInteraction', 'tags'],
+    'at-risk': ['company', 'healthScore', 'mau', 'lastInteraction', 'arr', 'renewal'],
+    'renewals-90': ['company', 'renewal', 'arr', 'healthScore', 'lastInteraction', 'domain'],
+    'education': ['company', 'tags', 'arr', 'healthScore', 'lastInteraction', 'domain'],
+    'enterprise': ['company', 'arr', 'tags', 'healthScore', 'renewal', 'domain']
+};
+
+function setColumnVisibility(visibleColumns) {
+    const table = document.querySelector('.accounts-table table');
+    const headerRow = table.querySelector('thead tr');
+    const bodyRows = table.querySelectorAll('tbody tr');
+    
+    // Reset all columns to visible first
+    Object.values(COLUMN_INDICES).forEach(index => {
+        const headerCell = headerRow.cells[index];
+        if (headerCell) {
+            headerCell.classList.remove('hidden');
+            headerCell.style.display = '';
+        }
+        
+        bodyRows.forEach(row => {
+            const cell = row.cells[index];
+            if (cell) {
+                cell.classList.remove('hidden');
+                cell.style.display = '';
+            }
+        });
+    });
+    
+    // Hide columns not in the visible set
+    Object.entries(COLUMN_INDICES).forEach(([columnName, index]) => {
+        if (!visibleColumns.includes(columnName)) {
+            const headerCell = headerRow.cells[index];
+            if (headerCell) {
+                headerCell.classList.add('hidden');
+                headerCell.style.display = 'none';
+            }
+            
+            bodyRows.forEach(row => {
+                const cell = row.cells[index];
+                if (cell) {
+                    cell.classList.add('hidden');
+                    cell.style.display = 'none';
+                }
+            });
+        }
+    });
+}
+
+function getColumnSetDescription(filterType) {
+    const descriptions = {
+        'high-value': 'Showing columns optimized for high-value account analysis: Company, ARR, Renewal, Health Score, Last Interaction, Tags',
+        'at-risk': 'Showing columns optimized for at-risk account monitoring: Company, Health Score, MAU, Last Interaction, ARR, Renewal',
+        'renewals-90': 'Showing columns optimized for renewal management: Company, Renewal Date, ARR, Health Score, Last Interaction, Domain',
+        'education': 'Showing columns optimized for education sector: Company, Tags, ARR, Health Score, Last Interaction, Domain',
+        'enterprise': 'Showing columns optimized for enterprise accounts: Company, ARR, Tags, Health Score, Renewal, Domain',
+        'default': 'Showing all columns: Company, Last Interaction, MAU, Health Score, ARR, Renewal, Domain, Tags'
+    };
+    return descriptions[filterType] || descriptions['default'];
+}
+
+// Accounts page filtering functions
+function processAccountsRequest(message) {
+    const messageLower = message.toLowerCase();
+    
+    if (messageLower.includes('10k') || messageLower.includes('$10') || (messageLower.includes('over') && messageLower.includes('arr'))) {
+        applyAccountsFilter('high-value');
+        return "I've filtered the accounts to show only companies with ARR over $10K and optimized the view for high-value analysis. " + getColumnSetDescription('high-value');
+    } else if (messageLower.includes('at risk') || messageLower.includes('at-risk') || messageLower.includes('health')) {
+        applyAccountsFilter('at-risk');
+        return "I've filtered to show at-risk accounts with low health scores and optimized the view for risk monitoring. " + getColumnSetDescription('at-risk');
+    } else if (messageLower.includes('renewal') || messageLower.includes('90')) {
+        applyAccountsFilter('renewals-90');
+        return "I've filtered to show accounts with renewals coming up in the next 90 days and optimized the view for renewal management. " + getColumnSetDescription('renewals-90');
+    } else if (messageLower.includes('education') || messageLower.includes('university')) {
+        applyAccountsFilter('education');
+        return "I've filtered to show education sector accounts and optimized the view for education analysis. " + getColumnSetDescription('education');
+    } else if (messageLower.includes('enterprise') || messageLower.includes('large')) {
+        applyAccountsFilter('enterprise');
+        return "I've filtered to show enterprise accounts and optimized the view for enterprise analysis. " + getColumnSetDescription('enterprise');
+    } else {
+        return "I can help you filter the accounts and adjust the column view. Try asking for 'companies over $10K ARR', 'at-risk accounts', 'renewals in 90 days', or 'education sector'.";
+    }
+}
+
+function applyAccountsFilter(filterType) {
+    const table = document.querySelector('.accounts-table tbody');
+    const rows = table.querySelectorAll('tr');
+    
+    // Remove existing filter summary
+    const existingFilter = document.querySelector('.filter-summary');
+    if (existingFilter) {
+        existingFilter.remove();
+    }
+    
+    // Apply column visibility changes
+    const visibleColumns = COLUMN_SETS[filterType] || COLUMN_SETS['default'];
+    setColumnVisibility(visibleColumns);
+    
+    let visibleCount = 0;
+    let filterDescription = '';
+    
+    rows.forEach(row => {
+        let shouldShow = false;
+        
+        // Get account data from the row
+        const arrText = row.cells[4].textContent.trim();
+        const healthText = row.cells[3].querySelector('.health-value')?.textContent || '0';
+        const renewalText = row.cells[5].textContent.trim();
+        const tagsText = row.cells[7].textContent.toLowerCase();
+        
+        const arr = arrText === '-' ? 0 : parseInt(arrText.replace(/[$,]/g, ''));
+        const health = parseInt(healthText);
+        
+        switch(filterType) {
+            case 'high-value':
+                shouldShow = arr >= 10000;
+                filterDescription = 'Companies with ARR ≥ $10K';
+                break;
+            case 'at-risk':
+                shouldShow = health < 50;
+                filterDescription = 'At-risk accounts (Health Score < 50)';
+                break;
+            case 'renewals-90':
+                if (renewalText !== '-') {
+                    const renewalDate = new Date(renewalText);
+                    const today = new Date();
+                    const daysToRenewal = Math.ceil((renewalDate - today) / (1000 * 60 * 60 * 24));
+                    shouldShow = daysToRenewal <= 90 && daysToRenewal > 0;
+                }
+                filterDescription = 'Renewals in next 90 days';
+                break;
+            case 'education':
+                shouldShow = tagsText.includes('education');
+                filterDescription = 'Education sector accounts';
+                break;
+            case 'enterprise':
+                shouldShow = arr >= 100000 || tagsText.includes('enterprise');
+                filterDescription = 'Enterprise accounts';
+                break;
+        }
+        
+        if (shouldShow) {
+            row.classList.remove('hidden');
+            visibleCount++;
+        } else {
+            row.classList.add('hidden');
+        }
+    });
+    
+    // Add filter summary
+    const filterSummary = document.createElement('div');
+    filterSummary.className = 'filter-summary';
+    const columnInfo = getColumnSetDescription(filterType);
+    filterSummary.innerHTML = `
+        <div>
+            <span><strong>Filtered:</strong> ${filterDescription} (${visibleCount} results)</span>
+            <br>
+            <span style="font-size: 12px; color: #6b7280;">${columnInfo}</span>
+        </div>
+        <button class="filter-clear-btn" onclick="clearAccountsFilter()">Clear Filter & Reset View</button>
+    `;
+    
+    const accountsTable = document.querySelector('.accounts-table');
+    accountsTable.parentNode.insertBefore(filterSummary, accountsTable);
+    
+    // Update pagination info
+    const paginationInfo = document.querySelector('.pagination-info span');
+    if (paginationInfo) {
+        paginationInfo.textContent = `${visibleCount} count (filtered)`;
+    }
+}
+
+function clearAccountsFilter() {
+    const table = document.querySelector('.accounts-table tbody');
+    const rows = table.querySelectorAll('tr');
+    
+    rows.forEach(row => {
+        row.classList.remove('hidden');
+    });
+    
+    // Reset column visibility to default
+    setColumnVisibility(COLUMN_SETS['default']);
+    
+    // Remove filter summary
+    const filterSummary = document.querySelector('.filter-summary');
+    if (filterSummary) {
+        filterSummary.remove();
+    }
+    
+    // Reset pagination info
+    const paginationInfo = document.querySelector('.pagination-info span');
+    if (paginationInfo) {
+        const totalRows = rows.length;
+        paginationInfo.textContent = `${totalRows} count`;
+    }
+}
+
+// Chat functionality for home page, account details, and accounts page
 function initializeChat() {
     const chatToggleBtn = document.getElementById('chatToggleBtn');
     const chatMinimizeBtn = document.getElementById('chatMinimizeBtn');
@@ -1128,42 +1448,57 @@ function initializeChat() {
     const chatMessages = document.getElementById('chatMessages');
     const chatResizeHandle = document.getElementById('chatResizeHandle');
     const homePage = document.querySelector('.home-page');
+    const accountDetailsPage = document.querySelector('.account-details-page');
+    const accountsPage = document.querySelector('.accounts-page');
     
-    if (!chatToggleBtn || !chatSidebar || !homePage) {
-        return; // Not on home page
+    // Check if we're on a page that supports chat
+    const chatContainer = homePage || accountDetailsPage || accountsPage;
+    if (!chatToggleBtn || !chatSidebar || !chatContainer) {
+        return; // Not on a supported page
     }
     
-    // Load chat state from localStorage
-    const chatState = localStorage.getItem('chatExpanded');
+    // Determine which page type we're on
+    const isAccountDetailsPage = !!accountDetailsPage;
+    const isAccountsPage = !!accountsPage;
+    const pageContainer = chatContainer;
+    
+    // Load chat state from localStorage - use page-specific key for different pages
+    let storageKey = 'chatExpanded';
+    if (isAccountDetailsPage) {
+        storageKey = `chatExpanded_${window.location.pathname}`;
+    } else if (isAccountsPage) {
+        storageKey = 'chatExpanded_accounts';
+    }
+    const chatState = localStorage.getItem(storageKey);
     const isExpanded = chatState === 'true';
     
     // Set initial state
     if (isExpanded) {
-        homePage.classList.add('chat-expanded');
-        homePage.classList.remove('chat-collapsed');
+        pageContainer.classList.add('chat-expanded');
+        pageContainer.classList.remove('chat-collapsed');
         chatSidebar.classList.remove('collapsed');
     } else {
-        homePage.classList.add('chat-collapsed');
-        homePage.classList.remove('chat-expanded');
+        pageContainer.classList.add('chat-collapsed');
+        pageContainer.classList.remove('chat-expanded');
         chatSidebar.classList.add('collapsed');
     }
     
     // Toggle chat function
     function toggleChat() {
-        const isCurrentlyExpanded = homePage.classList.contains('chat-expanded');
+        const isCurrentlyExpanded = pageContainer.classList.contains('chat-expanded');
         
         if (isCurrentlyExpanded) {
             // Collapse chat
-            homePage.classList.remove('chat-expanded');
-            homePage.classList.add('chat-collapsed');
+            pageContainer.classList.remove('chat-expanded');
+            pageContainer.classList.add('chat-collapsed');
             chatSidebar.classList.add('collapsed');
-            localStorage.setItem('chatExpanded', 'false');
+            localStorage.setItem(storageKey, 'false');
         } else {
             // Expand chat
-            homePage.classList.remove('chat-collapsed');
-            homePage.classList.add('chat-expanded');
+            pageContainer.classList.remove('chat-collapsed');
+            pageContainer.classList.add('chat-expanded');
             chatSidebar.classList.remove('collapsed');
-            localStorage.setItem('chatExpanded', 'true');
+            localStorage.setItem(storageKey, 'true');
             
             // Scroll to bottom of messages
             setTimeout(() => {
@@ -1206,15 +1541,49 @@ function initializeChat() {
                 addTypingIndicator();
                 setTimeout(() => {
                     removeTypingIndicator();
-                    const responses = [
-                        "I'm here to help! Let me look into that for you.",
-                        "Based on your schedule, I'd recommend focusing on the Microsoft QBR preparation first.",
-                        "I can help you with that. Would you like me to pull up the relevant account information?",
-                        "That's a great question! Let me check your upcoming tasks and priorities.",
-                        "I've noted that for you. I'll remind you before your next meeting."
-                    ];
-                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-                    addMessage(randomResponse, 'ai');
+                    
+                    let response = '';
+                    const messageLower = message.toLowerCase();
+                    
+                    if (isAccountDetailsPage && (messageLower.includes('sql') || messageLower.includes('query') || messageLower.includes('show me') || messageLower.includes('find'))) {
+                        // Generate SQL response for account page
+                        response = generateSQLResponse();
+                    } else if (isAccountsPage && (messageLower.includes('show') || messageLower.includes('filter') || messageLower.includes('find') || messageLower.includes('$') || messageLower.includes('arr'))) {
+                        // Process accounts page filtering requests
+                        response = processAccountsRequest(message);
+                    } else if (isAccountDetailsPage) {
+                        // Account-specific responses
+                        const accountResponses = [
+                            "I can help you analyze this account's data. Would you like me to generate a SQL query?",
+                            "Based on this account's metrics, I can provide insights or generate queries to find similar accounts.",
+                            "I can help you understand this account's health score, renewal timeline, or contact information.",
+                            "Would you like me to generate a SQL query to find accounts with similar characteristics?",
+                            "I can help you analyze this account's usage patterns and engagement metrics."
+                        ];
+                        response = accountResponses[Math.floor(Math.random() * accountResponses.length)];
+                    } else if (isAccountsPage) {
+                        // Accounts page responses
+                        const accountsResponses = [
+                            "I can help you filter and analyze the accounts table. Try asking for specific criteria like 'show high ARR accounts' or 'filter by education sector'.",
+                            "I can change the view to show different columns or filter accounts based on ARR, health scores, or renewal dates.",
+                            "Would you like me to filter the accounts or modify which columns are displayed?",
+                            "I can help you find specific types of accounts or adjust the table view. What would you like to see?",
+                            "Ask me to filter by criteria like ARR ranges, health scores, renewal timelines, or industry sectors."
+                        ];
+                        response = accountsResponses[Math.floor(Math.random() * accountsResponses.length)];
+                    } else {
+                        // Home page responses
+                        const homeResponses = [
+                            "I'm here to help! Let me look into that for you.",
+                            "Based on your schedule, I'd recommend focusing on the Microsoft QBR preparation first.",
+                            "I can help you with that. Would you like me to pull up the relevant account information?",
+                            "That's a great question! Let me check your upcoming tasks and priorities.",
+                            "I've noted that for you. I'll remind you before your next meeting."
+                        ];
+                        response = homeResponses[Math.floor(Math.random() * homeResponses.length)];
+                    }
+                    
+                    addMessage(response, 'ai');
                 }, 1500);
             }, 500);
         }
@@ -1235,32 +1604,89 @@ function initializeChat() {
         quickActionBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 const action = this.dataset.action;
-                const actionTexts = {
+                
+                // Different action texts based on page type
+                const homeActionTexts = {
                     'prepare-meeting': 'Help me prepare for my next meeting',
                     'show-insights': 'Show me insights about my accounts',
                     'optimize-schedule': 'How can I optimize my schedule today?'
                 };
                 
+                const accountActionTexts = {
+                    'generate-sql': 'Generate SQL query for this account',
+                    'analyze-account': 'Analyze this account data',
+                    'show-contacts': 'Show me all contacts for this account'
+                };
+                
+                const accountsActionTexts = {
+                    'high-value': 'Show companies over $10K ARR',
+                    'at-risk': 'Show at-risk accounts',
+                    'renewals-90': 'Show accounts with renewals in 90 days'
+                };
+                
+                let actionTexts;
+                if (isAccountDetailsPage) {
+                    actionTexts = accountActionTexts;
+                } else if (isAccountsPage) {
+                    actionTexts = accountsActionTexts;
+                } else {
+                    actionTexts = homeActionTexts;
+                }
+                
                 if (actionTexts[action]) {
                     addMessage(actionTexts[action], 'user');
                     
-                    // Simulate AI response based on action
+                    // Simulate AI response based on action and page type
                     setTimeout(() => {
                         addTypingIndicator();
                         setTimeout(() => {
                             removeTypingIndicator();
                             let response = '';
-                            switch(action) {
-                                case 'prepare-meeting':
-                                    response = 'For your Microsoft QBR at 10 AM, I suggest reviewing their Q2 metrics, recent milestones, and upcoming renewal discussion. Would you like me to pull up their account details?';
-                                    break;
-                                case 'show-insights':
-                                    response = 'Here are key insights: Yahoo has a critical escalation ($50K at risk), Microsoft is in expansion phase, and Flowla needs API integration follow-up. Which account would you like to focus on?';
-                                    break;
-                                case 'optimize-schedule':
-                                    response = 'I recommend using your 9 AM available time for the Yahoo payment issue (high priority), and the 11 AM slot for Flowla API follow-up. This leaves afternoon prep time for tomorrow\'s meetings.';
-                                    break;
+                            
+                            if (isAccountDetailsPage) {
+                                // Account-specific responses
+                                switch(action) {
+                                    case 'generate-sql':
+                                        response = generateSQLResponse();
+                                        break;
+                                    case 'analyze-account':
+                                        response = 'Based on this account\'s data, I can see they have a renewal coming up in 90 days with $26K ARR. Their health score is 42/100 and MAU is trending downward. Would you like me to generate a SQL query to find similar at-risk accounts?';
+                                        break;
+                                    case 'show-contacts':
+                                        response = 'Here are the key contacts for this account. Would you like me to generate a SQL query to show all contacts with their interaction history?';
+                                        break;
+                                }
+                            } else if (isAccountsPage) {
+                                // Accounts page responses with filtering
+                                switch(action) {
+                                    case 'high-value':
+                                        applyAccountsFilter('high-value');
+                                        response = 'I\'ve filtered the accounts to show only companies with ARR over $10K and optimized the view for high-value analysis. ' + getColumnSetDescription('high-value');
+                                        break;
+                                    case 'at-risk':
+                                        applyAccountsFilter('at-risk');
+                                        response = 'I\'ve filtered to show at-risk accounts with health scores below 50 and optimized the view for risk monitoring. ' + getColumnSetDescription('at-risk');
+                                        break;
+                                    case 'renewals-90':
+                                        applyAccountsFilter('renewals-90');
+                                        response = 'I\'ve filtered to show accounts with renewals coming up in the next 90 days and optimized the view for renewal management. ' + getColumnSetDescription('renewals-90');
+                                        break;
+                                }
+                            } else {
+                                // Home page responses
+                                switch(action) {
+                                    case 'prepare-meeting':
+                                        response = 'For your Microsoft QBR at 10 AM, I suggest reviewing their Q2 metrics, recent milestones, and upcoming renewal discussion. Would you like me to pull up their account details?';
+                                        break;
+                                    case 'show-insights':
+                                        response = 'Here are key insights: Yahoo has a critical escalation ($50K at risk), Microsoft is in expansion phase, and Flowla needs API integration follow-up. Which account would you like to focus on?';
+                                        break;
+                                    case 'optimize-schedule':
+                                        response = 'I recommend using your 9 AM available time for the Yahoo payment issue (high priority), and the 11 AM slot for Flowla API follow-up. This leaves afternoon prep time for tomorrow\'s meetings.';
+                                        break;
+                                }
                             }
+                            
                             addMessage(response, 'ai');
                         }, 1500);
                     }, 500);
