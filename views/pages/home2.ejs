@@ -1,0 +1,142 @@
+<% layout = false %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Customer Management</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <%- include('../partials/sidebar') %>
+        <div class="main-content home2-page">
+            <!-- Home v2 Layout -->
+            <div class="home2-container">
+                <!-- Left Sidebar Panel -->
+                <div class="home2-left-panel">
+                    <!-- AI Assistant Card -->
+                    <div class="ai-assistant-card">
+                        <div class="ai-assistant-header">
+                            <span class="ai-icon">🤖</span>
+                            <span class="ai-title">AI Assistant</span>
+                        </div>
+                        <div class="ai-assistant-content">
+                            <p class="ai-suggestion">
+                                <%= scheduleData.aiSuggestion.text %>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Priority Queue -->
+                    <div class="priority-queue-card">
+                        <div class="priority-queue-header">
+                            <span class="priority-icon">🎯</span>
+                            <span class="priority-title">Priority Queue</span>
+                        </div>
+                        <div class="priority-queue-content" id="priorityQueueContent">
+                            <% scheduleData.priorityQueue.forEach((task, index) => { %>
+                                <div class="priority-item <%= task.priority.toLowerCase() %>" 
+                                     draggable="true" 
+                                     data-task-id="<%= task.id %>"
+                                     data-task-title="<%= task.title %>"
+                                     data-task-due="<%= task.due %>"
+                                     data-task-priority="<%= task.priority %>">
+                                    <div class="priority-task-title"><%= task.title %></div>
+                                    <div class="priority-task-meta">
+                                        <span class="priority-due">Due: <%= task.due %></span>
+                                        <span class="priority-level"><%= task.priority %></span>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+
+                    <!-- Today's Focus -->
+                    <div class="todays-focus-card">
+                        <div class="todays-focus-header">
+                            <span class="focus-icon">📊</span>
+                            <span class="focus-title">Today's Focus</span>
+                        </div>
+                        <div class="todays-focus-content">
+                            <div class="productivity-score">
+                                <strong>Productivity Score: <%= scheduleData.todaysFocus.productivityScore %>%</strong>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: <%= scheduleData.todaysFocus.productivityScore %>%"></div>
+                                </div>
+                            </div>
+                            <div class="focus-summary">
+                                <%= scheduleData.todaysFocus.tasksCompleted %> tasks completed • <%= scheduleData.todaysFocus.deepWorkHours %> hours deep work
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Main Timeline -->
+                <div class="home2-right-panel">
+                    <!-- Header with Date Navigation -->
+                    <div class="home2-header">
+                        <h1 class="home2-date"><%= scheduleData.currentDate %></h1>
+                        <div class="date-navigation">
+                            <button class="date-nav-btn">← Yesterday</button>
+                            <button class="date-nav-btn">Tomorrow →</button>
+                        </div>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="home2-timeline">
+                        <% scheduleData.schedule.forEach(item => { %>
+                            <div class="timeline-hour">
+                                <div class="hour-label"><%= item.time %></div>
+                                <div class="hour-content">
+                                    <div class="timeline-event <%= item.type %><% if (item.aiSuggested) { %> ai-suggested<% } %>">
+                                        <% if (item.aiSuggested) { %>
+                                            <div class="ai-badge" data-tooltip="<%= item.aiReasoning %>" data-confidence="<%= item.aiConfidence %>">
+                                                AI
+                                            </div>
+                                        <% } %>
+                                        <div class="event-header">
+                                            <% if (item.type === 'meeting') { %>
+                                                <span class="event-icon">📞</span>
+                                            <% } else if (item.type === 'focus') { %>
+                                                <span class="event-icon">🎯</span>
+                                            <% } else if (item.type === 'break') { %>
+                                                <span class="event-icon">🍽️</span>
+                                            <% } else if (item.type === 'task') { %>
+                                                <span class="event-icon">📧</span>
+                                            <% } else if (item.type === 'free') { %>
+                                                <span class="event-icon">⏰</span>
+                                            <% } %>
+                                            <span class="event-title"><%= item.title %></span>
+                                        </div>
+                                        <div class="event-meta"><%= item.subtitle %></div>
+                                        <% if (item.progress) { %>
+                                            <div class="event-progress">
+                                                <div class="progress-bar">
+                                                    <div class="progress-fill" style="width: <%= item.progress %>%;"></div>
+                                                </div>
+                                            </div>
+                                        <% } %>
+                                        <% if (item.aiSuggested) { %>
+                                            <div class="ai-actions">
+                                                <button class="ai-action-btn" onclick="acceptAISuggestion('<%= item.time %>')">✓ Accept</button>
+                                                <button class="ai-action-btn" onclick="modifyAISuggestion('<%= item.time %>')">✎ Modify</button>
+                                                <button class="ai-action-btn" onclick="declineAISuggestion('<%= item.time %>')">✗ Decline</button>
+                                            </div>
+                                        <% } else if (item.type === 'free') { %>
+                                            <div class="free-actions">
+                                                <button class="free-action-btn" onclick="bookFreeTime('<%= item.time %>')">📅 Book this time</button>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/main.js"></script>
+</body>
+</html>

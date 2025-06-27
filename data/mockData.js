@@ -1658,6 +1658,132 @@ WHERE health_score < 60
 ORDER BY health_score ASC, renewal_date ASC;`
 };
 
+// Home v2 page data with new layout
+const home2Data = {
+    currentDate: "Today - June 26, 2025",
+    aiSuggestion: {
+        text: "Focus on the client presentation next - it's due soon and will have high impact. I've blocked 2 hours in your calendar.",
+        type: "priority"
+    },
+    priorityQueue: [
+        {
+            id: 1,
+            title: "Client Presentation",
+            due: "Today 4PM",
+            priority: "High",
+            priorityColor: "#ef4444"
+        },
+        {
+            id: 2,
+            title: "Code Review",
+            due: "Tomorrow",
+            priority: "Medium",
+            priorityColor: "#f59e0b"
+        },
+        {
+            id: 3,
+            title: "Team Sync Notes",
+            due: "Friday",
+            priority: "Low",
+            priorityColor: "#10b981"
+        }
+    ],
+    todaysFocus: {
+        productivityScore: 85,
+        tasksCompleted: 3,
+        deepWorkHours: 2,
+        progressColor: "#10b981"
+    },
+    schedule: [
+        {
+            time: "8:00 AM",
+            title: "Free Time",
+            subtitle: "8:00 - 9:00 AM • Available for booking",
+            type: "free",
+            color: "#e5e7eb"
+        },
+        {
+            time: "9:00 AM",
+            title: "Daily Standup",
+            subtitle: "9:00 - 9:30 AM • Team Meeting",
+            type: "meeting",
+            color: "#8b5cf6"
+        },
+        {
+            time: "9:30 AM",
+            title: "Free Time",
+            subtitle: "9:30 - 10:00 AM • Available for booking",
+            type: "free",
+            color: "#e5e7eb"
+        },
+        {
+            time: "10:00 AM",
+            title: "Focus Block: Client Presentation",
+            subtitle: "10:00 AM - 12:00 PM • Suggested by AI",
+            type: "focus",
+            color: "#ef4444",
+            aiSuggested: true,
+            progress: 45,
+            aiConfidence: 92,
+            aiReasoning: "Based on your calendar, this is your most important deadline today. I've blocked 2 hours when you're typically most productive.",
+            aiCategory: "priority-optimization"
+        },
+        {
+            time: "12:00 PM",
+            title: "Lunch Break",
+            subtitle: "12:00 - 1:00 PM • Personal",
+            type: "break",
+            color: "#8b5cf6"
+        },
+        {
+            time: "1:00 PM",
+            title: "Email Processing",
+            subtitle: "1:00 - 1:30 PM • Routine Task",
+            type: "task",
+            color: "#10b981"
+        },
+        {
+            time: "1:30 PM",
+            title: "Free Time",
+            subtitle: "1:30 - 2:00 PM • Available for booking",
+            type: "free",
+            color: "#e5e7eb"
+        },
+        {
+            time: "2:00 PM",
+            title: "Code Review Session",
+            subtitle: "2:00 - 3:00 PM • Moved up by AI",
+            type: "meeting",
+            color: "#f59e0b",
+            aiSuggested: true,
+            aiConfidence: 87,
+            aiReasoning: "Moved from 4PM to avoid conflict with your presentation. This timing works better with your team's availability.",
+            aiCategory: "scheduling-optimization"
+        },
+        {
+            time: "3:00 PM",
+            title: "Free Time",
+            subtitle: "3:00 - 4:00 PM • Available for booking",
+            type: "free",
+            color: "#e5e7eb"
+        },
+        {
+            time: "4:00 PM",
+            title: "Client Presentation",
+            subtitle: "4:00 - 5:00 PM • High Priority",
+            type: "meeting",
+            color: "#8b5cf6"
+        },
+        {
+            time: "5:00 PM",
+            title: "Free Time",
+            subtitle: "5:00 - 6:00 PM • Available for booking",
+            type: "free",
+            color: "#e5e7eb"
+        }
+    ]
+};
+
 // Export all data
 module.exports = {
     accounts,
@@ -1667,5 +1793,6 @@ module.exports = {
     scheduleData,
     chatData,
     accountChatData,
-    sqlTemplates
+    sqlTemplates,
+    home2Data
 };

@@ -62,23 +62,22 @@
 
                     <div class="tab-content active" id="gmail-tab">
                         <ol>
-                            <li>In Gmail, click the gear icon and select "See all settings"</li>
-                            <li>Go to "Filters and Blocked Addresses" → "Create a new filter"</li>
-                            <li>In "From" field, enter your customer's domain (e.g., @acme.com)</li>
-                            <li>Click "Create filter"</li>
-                            <li>Check "Forward it to" and add: <span class="highlight-email" id="gmailEmail"></span></li>
-                            <li>Click "Create filter" to save</li>
+                            <li>In Gmail, type the domain name (e.g., @example.com) into the search bar to find all emails sent to or received from that domain.</li>
+                            <li>Click the checkbox at the top of the results to select all visible emails.</li>
+                            <li>Click the <b>More</b> (three dots) button above the email list and select <b>Forward as attachment.</b></li>
+                            <li>A new message window will open with the selected emails attached as .eml files.</li>
+                            <li>Paste the email address above to the <b>To</b> field and click <b>Send</b>.</li>
                         </ol>
                     </div>
 
                     <div class="tab-content hidden" id="outlook-tab">
                         <ol>
-                            <li>In Outlook, go to Settings → View all Outlook settings</li>
-                            <li>Select "Rules" → "Add new rule"</li>
-                            <li>Name your rule (e.g., "Forward Customer Emails")</li>
-                            <li>Add condition: "From" → "Contains" → @customerdomain.com</li>
-                            <li>Add action: "Forward to" → <span class="highlight-email" id="outlookEmail"></span></li>
-                            <li>Click "Save" to activate the rule</li>
+                            <li>In Outlook, go to your inbox and use the Search bar to find all emails from or to a specific domain.</li>
+                            <li>Example search: <b>from:@example.com</b> or <b>to:@example.com</b></li>
+                            <li>Select the emails you want to forward: Hold <b>Ctrl (Windows)</b> or <b>Cmd (Mac)</b> and click to select multiple emails.</li> 
+                            <li>With the emails selected, click Home > More > Forward as Attachment (or right-click and choose Forward as Attachment, depending on your version).</li>
+                            <li>A new message window will open with all selected emails attached as .msg files.</li>
+                            <li>Paste the address above to the <b>To</b> field and click <b>Send</b>.</li>
                         </ol>
                     </div>
                 </div>
@@ -88,7 +87,13 @@
                     <button class="btn-simulate" id="simulateBtn">Simulate Email from acme.com</button>
                 </div>
 
-                <div class="waiting-section hidden" id="waitingSection">
+                <div class="simulate-result-section" id="simulateResultSection" hidden >
+                    <h1>We've received emails!</h1>
+                    <p>Creating accounts, contacts...</p>
+                    <p>Generating product description, features and use cases...</p>
+                </div>
+
+                <div class="waiting-section" id="waitingSection" hidden>
                     <div class="spinner"></div>
                     <p>Processing emails and generating customer snapshot...</p>
                 </div>
@@ -97,10 +102,13 @@
 
         <footer class="landing-footer">
             <p>&copy; 2024 Actioner. All rights reserved.</p>
+            <p>FOOTER TEST MESSAGE</p>
         </footer>
     </div>
 
     <script>
+        console.log('Landing page script loaded');
+
         // Generate unique email address
         function generateUniqueEmail() {
             const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -117,8 +125,6 @@
             document.getElementById('heroSection').classList.add('hidden');
             document.getElementById('emailSection').classList.remove('hidden');
             document.getElementById('generatedEmail').textContent = email;
-            document.getElementById('gmailEmail').textContent = email;
-            document.getElementById('outlookEmail').textContent = email;
             
             // Store email in sessionStorage for tracking
             sessionStorage.setItem('generatedEmail', email);
@@ -169,14 +175,8 @@
 
         // Simulate email processing
         function simulateEmailProcessing() {
+            document.getElementById('simulateResultSection').classList.remove('hidden');
             document.getElementById('emailSection').classList.add('hidden');
-            document.getElementById('waitingSection').classList.remove('hidden');
-            
-            // Simulate processing time
-            setTimeout(() => {
-                // Redirect to the acme account details page
-                window.location.href = '/accounts/acme';
-            }, 2000);
         }
 
         // Event listeners
@@ -192,5 +192,6 @@
             btn.addEventListener('click', () => switchTab(btn.dataset.tab));
         });
     </script>
+
 </body>
 </html>

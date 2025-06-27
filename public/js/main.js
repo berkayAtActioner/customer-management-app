@@ -93,6 +93,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize expandable sections
     initExpandableSections();
     
+    // Initialize drag and drop for home2 page
+    if (window.location.pathname === '/home2') {
+        initializeDragAndDrop();
+    }
+    
     // Handle clickable table rows using event delegation
     const accountsTable = document.querySelector('.accounts-table');
     if (accountsTable) {
@@ -825,6 +830,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Journey Tab Functionality
     initializeJourneyTab();
     initializeChat();
+    initializeHome2();
 });
 
 // Column resize functionality
@@ -981,6 +987,98 @@ function initExpandableSections() {
         
         // Initialize with current state
         updateState(currentState);
+    });
+}
+
+// Home v2 page functionality
+function initializeHome2() {
+    const home2Page = document.querySelector('.home2-page');
+    if (!home2Page) return;
+    
+    // Initialize date navigation
+    const dateNavBtns = document.querySelectorAll('.date-nav-btn');
+    dateNavBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const direction = this.textContent.includes('Yesterday') ? 'prev' : 'next';
+            navigateDate(direction);
+        });
+    });
+    
+    // Initialize priority queue interactions
+    const priorityItems = document.querySelectorAll('.priority-item');
+    priorityItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const taskTitle = this.querySelector('.priority-task-title').textContent;
+            showNotification(`Opened task: ${taskTitle}`, 'info');
+        });
+    });
+    
+    // Initialize timeline event interactions
+    const timelineEvents = document.querySelectorAll('.timeline-event');
+    timelineEvents.forEach(event => {
+        event.addEventListener('click', function() {
+            const eventTitle = this.querySelector('.event-title').textContent;
+            showNotification(`Opened event: ${eventTitle}`, 'info');
+        });
+    });
+    
+    // Animate progress bars
+    setTimeout(() => {
+        animateProgressBars();
+    }, 500);
+    
+    // Add hover effects for AI suggestions
+    const aiCard = document.querySelector('.ai-assistant-card');
+    if (aiCard) {
+        aiCard.addEventListener('click', function() {
+            showNotification('AI Assistant expanded', 'info');
+        });
+    }
+}
+
+function navigateDate(direction) {
+    const dateElement = document.querySelector('.home2-date');
+    if (!dateElement) return;
+    
+    // Simple date navigation simulation
+    const currentDate = new Date();
+    if (direction === 'prev') {
+        currentDate.setDate(currentDate.getDate() - 1);
+        showNotification('Navigated to previous day', 'info');
+    } else {
+        currentDate.setDate(currentDate.getDate() + 1);
+        showNotification('Navigated to next day', 'info');
+    }
+    
+    // Update date display (simplified)
+    const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
+    dateElement.textContent = `Today - ${currentDate.toLocaleDateString('en-US', options)}`;
+}
+
+function animateProgressBars() {
+    // Animate productivity score
+    const scoreBar = document.querySelector('.score-progress-bar');
+    if (scoreBar) {
+        const targetWidth = scoreBar.style.width;
+        scoreBar.style.width = '0%';
+        setTimeout(() => {
+            scoreBar.style.width = targetWidth;
+        }, 100);
+    }
+    
+    // Animate event progress bars
+    const progressBars = document.querySelectorAll('.progress-fill');
+    progressBars.forEach((bar, index) => {
+        const targetWidth = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => {
+            bar.style.width = targetWidth;
+        }, 200 + (index * 100));
     });
 }
 
@@ -1842,4 +1940,395 @@ function initializeChat() {
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }, 100);
     }
+}
+
+// Initialize drag and drop functionality for home2 page
+function initializeDragAndDrop() {
+    const priorityItems = document.querySelectorAll('.priority-item[draggable="true"]');
+    const freeTimeBlocks = document.querySelectorAll('.timeline-event.free');
+    const priorityQueueContent = document.getElementById('priorityQueueContent');
+    
+    let draggedTask = null;
+    
+    // Add drag event listeners to priority items
+    priorityItems.forEach(item => {
+        item.addEventListener('dragstart', function(e) {
+            draggedTask = this;
+            this.classList.add('dragging');
+            if (priorityQueueContent) {
+                priorityQueueContent.classList.add('drag-active');
+            }
+            
+            // Store task data for transfer
+            e.dataTransfer.setData('text/plain', JSON.stringify({
+                id: this.dataset.taskId,
+                title: this.dataset.taskTitle,
+                due: this.dataset.taskDue,
+                priority: this.dataset.taskPriority
+            }));
+            
+            // Highlight all free time blocks
+            freeTimeBlocks.forEach(block => {
+                block.parentElement.classList.add('has-drag-target');
+            });
+        });
+        
+        item.addEventListener('dragend', function(e) {
+            this.classList.remove('dragging');
+            if (priorityQueueContent) {
+                priorityQueueContent.classList.remove('drag-active');
+            }
+            
+            // Remove highlighting from all blocks
+            freeTimeBlocks.forEach(block => {
+                block.classList.remove('drag-over');
+                block.parentElement.classList.remove('has-drag-target');
+            });
+            
+            draggedTask = null;
+        });
+    });
+    
+    // Add drop event listeners to free time blocks
+    freeTimeBlocks.forEach(block => {
+        block.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
+        
+        block.addEventListener('dragleave', function(e) {
+            this.classList.remove('drag-over');
+        });
+        
+        block.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            
+            try {
+                const taskData = JSON.parse(e.dataTransfer.getData('text/plain'));
+                scheduleTaskInFreeTime(this, taskData);
+            } catch (error) {
+                console.error('Error parsing task data:', error);
+            }
+        });
+    });
+}
+
+function scheduleTaskInFreeTime(freeTimeBlock, taskData) {
+    // Get the time from the hour label
+    const hourLabel = freeTimeBlock.closest('.timeline-hour').querySelector('.hour-label');
+    const time = hourLabel ? hourLabel.textContent : 'Unknown time';
+    
+    // Convert free time block to a scheduled task
+    freeTimeBlock.classList.remove('free');
+    freeTimeBlock.classList.add('task');
+    
+    // Update the content
+    const titleElement = freeTimeBlock.querySelector('.event-title');
+    const metaElement = freeTimeBlock.querySelector('.event-meta');
+    const iconElement = freeTimeBlock.querySelector('.event-icon');
+    const freeActions = freeTimeBlock.querySelector('.free-actions');
+    
+    if (titleElement) titleElement.textContent = taskData.title;
+    if (metaElement) metaElement.textContent = `${time} • Scheduled from Priority Queue (${taskData.priority} Priority)`;
+    if (iconElement) iconElement.textContent = '📋';
+    if (freeActions) freeActions.remove();
+    
+    // Remove the task from priority queue
+    if (draggedTask) {
+        draggedTask.style.transition = 'all 0.3s ease';
+        draggedTask.style.opacity = '0';
+        draggedTask.style.transform = 'scale(0.8)';
+        setTimeout(() => {
+            if (draggedTask.parentElement) {
+                draggedTask.remove();
+            }
+        }, 300);
+    }
+    
+    // Show success notification
+    showNotification(`📅 "${taskData.title}" scheduled at ${time}`, 'success');
+    
+    // Add completion action for the scheduled task
+    const completionActions = document.createElement('div');
+    completionActions.className = 'task-actions';
+    completionActions.innerHTML = `
+        <button class="task-action-btn" onclick="completeScheduledTask('${time}', '${taskData.title}')">✓ Complete</button>
+        <button class="task-action-btn" onclick="rescheduleTask('${time}', '${taskData.title}')">↻ Reschedule</button>
+    `;
+    completionActions.style.opacity = '0';
+    completionActions.style.transition = 'opacity 0.2s ease';
+    freeTimeBlock.appendChild(completionActions);
+    
+    // Show actions on hover
+    freeTimeBlock.addEventListener('mouseenter', () => {
+        completionActions.style.opacity = '1';
+    });
+    
+    freeTimeBlock.addEventListener('mouseleave', () => {
+        completionActions.style.opacity = '0';
+    });
+}
+
+// AI Suggestion Interaction Functions
+function acceptAISuggestion(time) {
+    const event = findEventByTime(time);
+    if (event) {
+        showNotification(`✓ AI suggestion accepted for ${time}`, 'success');
+        // Remove AI-suggested styling and actions
+        const eventElement = findEventElement(time);
+        if (eventElement) {
+            eventElement.classList.remove('ai-suggested');
+            const aiActions = eventElement.querySelector('.ai-actions');
+            if (aiActions) aiActions.remove();
+            const aiBadge = eventElement.querySelector('.ai-badge');
+            if (aiBadge) aiBadge.remove();
+        }
+    }
+}
+
+function modifyAISuggestion(time) {
+    const event = findEventByTime(time);
+    if (event) {
+        const newTime = prompt(`Modify time for "${event.title}"`, time);
+        if (newTime && newTime !== time) {
+            showNotification(`✎ AI suggestion modified: ${time} → ${newTime}`, 'info');
+            // In a real app, this would update the backend
+        }
+    }
+}
+
+function declineAISuggestion(time) {
+    const event = findEventByTime(time);
+    if (event) {
+        showNotification(`✗ AI suggestion declined - time is now available`, 'info');
+        
+        // Convert AI suggestion to free time instead of removing it
+        const eventElement = findEventElement(time);
+        if (eventElement) {
+            // Remove AI-specific classes and styling
+            eventElement.classList.remove('ai-suggested');
+            eventElement.classList.add('free');
+            
+            // Update content to show as free time
+            const titleElement = eventElement.querySelector('.event-title');
+            const metaElement = eventElement.querySelector('.event-meta');
+            const iconElement = eventElement.querySelector('.event-icon');
+            const aiBadge = eventElement.querySelector('.ai-badge');
+            const aiActions = eventElement.querySelector('.ai-actions');
+            
+            if (titleElement) titleElement.textContent = 'Free Time';
+            if (metaElement) {
+                // Extract the time duration from the original subtitle
+                const originalSubtitle = metaElement.textContent;
+                const timeMatch = originalSubtitle.match(/(\d+:\d+\s*[AP]M\s*-\s*\d+:\d+\s*[AP]M)/);
+                const timeDuration = timeMatch ? timeMatch[1] : time + ' - Available';
+                metaElement.textContent = `${timeDuration} • Available for booking`;
+            }
+            if (iconElement) iconElement.textContent = '⏰';
+            if (aiBadge) aiBadge.remove();
+            if (aiActions) aiActions.remove();
+            
+            // Add free time actions
+            const actionsContainer = document.createElement('div');
+            actionsContainer.className = 'free-actions';
+            actionsContainer.innerHTML = `<button class="free-action-btn" onclick="bookFreeTime('${time}')">📅 Book this time</button>`;
+            eventElement.appendChild(actionsContainer);
+            
+            // Add a subtle transition effect to show the change
+            eventElement.style.transition = 'all 0.5s ease';
+            eventElement.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                eventElement.style.transform = 'scale(1)';
+            }, 100);
+        }
+    }
+}
+
+function findEventByTime(time) {
+    // This would normally query the data or make an API call
+    // For demo purposes, we'll return a mock event
+    return {
+        time: time,
+        title: time === "10:00 AM" ? "Focus Block: Client Presentation" : "Code Review Session"
+    };
+}
+
+function findEventElement(time) {
+    const timeLabels = document.querySelectorAll('.hour-label');
+    for (let label of timeLabels) {
+        if (label.textContent === time) {
+            return label.parentElement.querySelector('.timeline-event');
+        }
+    }
+    return null;
+}
+
+// Free Time Booking Function
+function bookFreeTime(time) {
+    const eventTitle = prompt(`Book time at ${time}`, "New Meeting");
+    if (eventTitle && eventTitle.trim()) {
+        showNotification(`📅 Time booked at ${time}: ${eventTitle}`, 'success');
+        
+        // Update the event element to show it's booked
+        const eventElement = findEventElement(time);
+        if (eventElement) {
+            // Change from free time to a meeting
+            eventElement.classList.remove('free');
+            eventElement.classList.add('meeting');
+            
+            // Update the content
+            const titleElement = eventElement.querySelector('.event-title');
+            const metaElement = eventElement.querySelector('.event-meta');
+            const iconElement = eventElement.querySelector('.event-icon');
+            
+            if (titleElement) titleElement.textContent = eventTitle;
+            if (metaElement) metaElement.textContent = `${time} • Personal Meeting`;
+            if (iconElement) iconElement.textContent = '📞';
+            
+            // Remove free actions
+            const freeActions = eventElement.querySelector('.free-actions');
+            if (freeActions) freeActions.remove();
+        }
+    }
+}
+
+// Task completion and rescheduling functions
+function completeScheduledTask(time, taskTitle) {
+    showNotification(`✅ "${taskTitle}" completed at ${time}`, 'success');
+    
+    const eventElement = findEventElement(time);
+    if (eventElement) {
+        // Convert back to free time
+        eventElement.classList.remove('task');
+        eventElement.classList.add('free');
+        
+        // Update content
+        const titleElement = eventElement.querySelector('.event-title');
+        const metaElement = eventElement.querySelector('.event-meta');
+        const iconElement = eventElement.querySelector('.event-icon');
+        const taskActions = eventElement.querySelector('.task-actions');
+        
+        if (titleElement) titleElement.textContent = 'Free Time';
+        if (metaElement) metaElement.textContent = `${time} • Available for booking`;
+        if (iconElement) iconElement.textContent = '⏰';
+        if (taskActions) taskActions.remove();
+        
+        // Add free time actions back
+        const actionsContainer = document.createElement('div');
+        actionsContainer.className = 'free-actions';
+        actionsContainer.innerHTML = `<button class="free-action-btn" onclick="bookFreeTime('${time}')">📅 Book this time</button>`;
+        eventElement.appendChild(actionsContainer);
+        
+        // Add completion animation
+        eventElement.style.transition = 'all 0.3s ease';
+        eventElement.style.transform = 'scale(1.05)';
+        setTimeout(() => {
+            eventElement.style.transform = 'scale(1)';
+        }, 200);
+    }
+}
+
+function rescheduleTask(time, taskTitle) {
+    showNotification(`📅 "${taskTitle}" moved back to Priority Queue`, 'info');
+    
+    const eventElement = findEventElement(time);
+    if (eventElement) {
+        // Convert back to free time
+        eventElement.classList.remove('task');
+        eventElement.classList.add('free');
+        
+        // Update content
+        const titleElement = eventElement.querySelector('.event-title');
+        const metaElement = eventElement.querySelector('.event-meta');
+        const iconElement = eventElement.querySelector('.event-icon');
+        const taskActions = eventElement.querySelector('.task-actions');
+        
+        if (titleElement) titleElement.textContent = 'Free Time';
+        if (metaElement) metaElement.textContent = `${time} • Available for booking`;
+        if (iconElement) iconElement.textContent = '⏰';
+        if (taskActions) taskActions.remove();
+        
+        // Add free time actions back
+        const actionsContainer = document.createElement('div');
+        actionsContainer.className = 'free-actions';
+        actionsContainer.innerHTML = `<button class="free-action-btn" onclick="bookFreeTime('${time}')">📅 Book this time</button>`;
+        eventElement.appendChild(actionsContainer);
+        
+        // Add task back to priority queue
+        addTaskToPriorityQueue(taskTitle, 'Medium', 'Rescheduled');
+    }
+}
+
+function addTaskToPriorityQueue(title, priority, due) {
+    const priorityQueueContent = document.getElementById('priorityQueueContent');
+    if (priorityQueueContent) {
+        const taskElement = document.createElement('div');
+        taskElement.className = `priority-item ${priority.toLowerCase()}`;
+        taskElement.draggable = true;
+        taskElement.dataset.taskId = Date.now();
+        taskElement.dataset.taskTitle = title;
+        taskElement.dataset.taskDue = due;
+        taskElement.dataset.taskPriority = priority;
+        
+        taskElement.innerHTML = `
+            <div class="priority-task-title">${title}</div>
+            <div class="priority-task-meta">
+                <span class="priority-due">Due: ${due}</span>
+                <span class="priority-level">${priority}</span>
+            </div>
+        `;
+        
+        taskElement.style.opacity = '0';
+        taskElement.style.transform = 'translateY(-10px)';
+        priorityQueueContent.appendChild(taskElement);
+        
+        // Animate in
+        setTimeout(() => {
+            taskElement.style.transition = 'all 0.3s ease';
+            taskElement.style.opacity = '1';
+            taskElement.style.transform = 'translateY(0)';
+        }, 100);
+        
+        // Re-initialize drag and drop for the new element
+        addDragListeners(taskElement);
+    }
+}
+
+function addDragListeners(item) {
+    const freeTimeBlocks = document.querySelectorAll('.timeline-event.free');
+    const priorityQueueContent = document.getElementById('priorityQueueContent');
+    
+    item.addEventListener('dragstart', function(e) {
+        draggedTask = this;
+        this.classList.add('dragging');
+        if (priorityQueueContent) {
+            priorityQueueContent.classList.add('drag-active');
+        }
+        
+        e.dataTransfer.setData('text/plain', JSON.stringify({
+            id: this.dataset.taskId,
+            title: this.dataset.taskTitle,
+            due: this.dataset.taskDue,
+            priority: this.dataset.taskPriority
+        }));
+        
+        freeTimeBlocks.forEach(block => {
+            block.parentElement.classList.add('has-drag-target');
+        });
+    });
+    
+    item.addEventListener('dragend', function(e) {
+        this.classList.remove('dragging');
+        if (priorityQueueContent) {
+            priorityQueueContent.classList.remove('drag-active');
+        }
+        
+        freeTimeBlocks.forEach(block => {
+            block.classList.remove('drag-over');
+            block.parentElement.classList.remove('has-drag-target');
+        });
+        
+        draggedTask = null;
+    });
 }

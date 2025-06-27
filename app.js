@@ -29,6 +29,14 @@ app.get('/home', (req, res) => {
     });
 });
 
+app.get('/home2', (req, res) => {
+    res.render('pages/home2', { 
+        title: 'Home v2',
+        activeTab: 'home2',
+        scheduleData: mockData.home2Data
+    });
+});
+
 app.get('/try', (req, res) => {
     res.render('pages/landing', { 
         title: 'Try Actioner - AI-Powered Customer Insights'
