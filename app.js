@@ -91,7 +91,11 @@ app.get('/contacts/:id', (req, res) => {
 app.get('/tasks', (req, res) => {
     res.render('pages/tasks', { 
         title: 'Tasks',
-        activeTab: 'tasks'
+        activeTab: 'tasks',
+        tasks: mockData.tasks,
+        predefinedTags: mockData.predefinedTags,
+        systemUsers: mockData.systemUsers,
+        accounts: mockData.accounts
     });
 });
 

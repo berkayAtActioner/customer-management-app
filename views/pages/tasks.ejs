@@ -1,3 +1,40 @@
+<%
+// Helper functions
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const today = new Date();
+    const diffTime = date - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Tomorrow';
+    if (diffDays === -1) return 'Yesterday';
+    if (diffDays < -1 && diffDays > -7) return `${Math.abs(diffDays)} days ago`;
+    if (diffDays > 1 && diffDays < 7) return `In ${diffDays} days`;
+    
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function getPriorityClass(priority) {
+    return priority === 'high' ? 'priority-high' : 
+           priority === 'medium' ? 'priority-medium' : 
+           'priority-low';
+}
+
+function getStatusClass(status) {
+    return status === 'completed' ? 'status-completed' : 
+           status === 'pending' ? 'status-pending' : 
+           'status-in-progress';
+}
+
+// Sort tasks - pending/in-progress first, then by date
+const sortedTasks = tasks.sort((a, b) => {
+    if (a.status === 'completed' && b.status !== 'completed') return 1;
+    if (a.status !== 'completed' && b.status === 'completed') return -1;
+    return new Date(b.createdAt) - new Date(a.createdAt);
+});
+%>
+
 <% layout = false %>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,12 +48,210 @@
     <div class="app-container">
         <%- include('../partials/sidebar') %>
         <div class="main-content">
-            <div class="placeholder-page">
-                <h2>Tasks</h2>
-                <p>Task management functionality will be implemented here</p>
+            <div class="page-header tasks-header">
+                <h1>Tasks</h1>
+                <button class="btn btn-primary" id="createTaskBtn">
+                    <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                    </svg>
+                    Create Task
+                </button>
+            </div>
+
+            <div class="tasks-container">
+                <% if (tasks.length === 0) { %>
+                    <div class="empty-state">
+                        <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                        </svg>
+                        <h3>No tasks yet</h3>
+                        <p>Create your first task to get started</p>
+                    </div>
+                <% } else { %>
+                    <div class="tasks-list">
+                        <% sortedTasks.forEach(task => { 
+                            const assigneeDetails = systemUsers.filter(u => task.assignees.includes(u.id));
+                        %>
+                            <div class="task-card <%= getStatusClass(task.status) %>" data-task-id="<%= task.id %>">
+                                <div class="task-header">
+                                    <div class="task-title-row">
+                                        <h3 class="task-title"><%= task.title %></h3>
+                                        <% if (task.isAiGenerated) { %>
+                                            <span class="ai-badge" title="AI Generated - <%= task.aiConfidence %>% confidence">
+                                                <svg class="ai-icon" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path d="M13 7H7v6h6V7z"/>
+                                                    <path fill-rule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2h-2v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H5a2 2 0 01-2-2v-2H2a1 1 0 110-2h1V9H2a1 1 0 010-2h1V5a2 2 0 012-2h2V2z" clip-rule="evenodd"/>
+                                                </svg>
+                                                AI
+                                            </span>
+                                        <% } %>
+                                    </div>
+                                    <div class="task-meta">
+                                        <span class="priority-badge <%= getPriorityClass(task.priority) %>">
+                                            <%= task.priority.charAt(0).toUpperCase() + task.priority.slice(1) %>
+                                        </span>
+                                        <span class="due-date">
+                                            <svg class="icon-sm" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zM4 8h12v8H4V8z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <%= formatDate(task.dueDate) %>
+                                        </span>
+                                        <% if (task.companyName) { %>
+                                            <a href="/accounts/<%= task.companyId %>" class="company-link">
+                                                <svg class="icon-sm" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-5L9 2H4z" clip-rule="evenodd"/>
+                                                </svg>
+                                                <%= task.companyName %>
+                                            </a>
+                                        <% } %>
+                                    </div>
+                                </div>
+                                
+                                <div class="task-body">
+                                    <% if (task.description) { %>
+                                        <div class="task-description">
+                                            <%= task.description.length > 80 ? task.description.substring(0, 80) + '...' : task.description %>
+                                        </div>
+                                    <% } %>
+                                </div>
+                                
+                                <div class="task-actions">
+                                    <% if (task.status !== 'completed') { %>
+                                        <button class="btn-icon-only complete-task" title="Mark as complete">
+                                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </button>
+                                        <% if (task.isAiGenerated) { %>
+                                            <button class="btn-icon-only decline-task" title="Decline AI suggestion">
+                                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                        <% } %>
+                                    <% } %>
+                                    <button class="btn-icon-only view-task" title="View details">
+                                        <svg viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% } %>
+            </div>
+
+            <% if (tasks.length > 0) { %>
+                <div class="table-footer">
+                    <div class="pagination-info">
+                        <span><%= tasks.length %> tasks</span>
+                        <span class="separator">•</span>
+                        <span><%= tasks.filter(t => t.status === 'completed').length %> completed</span>
+                    </div>
+                    <button class="btn btn-secondary ai-reprioritize">
+                        <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M13 7H7v6h6V7z"/>
+                            <path fill-rule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2h-2v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H5a2 2 0 01-2-2v-2H2a1 1 0 110-2h1V9H2a1 1 0 010-2h1V5a2 2 0 012-2h2V2z" clip-rule="evenodd"/>
+                        </svg>
+                        AI Reprioritize
+                    </button>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <!-- Task Creation Modal -->
+    <div id="taskModal" class="modal">
+        <div class="modal-content task-create-modal">
+            <div class="modal-header task-create-header">
+                <h2>Create New Task</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="createTaskForm" class="task-create-form">
+                <div class="task-title-section">
+                    <input type="text" id="taskTitle" name="title" required placeholder="Task title" class="task-title-input">
+                    <div id="mentionSuggestions" class="mention-suggestions"></div>
+                </div>
+                
+                <div class="task-description-section">
+                    <textarea id="taskDescription" name="description" placeholder="Add description..." class="task-description-input" rows="3"></textarea>
+                </div>
+                
+                <div class="task-properties">
+                    <div class="task-property">
+                        <div class="property-icon status-icon">
+                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <span class="property-label">To Do</span>
+                    </div>
+                    
+                    <div class="task-property-row">
+                        <div class="task-property">
+                            <div class="property-icon priority-icon">
+                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <select id="taskPriority" name="priority" class="property-select priority-select">
+                                <option value="">No priority</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                        
+                        <div class="task-property">
+                            <div class="property-icon assignee-icon">
+                                <div class="assignee-avatar-small">B</div>
+                            </div>
+                            <input type="text" id="taskAssignee" name="assignee" placeholder="Assignee" class="property-input assignee-input">
+                        </div>
+                        
+                        <div class="task-property">
+                            <div class="property-icon date-icon">
+                                <svg viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zM4 8h12v8H4V8z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <input type="date" id="taskDueDate" name="dueDate" class="property-input date-input" placeholder="Due date">
+                        </div>
+                    </div>
+                    
+                    <div class="task-property">
+                        <div class="property-icon company-icon">
+                            <svg viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-5L9 2H4z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <input type="text" id="taskCompany" name="company" placeholder="Company" class="property-input company-input">
+                        <div id="companySuggestions" class="company-suggestions"></div>
+                    </div>
+                </div>
+                
+                <div class="task-create-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelTask">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Task Details Modal -->
+    <div id="taskDetailsModal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2 id="detailsTitle">Task Details</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div id="taskDetailsContent">
+                <!-- Task details will be loaded here -->
             </div>
         </div>
     </div>
+
     <script src="/js/main.js"></script>
 </body>
 </html>

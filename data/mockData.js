@@ -1784,6 +1784,295 @@ const home2Data = {
     ]
 };
 
+// Predefined task tags
+const predefinedTags = [
+    'Customer Outreach',
+    'Contract Review', 
+    'Technical Support',
+    'Onboarding',
+    'Renewal',
+    'Upsell Opportunity',
+    'Risk Mitigation',
+    'Executive Business Review',
+    'Product Training',
+    'Integration Support'
+];
+
+// Mock users for task assignment
+const systemUsers = [
+    { id: 'sarah-johnson', name: 'Sarah Johnson', avatar: 'SJ', email: 'sarah.johnson@company.com' },
+    { id: 'mike-chen', name: 'Mike Chen', avatar: 'MC', email: 'mike.chen@company.com' },
+    { id: 'emily-davis', name: 'Emily Davis', avatar: 'ED', email: 'emily.davis@company.com' },
+    { id: 'alex-rivera', name: 'Alex Rivera', avatar: 'AR', email: 'alex.rivera@company.com' }
+];
+
+// Task templates for AI suggestions
+const taskTemplates = {
+    email: {
+        prefixes: ['Email', 'Send email to', 'Follow up with', 'Reach out to'],
+        actions: [
+            {
+                type: 'draft_email',
+                title: 'Draft Email',
+                template: 'Subject: [Subject]\n\nDear [Contact Name],\n\nI hope this email finds you well. I wanted to follow up on our recent discussion about [topic].\n\n[Your message here]\n\nBest regards,\n[Your name]'
+            },
+            {
+                type: 'schedule_followup',
+                title: 'Schedule Follow-up',
+                template: 'Schedule a follow-up email for [X days] from now'
+            }
+        ]
+    },
+    call: {
+        prefixes: ['Schedule call with', 'Call', 'Set up meeting with', 'Book time with'],
+        actions: [
+            {
+                type: 'meeting_agenda',
+                title: 'Prepare Agenda',
+                template: 'Meeting Agenda:\n1. Current status update\n2. Address any concerns or questions\n3. Discuss next steps\n4. Timeline and deliverables\n5. Action items'
+            },
+            {
+                type: 'calendar_invite',
+                title: 'Send Calendar Invite',
+                template: 'Send calendar invitation with meeting details'
+            }
+        ]
+    },
+    review: {
+        prefixes: ['Review', 'Check', 'Analyze', 'Evaluate'],
+        actions: [
+            {
+                type: 'summary',
+                title: 'Create Summary',
+                template: 'Key Points:\n• [Point 1]\n• [Point 2]\n• [Point 3]\n\nRecommendations:\n• [Recommendation 1]\n• [Recommendation 2]'
+            },
+            {
+                type: 'checklist',
+                title: 'Review Checklist',
+                template: '☐ Review terms and conditions\n☐ Check pricing and discounts\n☐ Verify deliverables\n☐ Confirm timeline\n☐ Identify risks'
+            }
+        ]
+    },
+    followup: {
+        prefixes: ['Follow up on', 'Check in about', 'Touch base regarding'],
+        actions: [
+            {
+                type: 'quick_message',
+                title: 'Draft Message',
+                template: 'Hi [Name],\n\nJust wanted to check in on [topic]. Let me know if you need any assistance or have questions.\n\nThanks!'
+            },
+            {
+                type: 'reminder',
+                title: 'Set Reminder',
+                template: 'Set reminder to follow up in [X days] if no response'
+            }
+        ]
+    }
+};
+
+// Tasks data
+const tasks = [
+    {
+        id: 'task-1',
+        title: 'Email Dr. Mehmet Özkan about LMS integration timeline',
+        description: 'Follow up on the recent discussion about LMS integration timeline and next steps for Q1 implementation.',
+        priority: 'high',
+        dueDate: '2024-01-20',
+        status: 'pending',
+        createdAt: '2024-01-15T10:00:00Z',
+        updatedAt: '2024-01-15T10:00:00Z',
+        createdBy: 'sarah-johnson',
+        assignees: ['sarah-johnson'],
+        companyId: 'bilkent',
+        companyName: 'Bilkent Universitesi',
+        tags: ['Customer Outreach', 'Integration Support'],
+        isAiGenerated: false,
+        taskType: 'email',
+        aiSuggestedActions: taskTemplates.email.actions,
+        activityLog: [
+            {
+                id: 'log-1',
+                type: 'created',
+                user: 'Sarah Johnson',
+                timestamp: '2024-01-15T10:00:00Z',
+                details: 'Task created'
+            }
+        ],
+        comments: []
+    },
+    {
+        id: 'task-2',
+        title: 'Schedule call with Yahoo team about renewal',
+        description: 'Set up renewal discussion meeting with Yahoo stakeholders to address contract terms and pricing.',
+        priority: 'high',
+        dueDate: '2024-01-18',
+        status: 'pending',
+        createdAt: '2024-01-14T14:30:00Z',
+        updatedAt: '2024-01-14T14:30:00Z',
+        createdBy: 'ai-system',
+        assignees: ['mike-chen', 'emily-davis'],
+        companyId: 'yahoo',
+        companyName: 'Yahoo',
+        tags: ['Renewal', 'Executive Business Review'],
+        isAiGenerated: true,
+        aiConfidence: 92,
+        taskType: 'call',
+        aiSuggestedActions: taskTemplates.call.actions,
+        activityLog: [
+            {
+                id: 'log-2',
+                type: 'created',
+                user: 'AI Assistant',
+                timestamp: '2024-01-14T14:30:00Z',
+                details: 'Task auto-generated based on renewal date approaching'
+            }
+        ],
+        comments: []
+    },
+    {
+        id: 'task-3',
+        title: 'Review Merge API contract for Q1',
+        description: 'Complete legal and technical review of the Merge API integration contract before Q1 kickoff.',
+        priority: 'medium',
+        dueDate: '2024-01-22',
+        status: 'completed',
+        createdAt: '2024-01-10T09:00:00Z',
+        updatedAt: '2024-01-16T11:00:00Z',
+        createdBy: 'alex-rivera',
+        assignees: ['alex-rivera'],
+        companyId: 'merge',
+        companyName: 'Merge',
+        tags: ['Contract Review'],
+        isAiGenerated: false,
+        taskType: 'review',
+        aiSuggestedActions: taskTemplates.review.actions,
+        activityLog: [
+            {
+                id: 'log-3',
+                type: 'created',
+                user: 'Alex Rivera',
+                timestamp: '2024-01-10T09:00:00Z',
+                details: 'Task created'
+            },
+            {
+                id: 'log-4',
+                type: 'completed',
+                user: 'Alex Rivera',
+                timestamp: '2024-01-16T11:00:00Z',
+                details: 'Task marked as complete'
+            }
+        ],
+        comments: [
+            {
+                id: 'comment-1',
+                user: 'Alex Rivera',
+                timestamp: '2024-01-15T16:00:00Z',
+                text: 'Contract looks good. Approved for Q1.'
+            }
+        ]
+    },
+    {
+        id: 'task-4',
+        title: 'Follow up on Flowla pricing discussion',
+        description: 'Connect with Flowla team about their pricing concerns and explore potential solutions.',
+        priority: 'medium',
+        dueDate: '2024-01-19',
+        status: 'pending',
+        createdAt: '2024-01-13T11:00:00Z',
+        updatedAt: '2024-01-13T11:00:00Z',
+        createdBy: 'ai-system',
+        assignees: ['emily-davis'],
+        companyId: 'flowla',
+        companyName: 'Flowla',
+        tags: ['Upsell Opportunity', 'Customer Outreach'],
+        isAiGenerated: true,
+        aiConfidence: 85,
+        taskType: 'followup',
+        aiSuggestedActions: taskTemplates.followup.actions,
+        activityLog: [
+            {
+                id: 'log-5',
+                type: 'created',
+                user: 'AI Assistant',
+                timestamp: '2024-01-13T11:00:00Z',
+                details: 'Task suggested based on recent pricing inquiry'
+            }
+        ],
+        comments: []
+    },
+    {
+        id: 'task-5',
+        title: 'Send onboarding resources to SuccessNavigator team',
+        description: 'Compile and send comprehensive onboarding documentation and training materials.',
+        priority: 'low',
+        dueDate: '2024-01-25',
+        status: 'pending',
+        createdAt: '2024-01-12T15:00:00Z',
+        updatedAt: '2024-01-12T15:00:00Z',
+        createdBy: 'sarah-johnson',
+        assignees: ['sarah-johnson', 'mike-chen'],
+        companyId: 'successnavigator',
+        companyName: 'SuccessNavigator',
+        tags: ['Onboarding', 'Product Training'],
+        isAiGenerated: false,
+        taskType: 'email',
+        aiSuggestedActions: taskTemplates.email.actions,
+        activityLog: [
+            {
+                id: 'log-6',
+                type: 'created',
+                user: 'Sarah Johnson',
+                timestamp: '2024-01-12T15:00:00Z',
+                details: 'Task created'
+            },
+            {
+                id: 'log-7',
+                type: 'assigned',
+                user: 'Sarah Johnson',
+                timestamp: '2024-01-12T15:05:00Z',
+                details: 'Assigned Mike Chen to help with technical resources'
+            }
+        ],
+        comments: [
+            {
+                id: 'comment-2',
+                user: 'Mike Chen',
+                timestamp: '2024-01-13T10:00:00Z',
+                text: 'I\'ll prepare the technical documentation section.'
+            }
+        ]
+    },
+    {
+        id: 'task-6',
+        title: 'Check in about R2S automation implementation',
+        description: 'Follow up on automation project status and address any blockers or technical issues.',
+        priority: 'high',
+        dueDate: '2024-01-17',
+        status: 'pending',
+        createdAt: '2024-01-15T08:00:00Z',
+        updatedAt: '2024-01-15T08:00:00Z',
+        createdBy: 'ai-system',
+        assignees: ['alex-rivera'],
+        companyId: 'r2s',
+        companyName: 'R2S',
+        tags: ['Risk Mitigation', 'Technical Support'],
+        isAiGenerated: true,
+        aiConfidence: 88,
+        taskType: 'followup',
+        aiSuggestedActions: taskTemplates.followup.actions,
+        activityLog: [
+            {
+                id: 'log-8',
+                type: 'created',
+                user: 'AI Assistant',
+                timestamp: '2024-01-15T08:00:00Z',
+                details: 'Task generated due to low usage and no recent contact'
+            }
+        ],
+        comments: []
+    }
+];
+
 // Export all data
 module.exports = {
     accounts,
@@ -1794,5 +2083,9 @@ module.exports = {
     chatData,
     accountChatData,
     sqlTemplates,
-    home2Data
+    home2Data,
+    predefinedTags,
+    systemUsers,
+    taskTemplates,
+    tasks
 };

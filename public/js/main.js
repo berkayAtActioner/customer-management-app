@@ -2332,3 +2332,443 @@ function addDragListeners(item) {
         draggedTask = null;
     });
 }
+
+// Task Management Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    initializeTaskManagement();
+});
+
+function initializeTaskManagement() {
+    // Only initialize on tasks page
+    if (window.location.pathname !== '/tasks') return;
+    
+    const createTaskBtn = document.getElementById('createTaskBtn');
+    const taskModal = document.getElementById('taskModal');
+    const taskDetailsModal = document.getElementById('taskDetailsModal');
+    const createTaskForm = document.getElementById('createTaskForm');
+    const modalCloseButtons = document.querySelectorAll('.modal-close');
+    const cancelTaskBtn = document.getElementById('cancelTask');
+    
+    // Task actions
+    initializeTaskActions();
+    
+    // Create task modal
+    if (createTaskBtn) {
+        createTaskBtn.addEventListener('click', function() {
+            openTaskModal();
+        });
+    }
+    
+    // Modal close handlers
+    modalCloseButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            closeModals();
+        });
+    });
+    
+    if (cancelTaskBtn) {
+        cancelTaskBtn.addEventListener('click', function() {
+            closeModals();
+        });
+    }
+    
+    // Click outside modal to close
+    window.addEventListener('click', function(e) {
+        if (e.target === taskModal || e.target === taskDetailsModal) {
+            closeModals();
+        }
+    });
+    
+    // Form submission
+    if (createTaskForm) {
+        createTaskForm.addEventListener('submit', handleTaskSubmission);
+    }
+    
+    // Initialize @mention and company autocomplete
+    initializeAutocomplete();
+    
+    // AI reprioritize button
+    const aiReprioritizeBtn = document.querySelector('.ai-reprioritize');
+    if (aiReprioritizeBtn) {
+        aiReprioritizeBtn.addEventListener('click', handleAiReprioritize);
+    }
+}
+
+function initializeTaskActions() {
+    // Complete task buttons
+    document.querySelectorAll('.complete-task').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const taskId = this.closest('.task-card').dataset.taskId;
+            handleCompleteTask(taskId);
+        });
+    });
+    
+    // Decline task buttons (AI tasks only)
+    document.querySelectorAll('.decline-task').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const taskId = this.closest('.task-card').dataset.taskId;
+            handleDeclineTask(taskId);
+        });
+    });
+    
+    // View task details buttons
+    document.querySelectorAll('.view-task').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const taskId = this.closest('.task-card').dataset.taskId;
+            handleViewTask(taskId);
+        });
+    });
+}
+
+function openTaskModal() {
+    const taskModal = document.getElementById('taskModal');
+    const dueDateInput = document.getElementById('taskDueDate');
+    
+    // Set default due date to tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    dueDateInput.value = tomorrow.toISOString().split('T')[0];
+    
+    taskModal.classList.add('active');
+    document.getElementById('taskTitle').focus();
+}
+
+function closeModals() {
+    document.getElementById('taskModal').classList.remove('active');
+    document.getElementById('taskDetailsModal').classList.remove('active');
+    document.getElementById('createTaskForm').reset();
+}
+
+function handleTaskSubmission(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    
+    const taskData = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        dueDate: formData.get('dueDate'),
+        priority: formData.get('priority') || 'medium',
+        company: formData.get('company'),
+        assignee: formData.get('assignee')
+    };
+    
+    // Mock task creation - in real implementation, this would be an API call
+    createNewTask(taskData);
+    closeModals();
+}
+
+function createNewTask(taskData) {
+    // Generate new task ID
+    const newTaskId = 'task-' + Date.now();
+    
+    // Show success message
+    showNotification('Task created successfully!', 'success');
+    
+    // In a real implementation, this would reload the page or update the task list
+    setTimeout(() => {
+        window.location.reload();
+    }, 1000);
+}
+
+function handleCompleteTask(taskId) {
+    const taskCard = document.querySelector(`[data-task-id="${taskId}"]`);
+    if (!taskCard) return;
+    
+    // Add completed visual state
+    taskCard.classList.add('status-completed');
+    
+    // Remove action buttons for completed tasks
+    const completeBtn = taskCard.querySelector('.complete-task');
+    const declineBtn = taskCard.querySelector('.decline-task');
+    if (completeBtn) completeBtn.remove();
+    if (declineBtn) declineBtn.remove();
+    
+    showNotification('Task marked as complete!', 'success');
+    
+    // In real implementation, this would be an API call
+    setTimeout(() => {
+        // Move to bottom of list or reload to show proper sorting
+        window.location.reload();
+    }, 1500);
+}
+
+function handleDeclineTask(taskId) {
+    const taskCard = document.querySelector(`[data-task-id="${taskId}"]`);
+    if (!taskCard) return;
+    
+    // Animate out and remove
+    taskCard.style.transition = 'all 0.3s ease';
+    taskCard.style.opacity = '0';
+    taskCard.style.transform = 'translateX(-20px)';
+    
+    setTimeout(() => {
+        taskCard.remove();
+        showNotification('AI task declined', 'info');
+    }, 300);
+}
+
+function handleViewTask(taskId) {
+    // Mock task details - in real implementation, this would fetch from API
+    const taskDetailsModal = document.getElementById('taskDetailsModal');
+    const taskDetailsContent = document.getElementById('taskDetailsContent');
+    
+    // Find task data (in real app, this would be fetched)
+    const taskCard = document.querySelector(`[data-task-id="${taskId}"]`);
+    const taskTitle = taskCard.querySelector('.task-title').textContent;
+    
+    taskDetailsContent.innerHTML = generateTaskDetailsHTML(taskId, taskTitle);
+    taskDetailsModal.classList.add('active');
+    
+    // Initialize task details interactions
+    initializeTaskDetailsActions(taskId);
+}
+
+function generateTaskDetailsHTML(taskId, taskTitle) {
+    return `
+        <div class="task-details">
+            <div class="task-detail-header">
+                <h3>${taskTitle}</h3>
+                <div class="task-detail-meta">
+                    <span class="priority-badge priority-high">High</span>
+                    <span class="due-date">Due: Tomorrow</span>
+                </div>
+            </div>
+            
+            <div class="task-detail-body">
+                <div class="task-detail-section">
+                    <h4>AI Suggested Actions</h4>
+                    <div class="suggested-actions">
+                        <div class="suggested-action">
+                            <div class="action-header">
+                                <span class="action-title">Draft Email</span>
+                                <button class="btn btn-primary btn-sm apply-action" data-action="draft_email">Apply</button>
+                            </div>
+                            <div class="action-preview">
+                                <textarea readonly>Subject: Follow-up on Integration Timeline
+
+Dear Dr. Özkan,
+
+I hope this email finds you well. I wanted to follow up on our recent discussion about the LMS integration timeline.
+
+Best regards,
+Sarah Johnson</textarea>
+                            </div>
+                        </div>
+                        <div class="suggested-action">
+                            <div class="action-header">
+                                <span class="action-title">Schedule Follow-up</span>
+                                <button class="btn btn-secondary btn-sm apply-action" data-action="schedule_followup">Apply</button>
+                            </div>
+                            <div class="action-preview">
+                                Schedule a follow-up email for 3 days from now
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="task-detail-section">
+                    <h4>Activity Log</h4>
+                    <div class="activity-log">
+                        <div class="activity-item">
+                            <div class="activity-time">2 hours ago</div>
+                            <div class="activity-text">Task created by Sarah Johnson</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="task-detail-section">
+                    <h4>Comments</h4>
+                    <div class="comments-section">
+                        <div class="comment-form">
+                            <textarea placeholder="Add a comment..." rows="3"></textarea>
+                            <button class="btn btn-primary btn-sm">Add Comment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function initializeTaskDetailsActions(taskId) {
+    // Apply action buttons
+    document.querySelectorAll('.apply-action').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const actionType = this.dataset.action;
+            handleApplyAction(taskId, actionType, this);
+        });
+    });
+}
+
+function handleApplyAction(taskId, actionType, button) {
+    // Mock applying AI action
+    button.textContent = 'Applied';
+    button.disabled = true;
+    button.classList.remove('btn-primary', 'btn-secondary');
+    button.classList.add('btn-success');
+    
+    showNotification(`AI action "${actionType}" applied successfully!`, 'success');
+}
+
+function handleAiReprioritize() {
+    showNotification('AI is analyzing your tasks for optimal prioritization...', 'info');
+    
+    // Mock AI reprioritization
+    setTimeout(() => {
+        showNotification('Tasks have been reprioritized by AI!', 'success');
+        // In real implementation, this would reload with new task order
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
+    }, 2000);
+}
+
+function initializeAutocomplete() {
+    const taskTitleInput = document.getElementById('taskTitle');
+    const taskCompanyInput = document.getElementById('taskCompany');
+    const mentionSuggestions = document.getElementById('mentionSuggestions');
+    const companySuggestions = document.getElementById('companySuggestions');
+    
+    if (taskTitleInput) {
+        taskTitleInput.addEventListener('input', function() {
+            handleMentionAutocomplete(this.value, this.selectionStart);
+        });
+    }
+    
+    if (taskCompanyInput) {
+        taskCompanyInput.addEventListener('input', function() {
+            handleCompanyAutocomplete(this.value);
+        });
+    }
+}
+
+function handleMentionAutocomplete(value, cursorPos) {
+    const mentionSuggestions = document.getElementById('mentionSuggestions');
+    const beforeCursor = value.substring(0, cursorPos);
+    const mentionMatch = beforeCursor.match(/@(\w*)$/);
+    
+    if (mentionMatch) {
+        const query = mentionMatch[1].toLowerCase();
+        const mockUsers = ['sarah.johnson', 'mike.chen', 'emily.davis', 'alex.rivera'];
+        const filteredUsers = mockUsers.filter(user => user.includes(query));
+        
+        if (filteredUsers.length > 0) {
+            mentionSuggestions.innerHTML = filteredUsers.map(user => 
+                `<div class="suggestion-item" onclick="insertMention('${user}')">${user}</div>`
+            ).join('');
+            mentionSuggestions.classList.add('active');
+            return;
+        }
+    }
+    
+    mentionSuggestions.classList.remove('active');
+}
+
+function handleCompanyAutocomplete(value) {
+    const companySuggestions = document.getElementById('companySuggestions');
+    
+    if (value.length < 2) {
+        companySuggestions.classList.remove('active');
+        return;
+    }
+    
+    const mockCompanies = [
+        'Bilkent Universitesi',
+        'Flowla', 
+        'SuccessNavigator',
+        'R2S',
+        'Merge',
+        'Yahoo',
+        'Wingify'
+    ];
+    
+    const filteredCompanies = mockCompanies.filter(company => 
+        company.toLowerCase().includes(value.toLowerCase())
+    );
+    
+    if (filteredCompanies.length > 0) {
+        companySuggestions.innerHTML = filteredCompanies.map(company =>
+            `<div class="suggestion-item" onclick="selectCompany('${company}')">${company}</div>`
+        ).join('');
+        companySuggestions.classList.add('active');
+    } else {
+        companySuggestions.classList.remove('active');
+    }
+}
+
+function insertMention(username) {
+    const taskTitleInput = document.getElementById('taskTitle');
+    const value = taskTitleInput.value;
+    const cursorPos = taskTitleInput.selectionStart;
+    const beforeCursor = value.substring(0, cursorPos);
+    const afterCursor = value.substring(cursorPos);
+    const beforeMention = beforeCursor.replace(/@\w*$/, '@' + username + ' ');
+    
+    taskTitleInput.value = beforeMention + afterCursor;
+    taskTitleInput.focus();
+    const newCursorPos = beforeMention.length;
+    taskTitleInput.setSelectionRange(newCursorPos, newCursorPos);
+    
+    document.getElementById('mentionSuggestions').classList.remove('active');
+}
+
+function selectCompany(companyName) {
+    const taskCompanyInput = document.getElementById('taskCompany');
+    taskCompanyInput.value = companyName;
+    document.getElementById('companySuggestions').classList.remove('active');
+}
+
+function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    
+    // Style the notification
+    Object.assign(notification.style, {
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        padding: '12px 20px',
+        borderRadius: '6px',
+        color: '#fff',
+        fontSize: '14px',
+        fontWeight: '500',
+        zIndex: '10000',
+        opacity: '0',
+        transform: 'translateY(-20px)',
+        transition: 'all 0.3s ease'
+    });
+    
+    // Set background color based on type
+    const colors = {
+        success: '#10b981',
+        error: '#ef4444',
+        info: '#3b82f6',
+        warning: '#f59e0b'
+    };
+    notification.style.backgroundColor = colors[type] || colors.info;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateY(0)';
+    }, 100);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateY(-20px)';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
